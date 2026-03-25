@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kampanjadmin – WinWin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green:       #1D9E75;
+      --green-light: #E1F5EE;
+      --green-dark:  #0F6E56;
+      --danger:      #E24B4A;
+      --danger-light:#FCEBEB;
+      --amber:       #EF9F27;
+      --amber-light: #FAEEDA;
+      --bg:          #F7F6F2;
+      --surface:     #FFFFFF;
+      --border:      rgba(0,0,0,0.08);
+      --border-med:  rgba(0,0,0,0.14);
+      --text:        #1A1A18;
+      --muted:       #6B6B67;
+      --faint:       #9C9C98;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px; position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
+    .logo span { color: var(--amber); }
+    .back-link {
+      font-size: 13px; color: var(--muted);
+      text-decoration: none; padding: 6px 12px;
+      border: 1px solid var(--border); border-radius: 8px; transition: all 0.15s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    .content { max-width: 700px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .page-title { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .page-sub { font-size: 14px; color: var(--muted); margin-bottom: 2rem; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .card-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.25rem; }
+
+    .field { margin-bottom: 1rem; }
+    .field:last-child { margin-bottom: 0; }
+    .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 5px; color: var(--muted); }
+    .field input, .field select {
+      width: 100%; padding: 10px 14px;
+      border: 1px solid var(--border-med); border-radius: 10px;
+      font-size: 15px; font-family: 'DM Sans', sans-serif;
+      background: var(--surface); color: var(--text);
+      transition: border-color 0.15s; outline: none;
+    }
+    .field input:focus, .field select:focus { border-color: var(--green); }
+
+    .three-col { display: grid; grid-template-columns: 2fr 1.2fr 1.5fr; gap: 10px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .btn {
+      padding: 10px 20px; border: none; border-radius: 10px;
+      font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-primary { background: var(--green); color: #fff; }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-primary:disabled { background: var(--faint); cursor: default; }
+    .btn-danger { background: var(--danger-light); color: var(--danger); }
+    .btn-danger:hover { background: #f7c1c1; }
+    .btn-sm { padding: 6px 14px; font-size: 13px; }
+
+    .alert {
+      padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 1rem;
+    }
+    .alert-error   { background: var(--danger-light); color: var(--danger); }
+    .alert-success { background: var(--green-light);  color: var(--green-dark); }
+    .alert-warn    { background: var(--amber-light);  color: #633806; }
+
+    /* Dept list */
+    .dept-list { display: flex; flex-direction: column; gap: 8px; }
+    .dept-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px;
+      background: var(--bg);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      animation: fadeUp 0.2s ease both;
+    }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+    .dept-row-info { flex: 1; min-width: 0; }
+    .dept-row-name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dept-row-meta { font-size: 12px; color: var(--muted); margin-top: 1px; }
+    .dept-row-pw {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px; color: var(--faint);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px; padding: 3px 8px;
+      white-space: nowrap;
+    }
+    .dept-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+    .section-label {
+      font-size: 12px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.07em; color: var(--faint);
+      margin-bottom: 10px; margin-top: 1.75rem;
+    }
+    .section-label:first-child { margin-top: 0; }
+
+    .empty-state {
+      text-align: center; padding: 2rem;
+      font-size: 14px; color: var(--faint);
+    }
+
+    /* Login */
+    #login-section .card { max-width: 400px; margin: 0 auto; }
+
+    /* Delete confirm overlay */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.35);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200; padding: 1rem;
+    }
+    .dialog {
+      background: var(--surface);
+      border-radius: 16px; padding: 1.5rem;
+      max-width: 360px; width: 100%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+    .dialog-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .dialog-sub { font-size: 14px; color: var(--muted); margin-bottom: 1.25rem; }
+    .dialog-btns { display: flex; gap: 8px; justify-content: flex-end; }
+
+    .spinner {
+      width: 24px; height: 24px;
+      border: 2px solid var(--border);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 2rem auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 520px) {
+      .three-col { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      header { padding: 0 1rem; }
+      .content { padding: 1.25rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">WinWin <span>Setup</span></div>
+  <a href="index.html" class="back-link">← Dashboard</a>
+</header>
+
+<div class="content">
+  <div class="page-title">Kampanjadmin</div>
+  <div class="page-sub">Skapa och hantera avdelningar. Dela lösenord med respektive avdelningschef.</div>
+
+  <!-- LOGIN -->
+  <div id="login-section">
+    <div class="card">
+      <div class="card-title">Logga in som kampanjansvarig</div>
+      <div class="card-sub" style="margin-bottom:1.25rem;">Skyddad vy – endast för kampanjansvarig.</div>
+      <div id="login-error" class="alert alert-error" style="display:none;"></div>
+      <div class="field">
+        <label>Admin-lösenord</label>
+        <input type="password" id="admin-pw" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <button class="btn btn-primary" style="width:100%;padding:12px;" onclick="doAdminLogin()">Logga in</button>
+    </div>
+    <div style="font-size:12px;color:var(--faint);text-align:center;margin-top:1rem;">
+      Admin-lösenordet sätts i <code>setup.html</code> (konstanten ADMIN_PASSWORD).
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="admin-panel" style="display:none;">
+
+    <div id="global-alert" class="alert" style="display:none;"></div>
+
+    <!-- Add department -->
+    <div class="section-label">Lägg till avdelning</div>
+    <div class="card">
+      <div class="three-col" style="margin-bottom:10px;">
+        <div class="field" style="margin-bottom:0;">
+          <label>Avdelningsnamn</label>
+          <input type="text" id="new-name" placeholder="t.ex. Innesälj / Kredit" maxlength="60" />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Totalt mål (3v)</label>
+          <input type="number" id="new-target" placeholder="t.ex. 300" min="1" />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Lösenord för chefen</label>
+          <input type="text" id="new-password" placeholder="t.ex. kredit25" maxlength="40" />
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label>Måltyp (vad mäts?)</label>
+        <input type="text" id="new-goal-label" placeholder='t.ex. "Antal samtal" eller "Glada hälsningar"' maxlength="60" />
+      </div>
+      <div style="margin-top:1rem; display:flex; gap:8px; align-items:center;">
+        <button class="btn btn-primary" onclick="addDepartment()" id="add-btn">Lägg till avdelning</button>
+        <button class="btn btn-sm" style="background:var(--bg);border:1px solid var(--border);" onclick="generatePassword()">Generera lösenord</button>
+      </div>
+    </div>
+
+    <!-- Existing departments -->
+    <div class="section-label">Avdelningar (<span id="dept-count">0</span>)</div>
+    <div id="dept-loading"><div class="spinner"></div></div>
+    <div id="dept-list-wrap" style="display:none;">
+      <div class="dept-list" id="dept-list"></div>
+      <div id="empty-state" class="empty-state" style="display:none;">
+        Inga avdelningar än. Lägg till den första ovan.
+      </div>
+    </div>
+
+    <!-- Reset campaign -->
+    <div class="section-label" style="margin-top:2.5rem;">Kampanjinställningar</div>
+    <div class="card" style="border-color:rgba(226,75,74,0.2);">
+      <div class="card-title">Nollställ kampanjdata</div>
+      <div class="card-sub">Tar bort alla veckorapporter men behåller avdelningar och mål.</div>
+      <button class="btn btn-danger btn-sm" onclick="confirmReset()">Nollställ alla rapporter</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Edit dialog -->
+<div class="overlay" id="edit-overlay" style="display:none;">
+  <div class="dialog">
+    <div class="dialog-title">Redigera avdelning</div>
+    <input type="hidden" id="edit-id" />
+    <div class="field">
+      <label>Avdelningsnamn</label>
+      <input type="text" id="edit-name" maxlength="60" />
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label>Måltyp</label>
+        <input type="text" id="edit-goal-label" maxlength="60" />
+      </div>
+      <div class="field">
+        <label>Totalt mål (3v)</label>
+        <input type="number" id="edit-target" min="1" />
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:1.25rem;">
+      <label>Lösenord</label>
+      <input type="text" id="edit-password" maxlength="40" />
+    </div>
+    <div class="dialog-btns">
+      <button class="btn btn-sm" style="background:var(--bg);border:1px solid var(--border);" onclick="closeEdit()">Avbryt</button>
+      <button class="btn btn-primary btn-sm" onclick="saveEdit()">Spara</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete confirm dialog -->
+<div class="overlay" id="delete-overlay" style="display:none;">
+  <div class="dialog">
+    <div class="dialog-title">Ta bort avdelning?</div>
+    <div class="dialog-sub" id="delete-msg">Alla rapporter för denna avdelning tas också bort. Detta kan inte ångras.</div>
+    <input type="hidden" id="delete-id" />
+    <div class="dialog-btns">
+      <button class="btn btn-sm" style="background:var(--bg);border:1px solid var(--border);" onclick="closeDelete()">Avbryt</button>
+      <button class="btn btn-danger btn-sm" onclick="confirmDelete()">Ta bort</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reset confirm dialog -->
+<div class="overlay" id="reset-overlay" style="display:none;">
+  <div class="dialog">
+    <div class="dialog-title">Nollställ all kampanjdata?</div>
+    <div class="dialog-sub">Alla veckorapporter tas bort. Avdelningar och mål behålls. Kan inte ångras.</div>
+    <div class="dialog-btns">
+      <button class="btn btn-sm" style="background:var(--bg);border:1px solid var(--border);" onclick="document.getElementById('reset-overlay').style.display='none'">Avbryt</button>
+      <button class="btn btn-danger btn-sm" onclick="doReset()">Nollställ</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────
+  const SUPABASE_URL     = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  const ADMIN_PASSWORD   = 'admin2025';   // <-- byt till eget lösenord
+  // ────────────────────────────────────────────────────────────
+
+  const h = {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    'Content-Type': 'application/json'
+  };
+
+  function doAdminLogin() {
+    const pw = document.getElementById('admin-pw').value;
+    const err = document.getElementById('login-error');
+    if (pw !== ADMIN_PASSWORD) {
+      err.textContent = 'Fel lösenord.';
+      err.style.display = '';
+      return;
+    }
+    sessionStorage.setItem('winwin_admin', '1');
+    document.getElementById('login-section').style.display = 'none';
+    document.getElementById('admin-panel').style.display = '';
+    loadDepartments();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('admin-pw').addEventListener('keydown', e => {
+      if (e.key === 'Enter') doAdminLogin();
+    });
+    if (sessionStorage.getItem('winwin_admin')) {
+      document.getElementById('login-section').style.display = 'none';
+      document.getElementById('admin-panel').style.display = '';
+      loadDepartments();
+    }
+  });
+
+  async function loadDepartments() {
+    document.getElementById('dept-loading').style.display = '';
+    document.getElementById('dept-list-wrap').style.display = 'none';
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/departments?select=*&order=name`, { headers: h });
+      const depts = await res.json();
+      renderDepts(depts);
+    } catch {
+      showAlert('Kunde inte ladda avdelningar.', 'error');
+    }
+    document.getElementById('dept-loading').style.display = 'none';
+    document.getElementById('dept-list-wrap').style.display = '';
+  }
+
+  function renderDepts(depts) {
+    const list = document.getElementById('dept-list');
+    const empty = document.getElementById('empty-state');
+    document.getElementById('dept-count').textContent = depts.length;
+    list.innerHTML = '';
+    if (!depts.length) { empty.style.display = ''; return; }
+    empty.style.display = 'none';
+    depts.forEach((d, i) => {
+      const row = document.createElement('div');
+      row.className = 'dept-row';
+      row.style.animationDelay = (i * 0.04) + 's';
+      row.innerHTML = `
+        <div class="dept-row-info">
+          <div class="dept-row-name">${escHtml(d.name)}</div>
+          <div class="dept-row-meta">${escHtml(d.goal_label)} &middot; Mål: ${d.target.toLocaleString('sv-SE')}</div>
+        </div>
+        <div class="dept-row-pw" title="Avdelningens lösenord">${escHtml(d.password)}</div>
+        <div class="dept-actions">
+          <button class="btn btn-sm" style="background:var(--bg);border:1px solid var(--border);"
+            onclick="openEdit('${d.id}','${escAttr(d.name)}','${escAttr(d.goal_label)}',${d.target},'${escAttr(d.password)}')">Redigera</button>
+          <button class="btn btn-danger btn-sm"
+            onclick="openDelete('${d.id}','${escAttr(d.name)}')">Ta bort</button>
+        </div>
+      `;
+      list.appendChild(row);
+    });
+  }
+
+  async function addDepartment() {
+    const name      = document.getElementById('new-name').value.trim();
+    const target    = parseInt(document.getElementById('new-target').value);
+    const password  = document.getElementById('new-password').value.trim();
+    const goalLabel = document.getElementById('new-goal-label').value.trim();
+
+    if (!name || !target || !password || !goalLabel) {
+      showAlert('Fyll i alla fält innan du lägger till avdelning.', 'warn');
+      return;
+    }
+
+    const btn = document.getElementById('add-btn');
+    btn.textContent = 'Lägger till...'; btn.disabled = true;
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/departments`, {
+        method: 'POST',
+        headers: { ...h, 'Prefer': 'return=representation' },
+        body: JSON.stringify({ name, goal_label: goalLabel, target, password })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || 'Okänt fel');
+      }
+      document.getElementById('new-name').value = '';
+      document.getElementById('new-target').value = '';
+      document.getElementById('new-password').value = '';
+      document.getElementById('new-goal-label').value = '';
+      showAlert(`"${name}" lades till!`, 'success');
+      loadDepartments();
+    } catch (err) {
+      showAlert('Kunde inte lägga till: ' + err.message, 'error');
+    }
+    btn.textContent = 'Lägg till avdelning'; btn.disabled = false;
+  }
+
+  function generatePassword() {
+    const words = ['solar','kredit','delta','kaffe','golf','nordic','tiger','echo','falcon','sprint'];
+    const nums  = Math.floor(10 + Math.random() * 90);
+    const pw    = words[Math.floor(Math.random() * words.length)] + nums;
+    document.getElementById('new-password').value = pw;
+  }
+
+  // Edit
+  function openEdit(id, name, goalLabel, target, password) {
+    document.getElementById('edit-id').value = id;
+    document.getElementById('edit-name').value = name;
+    document.getElementById('edit-goal-label').value = goalLabel;
+    document.getElementById('edit-target').value = target;
+    document.getElementById('edit-password').value = password;
+    document.getElementById('edit-overlay').style.display = 'flex';
+  }
+  function closeEdit() { document.getElementById('edit-overlay').style.display = 'none'; }
+  async function saveEdit() {
+    const id        = document.getElementById('edit-id').value;
+    const name      = document.getElementById('edit-name').value.trim();
+    const goalLabel = document.getElementById('edit-goal-label').value.trim();
+    const target    = parseInt(document.getElementById('edit-target').value);
+    const password  = document.getElementById('edit-password').value.trim();
+    if (!name || !goalLabel || !target || !password) { showAlert('Fyll i alla fält.','warn'); return; }
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/departments?id=eq.${id}`, {
+        method: 'PATCH', headers: h,
+        body: JSON.stringify({ name, goal_label: goalLabel, target, password })
+      });
+      if (!res.ok) throw new Error();
+      closeEdit();
+      showAlert('Sparat!', 'success');
+      loadDepartments();
+    } catch { showAlert('Kunde inte spara.', 'error'); }
+  }
+
+  // Delete
+  function openDelete(id, name) {
+    document.getElementById('delete-id').value = id;
+    document.getElementById('delete-msg').textContent =
+      `"${name}" och alla dess rapporter tas bort permanent.`;
+    document.getElementById('delete-overlay').style.display = 'flex';
+  }
+  function closeDelete() { document.getElementById('delete-overlay').style.display = 'none'; }
+  async function confirmDelete() {
+    const id = document.getElementById('delete-id').value;
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/weekly_reports?department_id=eq.${id}`, { method: 'DELETE', headers: h });
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/departments?id=eq.${id}`, { method: 'DELETE', headers: h });
+      if (!res.ok) throw new Error();
+      closeDelete();
+      showAlert('Avdelning borttagen.', 'success');
+      loadDepartments();
+    } catch { showAlert('Kunde inte ta bort.', 'error'); }
+  }
+
+  // Reset
+  function confirmReset() { document.getElementById('reset-overlay').style.display = 'flex'; }
+  async function doReset() {
+    document.getElementById('reset-overlay').style.display = 'none';
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/weekly_reports?id=neq.00000000-0000-0000-0000-000000000000`, {
+        method: 'DELETE', headers: h
+      });
+      if (!res.ok) throw new Error();
+      showAlert('Alla rapporter nollställda. Avdelningar och mål är kvar.', 'success');
+    } catch { showAlert('Kunde inte nollställa.', 'error'); }
+  }
+
+  function showAlert(msg, type) {
+    const el = document.getElementById('global-alert');
+    el.className = 'alert alert-' + type;
+    el.textContent = msg;
+    el.style.display = '';
+    setTimeout(() => el.style.display = 'none', 5000);
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function escAttr(s) {
+    return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>
