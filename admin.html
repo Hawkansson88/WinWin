@@ -352,26 +352,33 @@ async function doLogin() {
     }
   }
 
-  async function showAdmin() {
-    document.getElementById('login-section').style.display = 'none';
-    document.getElementById('admin-section').style.display = '';
-    document.getElementById('logged-in-dept').textContent = currentDept.name;
-    document.getElementById('goal-label').value = currentDept.goal_label || '';
-    document.getElementById('goal-target').value = currentDept.target || '';
+async function showAdmin() {
+    try {
+      document.getElementById('login-section').style.display = 'none';
+      document.getElementById('admin-section').style.display = '';
+      document.getElementById('logged-in-dept').textContent = currentDept.name;
+      document.getElementById('goal-label').value = currentDept.goal_label || '';
+      document.getElementById('goal-target').value = currentDept.target || '';
+    } catch(e) {
+      alert('FEL i showAdmin: ' + e.message);
+      return;
+    }
 
-    // Load existing reports
     try {
       const res = await fetch(
         `${SUPABASE_URL}/rest/v1/weekly_reports?department_id=eq.${currentDept.id}&select=week,value&order=week`,
         { headers }
       );
       const reports = await res.json();
+      alert('Reports: ' + JSON.stringify(reports));
       reports.forEach(r => {
         const inp = document.getElementById('w' + r.week);
         if (inp) inp.value = r.value;
       });
       updatePreview();
-    } catch {}
+    } catch(e) {
+      alert('FEL vid hämtning av rapporter: ' + e.message);
+    }
   }
 
   function doLogout() {
