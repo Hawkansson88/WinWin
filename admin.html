@@ -293,9 +293,9 @@
 </div>
 
 <script>
-  // ── CONFIG ──────────────────────────────────────────────────
+// ── CONFIG ──────────────────────────────────────────────────
   const SUPABASE_URL = 'https://rszsekmefhimebpkxcyb.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenNla21lZmhpbWVicGt4Y3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MDQwMDMsImV4cCI6MjA4OTk4MDAwM30.eLMABGNPFfhQN8kqCYTX_q1c4LIZBCeVmktbk8wk3Is';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenNla21lZmhpbWVicGt4Y3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI0MTI5NTIsImV4cCI6MjA1Nzk4ODk1Mn0.eyJpc3MiOiJzdXBhYmFzZSJ9';
   // ────────────────────────────────────────────────────────────
 
   const headers = {
@@ -319,7 +319,7 @@
     }
   }
 
-async function doLogin() {
+  async function doLogin() {
     const deptId = document.getElementById('dept-select').value;
     const password = document.getElementById('password-input').value;
     const errEl = document.getElementById('login-error');
@@ -332,11 +332,11 @@ async function doLogin() {
     btn.textContent = 'Loggar in...'; btn.disabled = true;
 
     try {
-      const url = `${SUPABASE_URL}/rest/v1/departments?id=eq.${deptId}&password=eq.${encodeURIComponent(password)}&select=*`;
-      alert('Hämtar: ' + url);
-      const res = await fetch(url, { headers });
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/departments?id=eq.${deptId}&password=eq.${encodeURIComponent(password)}&select=*`,
+        { headers }
+      );
       const data = await res.json();
-      alert('Svar: ' + JSON.stringify(data));
       if (!data.length) {
         errEl.textContent = 'Fel lösenord. Försök igen.';
         errEl.style.display = '';
@@ -344,25 +344,20 @@ async function doLogin() {
         return;
       }
       currentDept = data[0];
-      sessionStorage.setItem('winwin_dept', JSON.stringify(currentDept));
-      showAdmin();
+      await showAdmin();
     } catch(e) {
-      alert('FEL: ' + e.message);
+      errEl.textContent = 'Nätverksfel: ' + e.message;
+      errEl.style.display = '';
       btn.textContent = 'Logga in'; btn.disabled = false;
     }
   }
 
-async function showAdmin() {
-    try {
-      document.getElementById('login-section').style.display = 'none';
-      document.getElementById('admin-section').style.display = '';
-      document.getElementById('logged-in-dept').textContent = currentDept.name;
-      document.getElementById('goal-label').value = currentDept.goal_label || '';
-      document.getElementById('goal-target').value = currentDept.target || '';
-    } catch(e) {
-      alert('FEL i showAdmin: ' + e.message);
-      return;
-    }
+  async function showAdmin() {
+    document.getElementById('login-section').style.display = 'none';
+    document.getElementById('admin-section').style.display = '';
+    document.getElementById('logged-in-dept').textContent = currentDept.name;
+    document.getElementById('goal-label').value = currentDept.goal_label || '';
+    document.getElementById('goal-target').value = currentDept.target || '';
 
     try {
       const res = await fetch(
@@ -370,19 +365,16 @@ async function showAdmin() {
         { headers }
       );
       const reports = await res.json();
-      alert('Reports: ' + JSON.stringify(reports));
       reports.forEach(r => {
         const inp = document.getElementById('w' + r.week);
         if (inp) inp.value = r.value;
       });
-      updatePreview();
-    } catch(e) {
-      alert('FEL vid hämtning av rapporter: ' + e.message);
-    }
+    } catch {}
+
+    updatePreview();
   }
 
   function doLogout() {
-    sessionStorage.removeItem('winwin_dept');
     currentDept = null;
     document.getElementById('login-section').style.display = '';
     document.getElementById('admin-section').style.display = 'none';
@@ -407,13 +399,7 @@ async function showAdmin() {
   async function saveGoal() {
     const label = document.getElementById('goal-label').value.trim();
     const target = parseInt(document.getElementById('goal-target').value);
-    const alertEl = document.getElementById('admin-alert');
-
-    if (!label || !target) {
-      showAlert('Fyll i både måltyp och totalt mål.', 'error');
-      return;
-    }
-
+    if (!label || !target) { showAlert('Fyll i både måltyp och totalt mål.', 'warn'); return; }
     try {
       const res = await fetch(
         `${SUPABASE_URL}/rest/v1/departments?id=eq.${currentDept.id}`,
@@ -422,7 +408,6 @@ async function showAdmin() {
       if (!res.ok) throw new Error();
       currentDept.goal_label = label;
       currentDept.target = target;
-      sessionStorage.setItem('winwin_dept', JSON.stringify(currentDept));
       showAlert('Mål sparat!', 'success');
       updatePreview();
     } catch {
@@ -431,17 +416,14 @@ async function showAdmin() {
   }
 
   async function saveReports() {
-    const btn = event.currentTarget;
+    const btn = document.querySelector('#admin-section .btn-primary');
     const statusEl = document.getElementById('save-status');
     statusEl.textContent = '';
     btn.textContent = 'Sparar...'; btn.disabled = true;
-
     try {
       for (const week of [1,2,3]) {
         const val = parseInt(document.getElementById('w'+week).value);
         if (isNaN(val)) continue;
-
-        // Upsert: insert or update
         const res = await fetch(
           `${SUPABASE_URL}/rest/v1/weekly_reports`,
           {
@@ -463,25 +445,16 @@ async function showAdmin() {
 
   function showAlert(msg, type) {
     const el = document.getElementById('admin-alert');
-    el.className = 'alert ' + (type === 'error' ? 'alert-error' : 'alert-success');
+    el.className = 'alert ' + (type === 'error' ? 'alert-error' : type === 'warn' ? 'alert-warn' : 'alert-success');
     el.textContent = msg;
     el.style.display = '';
     setTimeout(() => el.style.display = 'none', 4000);
   }
 
-  // Enter key on password
   document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('password-input').addEventListener('keydown', e => {
       if (e.key === 'Enter') doLogin();
     });
-
-    // Resume session
-    const saved = sessionStorage.getItem('winwin_dept');
-    if (saved) {
-      currentDept = JSON.parse(saved);
-      showAdmin();
-    }
-
     loadDepartments();
   });
 </script>
