@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Min avdelning – WinWin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green:       #1D9E75;
+      --green-light: #E1F5EE;
+      --green-dark:  #0F6E56;
+      --danger:      #E24B4A;
+      --danger-light:#FCEBEB;
+      --bg:          #F7F6F2;
+      --surface:     #FFFFFF;
+      --border:      rgba(0,0,0,0.08);
+      --text:        #1A1A18;
+      --muted:       #6B6B67;
+      --faint:       #9C9C98;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
+    .logo span { color: var(--green); }
+    .back-link {
+      font-size: 13px; color: var(--muted);
+      text-decoration: none;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.15s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    .content { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    .page-title { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .page-sub { font-size: 14px; color: var(--muted); margin-bottom: 2rem; }
+
+    /* Login */
+    #login-section .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .field { margin-bottom: 1.25rem; }
+    .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--muted); }
+    .field input, .field select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--surface);
+      color: var(--text);
+      transition: border-color 0.15s;
+      outline: none;
+    }
+    .field input:focus, .field select:focus { border-color: var(--green); }
+    .field input[type="password"] { letter-spacing: 0.1em; }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-primary { background: var(--green); color: #fff; }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-primary:disabled { background: var(--faint); cursor: default; }
+    .btn-secondary {
+      background: var(--bg); color: var(--text);
+      border: 1px solid var(--border);
+      font-size: 14px; padding: 10px;
+    }
+    .btn-secondary:hover { border-color: rgba(0,0,0,0.2); }
+
+    .alert {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      margin-bottom: 1rem;
+    }
+    .alert-error { background: var(--danger-light); color: var(--danger); }
+    .alert-success { background: var(--green-light); color: var(--green-dark); }
+
+    /* Admin panel */
+    #admin-section { display: none; }
+    .section-label {
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--faint);
+      margin-bottom: 12px;
+      margin-top: 2rem;
+    }
+    .section-label:first-child { margin-top: 0; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .card-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.25rem; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* Weekly reporting */
+    .week-blocks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .week-block {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .week-block-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+    .week-block input {
+      width: 100%;
+      text-align: center;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 18px;
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .week-block input:focus { border-color: var(--green); }
+    .week-block-pct { font-size: 12px; color: var(--faint); margin-top: 6px; font-family: 'DM Mono', monospace; }
+
+    /* Progress preview */
+    .preview-bar {
+      height: 8px;
+      background: var(--bg);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 1rem 0 0.5rem;
+    }
+    .preview-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; background: var(--green); }
+    .preview-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+    .preview-pct { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; color: var(--text); }
+
+    .save-status { text-align: center; font-size: 14px; margin-top: 0.75rem; min-height: 20px; }
+
+    .dept-info-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+    .dept-badge {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-weight: 500;
+    }
+    .logout-btn {
+      font-size: 12px;
+      color: var(--faint);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      padding: 4px;
+    }
+    .logout-btn:hover { color: var(--danger); }
+
+    @media (max-width: 480px) {
+      .content { padding: 1.25rem 1rem; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">WinWin <span>Admin</span></div>
+  <a href="index.html" class="back-link">← Dashboard</a>
+</header>
+
+<div class="content">
+  <div class="page-title">Min avdelning</div>
+  <div class="page-sub">Sätt mål och rapportera framdrift varje vecka.</div>
+
+  <!-- LOGIN -->
+  <div id="login-section">
+    <div class="card">
+      <div id="login-error" class="alert alert-error" style="display:none;"></div>
+      <div class="field">
+        <label>Välj din avdelning</label>
+        <select id="dept-select">
+          <option value="">Laddar avdelningar...</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Lösenord</label>
+        <input type="password" id="password-input" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <button class="btn btn-primary" id="login-btn" onclick="doLogin()">Logga in</button>
+    </div>
+    <div style="font-size:12px;color:var(--faint);text-align:center;margin-top:1rem;">
+      Varje avdelning har ett eget lösenord. Kontakta kampanjansvarig om du saknar ditt.
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="admin-section">
+    <div class="dept-info-row">
+      <div class="dept-badge" id="logged-in-dept">–</div>
+      <button class="logout-btn" onclick="doLogout()">Logga ut</button>
+    </div>
+
+    <div id="admin-alert" class="alert" style="display:none;"></div>
+
+    <!-- Goal settings -->
+    <div class="section-label">Kampanjmål</div>
+    <div class="card">
+      <div class="card-title">Sätt ert mål</div>
+      <div class="card-sub">Vad ska er avdelning uppnå under 3 veckor?</div>
+      <div class="two-col">
+        <div class="field" style="margin-bottom:0;">
+          <label>Måltyp (t.ex. "Antal samtal")</label>
+          <input type="text" id="goal-label" placeholder="Beskriv ert mål" maxlength="60" />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Totalt mål (3 veckor)</label>
+          <input type="number" id="goal-target" placeholder="t.ex. 300" min="1" />
+        </div>
+      </div>
+      <div style="margin-top:1rem;">
+        <button class="btn btn-secondary" style="width:auto;padding:8px 20px;" onclick="saveGoal()">Spara mål</button>
+      </div>
+    </div>
+
+    <!-- Weekly reporting -->
+    <div class="section-label">Rapportera framdrift</div>
+    <div class="card">
+      <div class="card-title">Utfall per vecka</div>
+      <div class="card-sub">Fyll i faktiskt utfall. Uppdatera varje fredag.</div>
+      <div class="week-blocks">
+        <div class="week-block">
+          <div class="week-block-label">Vecka 1</div>
+          <input type="number" id="w1" placeholder="0" min="0" oninput="updatePreview()" />
+          <div class="week-block-pct" id="pct1">–</div>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Vecka 2</div>
+          <input type="number" id="w2" placeholder="0" min="0" oninput="updatePreview()" />
+          <div class="week-block-pct" id="pct2">–</div>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Vecka 3</div>
+          <input type="number" id="w3" placeholder="0" min="0" oninput="updatePreview()" />
+          <div class="week-block-pct" id="pct3">–</div>
+        </div>
+      </div>
+
+      <div class="preview-bar"><div class="preview-fill" id="preview-fill" style="width:0%;"></div></div>
+      <div class="preview-row">
+        <span>Total framdrift</span>
+        <span class="preview-pct" id="preview-pct">0%</span>
+      </div>
+
+      <div style="margin-top:1.25rem;">
+        <button class="btn btn-primary" onclick="saveReports()">Spara & publicera på dashboard</button>
+      </div>
+      <div class="save-status" id="save-status"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────
+  const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  // ────────────────────────────────────────────────────────────
+
+  const headers = {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+  };
+
+  let currentDept = null;
+
+  async function loadDepartments() {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/departments?select=id,name&order=name`, { headers });
+      const depts = await res.json();
+      const sel = document.getElementById('dept-select');
+      sel.innerHTML = '<option value="">Välj avdelning...</option>' +
+        depts.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+    } catch {
+      document.getElementById('dept-select').innerHTML = '<option>Kunde inte ladda avdelningar</option>';
+    }
+  }
+
+  async function doLogin() {
+    const deptId = document.getElementById('dept-select').value;
+    const password = document.getElementById('password-input').value;
+    const errEl = document.getElementById('login-error');
+    errEl.style.display = 'none';
+
+    if (!deptId) { errEl.textContent = 'Välj en avdelning.'; errEl.style.display = ''; return; }
+    if (!password) { errEl.textContent = 'Ange lösenord.'; errEl.style.display = ''; return; }
+
+    const btn = document.getElementById('login-btn');
+    btn.textContent = 'Loggar in...'; btn.disabled = true;
+
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/departments?id=eq.${deptId}&password=eq.${encodeURIComponent(password)}&select=*`,
+        { headers }
+      );
+      const data = await res.json();
+      if (!data.length) {
+        errEl.textContent = 'Fel lösenord. Försök igen.';
+        errEl.style.display = '';
+        btn.textContent = 'Logga in'; btn.disabled = false;
+        return;
+      }
+      currentDept = data[0];
+      sessionStorage.setItem('winwin_dept', JSON.stringify(currentDept));
+      showAdmin();
+    } catch {
+      errEl.textContent = 'Nätverksfel. Kontrollera anslutningen.';
+      errEl.style.display = '';
+      btn.textContent = 'Logga in'; btn.disabled = false;
+    }
+  }
+
+  async function showAdmin() {
+    document.getElementById('login-section').style.display = 'none';
+    document.getElementById('admin-section').style.display = '';
+    document.getElementById('logged-in-dept').textContent = currentDept.name;
+    document.getElementById('goal-label').value = currentDept.goal_label || '';
+    document.getElementById('goal-target').value = currentDept.target || '';
+
+    // Load existing reports
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/weekly_reports?department_id=eq.${currentDept.id}&select=week,value&order=week`,
+        { headers }
+      );
+      const reports = await res.json();
+      reports.forEach(r => {
+        const inp = document.getElementById('w' + r.week);
+        if (inp) inp.value = r.value;
+      });
+      updatePreview();
+    } catch {}
+  }
+
+  function doLogout() {
+    sessionStorage.removeItem('winwin_dept');
+    currentDept = null;
+    document.getElementById('login-section').style.display = '';
+    document.getElementById('admin-section').style.display = 'none';
+    document.getElementById('password-input').value = '';
+  }
+
+  function updatePreview() {
+    const target = parseInt(document.getElementById('goal-target').value) || 0;
+    [1,2,3].forEach(w => {
+      const val = parseInt(document.getElementById('w'+w).value) || 0;
+      const wTarget = target > 0 ? Math.round(target / 3) : 0;
+      const pct = wTarget > 0 ? Math.round((val / wTarget) * 100) : 0;
+      document.getElementById('pct'+w).textContent = wTarget > 0 ? pct + '%' : '–';
+    });
+    const total = [1,2,3].reduce((s,w) => s + (parseInt(document.getElementById('w'+w).value)||0), 0);
+    const totalPct = target > 0 ? Math.round((total / target) * 100) : 0;
+    document.getElementById('preview-fill').style.width = Math.min(totalPct,100) + '%';
+    document.getElementById('preview-fill').style.background = totalPct >= 100 ? '#1D9E75' : totalPct >= 70 ? '#378ADD' : '#EF9F27';
+    document.getElementById('preview-pct').textContent = totalPct + '%';
+  }
+
+  async function saveGoal() {
+    const label = document.getElementById('goal-label').value.trim();
+    const target = parseInt(document.getElementById('goal-target').value);
+    const alertEl = document.getElementById('admin-alert');
+
+    if (!label || !target) {
+      showAlert('Fyll i både måltyp och totalt mål.', 'error');
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/departments?id=eq.${currentDept.id}`,
+        { method: 'PATCH', headers, body: JSON.stringify({ goal_label: label, target }) }
+      );
+      if (!res.ok) throw new Error();
+      currentDept.goal_label = label;
+      currentDept.target = target;
+      sessionStorage.setItem('winwin_dept', JSON.stringify(currentDept));
+      showAlert('Mål sparat!', 'success');
+      updatePreview();
+    } catch {
+      showAlert('Kunde inte spara. Försök igen.', 'error');
+    }
+  }
+
+  async function saveReports() {
+    const btn = event.currentTarget;
+    const statusEl = document.getElementById('save-status');
+    statusEl.textContent = '';
+    btn.textContent = 'Sparar...'; btn.disabled = true;
+
+    try {
+      for (const week of [1,2,3]) {
+        const val = parseInt(document.getElementById('w'+week).value);
+        if (isNaN(val)) continue;
+
+        // Upsert: insert or update
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/weekly_reports`,
+          {
+            method: 'POST',
+            headers: { ...headers, 'Prefer': 'resolution=merge-duplicates,return=representation' },
+            body: JSON.stringify({ department_id: currentDept.id, week, value: val })
+          }
+        );
+        if (!res.ok) throw new Error(`Vecka ${week} misslyckades`);
+      }
+      statusEl.style.color = 'var(--green)';
+      statusEl.textContent = 'Sparat och publicerat på dashboard!';
+    } catch (err) {
+      statusEl.style.color = 'var(--danger)';
+      statusEl.textContent = 'Fel: ' + err.message;
+    }
+    btn.textContent = 'Spara & publicera på dashboard'; btn.disabled = false;
+  }
+
+  function showAlert(msg, type) {
+    const el = document.getElementById('admin-alert');
+    el.className = 'alert ' + (type === 'error' ? 'alert-error' : 'alert-success');
+    el.textContent = msg;
+    el.style.display = '';
+    setTimeout(() => el.style.display = 'none', 4000);
+  }
+
+  // Enter key on password
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('password-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') doLogin();
+    });
+
+    // Resume session
+    const saved = sessionStorage.getItem('winwin_dept');
+    if (saved) {
+      currentDept = JSON.parse(saved);
+      showAdmin();
+    }
+
+    loadDepartments();
+  });
+</script>
+</body>
+</html>
