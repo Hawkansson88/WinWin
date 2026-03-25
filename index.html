@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WinWin Kampanj – DNB Kundcenter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green:       #1D9E75;
+      --green-light: #E1F5EE;
+      --green-dark:  #0F6E56;
+      --gold:        #EF9F27;
+      --gold-light:  #FAEEDA;
+      --silver:      #B4B2A9;
+      --bronze:      #D85A30;
+      --danger:      #E24B4A;
+      --bg:          #F7F6F2;
+      --surface:     #FFFFFF;
+      --border:      rgba(0,0,0,0.08);
+      --text:        #1A1A18;
+      --muted:       #6B6B67;
+      --faint:       #9C9C98;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-dot {
+      width: 10px; height: 10px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity:1; }
+      50% { transform: scale(1.4); opacity:0.7; }
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .week-tabs {
+      display: flex;
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .week-tab {
+      padding: 5px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.15s;
+      border: none;
+      background: none;
+    }
+    .week-tab.active {
+      background: var(--surface);
+      color: var(--green);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .admin-link {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.15s;
+    }
+    .admin-link:hover { color: var(--text); border-color: rgba(0,0,0,0.2); }
+
+    /* ── Hero strip ── */
+    .hero {
+      background: var(--green);
+      color: #fff;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .hero-title { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+    .hero-sub { font-size: 14px; opacity: 0.8; margin-top: 2px; }
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+    }
+    .hstat { text-align: right; }
+    .hstat-val { font-size: 28px; font-weight: 600; font-family: 'DM Mono', monospace; letter-spacing: -0.02em; }
+    .hstat-label { font-size: 12px; opacity: 0.75; margin-top: 1px; }
+
+    /* ── Content ── */
+    .content { padding: 2rem; max-width: 1100px; margin: 0 auto; }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+    .section-title { font-size: 13px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+    .updated-label { font-size: 12px; color: var(--faint); margin-left: auto; }
+
+    /* ── Podium ── */
+    .podium-wrap {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 2.5rem;
+      padding: 2rem 1rem 0;
+    }
+    .podium-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 200px;
+    }
+    .podium-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .podium-name { font-size: 13px; font-weight: 500; text-align: center; line-height: 1.3; }
+    .podium-goal { font-size: 11px; color: var(--muted); text-align: center; }
+    .podium-pct {
+      font-family: 'DM Mono', monospace;
+      font-size: 22px;
+      font-weight: 500;
+    }
+    .podium-block {
+      width: 100%;
+      border-radius: 10px 10px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    .p1 .podium-avatar { background: #FAC775; color: #633806; }
+    .p1 .podium-block { background: #FAC775; height: 80px; }
+    .p1 .podium-pct { color: #633806; }
+    .p2 .podium-avatar { background: #D3D1C7; color: #2C2C2A; }
+    .p2 .podium-block { background: #D3D1C7; height: 55px; }
+    .p2 .podium-pct { color: #444441; }
+    .p3 .podium-avatar { background: #F5C4B3; color: #4A1B0C; }
+    .p3 .podium-block { background: #F5C4B3; height: 40px; }
+    .p3 .podium-pct { color: #993C1D; }
+
+    /* ── Cards ── */
+    .dept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .dept-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.1rem 1.25rem;
+      position: relative;
+      transition: transform 0.15s, box-shadow 0.15s;
+      animation: fadeUp 0.3s ease both;
+    }
+    .dept-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(10px); }
+      to { opacity:1; transform: translateY(0); }
+    }
+    .rank-badge {
+      position: absolute; top: 14px; right: 14px;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600;
+      font-family: 'DM Mono', monospace;
+    }
+    .card-top { padding-right: 38px; margin-bottom: 10px; }
+    .card-name { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+    .card-goal { font-size: 12px; color: var(--muted); }
+    .prog-track {
+      height: 7px;
+      background: var(--bg);
+      border-radius: 4px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .card-bot {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .card-pct {
+      font-family: 'DM Mono', monospace;
+      font-size: 22px;
+      font-weight: 500;
+    }
+    .card-detail { font-size: 12px; color: var(--muted); }
+    .card-weeks {
+      display: flex; gap: 4px; margin-top: 8px;
+    }
+    .week-dot {
+      height: 3px; flex: 1; border-radius: 2px;
+    }
+
+    /* ── Loading / Error ── */
+    #loading, #error-msg {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .spinner {
+      width: 30px; height: 30px;
+      border: 2px solid var(--border);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 12px;
+      color: var(--faint);
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 0 1rem; }
+      .hero { padding: 1.25rem 1rem; }
+      .hero-stats { gap: 1.2rem; }
+      .content { padding: 1.25rem 1rem; }
+      .podium-wrap { gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    WinWin Kampanj
+  </div>
+  <div class="header-right">
+    <div class="week-tabs" id="week-tabs">
+      <button class="week-tab active" data-week="1">V1</button>
+      <button class="week-tab" data-week="2">V2</button>
+      <button class="week-tab" data-week="3">V3</button>
+      <button class="week-tab" data-week="0">Totalt</button>
+    </div>
+    <a href="admin.html" class="admin-link">Min avdelning →</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div>
+    <div class="hero-title">DNB Kundcenter</div>
+    <div class="hero-sub" id="hero-sub">Laddar kampanjdata...</div>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat">
+      <div class="hstat-val" id="stat-depts">–</div>
+      <div class="hstat-label">Avdelningar</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" id="stat-avg">–</div>
+      <div class="hstat-label">Snitt framdrift</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" id="stat-leaders">–</div>
+      <div class="hstat-label">Över 100%</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div id="loading"><div class="spinner"></div>Hämtar data...</div>
+  <div id="error-msg" style="display:none;"></div>
+
+  <div id="main-content" style="display:none;">
+    <div class="section-head">
+      <div class="section-title">Topp 3</div>
+    </div>
+    <div class="podium-wrap" id="podium"></div>
+
+    <div class="section-head">
+      <div class="section-title" id="all-label">Alla avdelningar</div>
+      <div class="updated-label" id="updated-label"></div>
+    </div>
+    <div class="dept-grid" id="dept-grid"></div>
+  </div>
+</div>
+
+<footer>DNB Kundcenter · WinWin-kampanj · Uppdateras varje fredag</footer>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────
+  const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  // ────────────────────────────────────────────────────────────
+
+  let currentWeek = 1;
+  let allData = null;
+
+  async function fetchData() {
+    const headers = {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+    };
+
+    const [deptRes, reportRes] = await Promise.all([
+      fetch(`${SUPABASE_URL}/rest/v1/departments?select=*&order=name`, { headers }),
+      fetch(`${SUPABASE_URL}/rest/v1/weekly_reports?select=*`, { headers })
+    ]);
+
+    if (!deptRes.ok || !reportRes.ok) throw new Error('Kunde inte hämta data från Supabase.');
+
+    const departments = await deptRes.json();
+    const reports = await reportRes.json();
+    return { departments, reports };
+  }
+
+  function getPct(dept, reports, week) {
+    const deptReports = reports.filter(r => r.department_id === dept.id);
+    if (week === 0) {
+      const total = deptReports.reduce((s, r) => s + (r.value || 0), 0);
+      return dept.target > 0 ? Math.round((total / dept.target) * 100) : 0;
+    }
+    const cum = deptReports.filter(r => r.week <= week).reduce((s, r) => s + (r.value || 0), 0);
+    const weekTarget = Math.round((dept.target / 3) * week);
+    return weekTarget > 0 ? Math.round((cum / weekTarget) * 100) : 0;
+  }
+
+  function getVal(dept, reports, week) {
+    const deptReports = reports.filter(r => r.department_id === dept.id);
+    if (week === 0) return deptReports.reduce((s, r) => s + (r.value || 0), 0);
+    return deptReports.filter(r => r.week <= week).reduce((s, r) => s + (r.value || 0), 0);
+  }
+
+  function getColor(pct) {
+    if (pct >= 100) return '#1D9E75';
+    if (pct >= 70)  return '#378ADD';
+    if (pct >= 40)  return '#EF9F27';
+    return '#E24B4A';
+  }
+
+  function getInitials(name) {
+    return name.split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
+  }
+
+  function renderAll() {
+    const { departments, reports } = allData;
+    const sorted = [...departments].sort((a, b) => getPct(b, reports, currentWeek) - getPct(a, reports, currentWeek));
+
+    // Hero stats
+    const pcts = sorted.map(d => getPct(d, reports, currentWeek));
+    const avg = pcts.length ? Math.round(pcts.reduce((s,p) => s+p, 0) / pcts.length) : 0;
+    const leaders = pcts.filter(p => p >= 100).length;
+    document.getElementById('stat-depts').textContent = sorted.length;
+    document.getElementById('stat-avg').textContent = avg + '%';
+    document.getElementById('stat-leaders').textContent = leaders;
+
+    const weekLabel = currentWeek === 0 ? 'hela kampanjen' : `vecka ${currentWeek}`;
+    document.getElementById('hero-sub').textContent = `Framdrift för ${weekLabel}`;
+    document.getElementById('all-label').textContent = `Alla avdelningar — ${weekLabel}`;
+
+    // Last updated
+    const latestWeek = reports.reduce((mx, r) => Math.max(mx, r.week), 0);
+    if (latestWeek > 0) {
+      document.getElementById('updated-label').textContent = `Senast rapporterat: vecka ${latestWeek}`;
+    }
+
+    // Podium
+    const podium = document.getElementById('podium');
+    podium.innerHTML = '';
+    const podiumOrder = sorted.length >= 3
+      ? [sorted[1], sorted[0], sorted[2]]
+      : sorted;
+    const podiumClass = ['p2','p1','p3'];
+    podiumOrder.forEach((d, i) => {
+      const pct = getPct(d, reports, currentWeek);
+      const rank = sorted.indexOf(d) + 1;
+      const cls = podiumClass[i];
+      const medals = ['🥇','🥈','🥉'];
+      const div = document.createElement('div');
+      div.className = `podium-item ${cls}`;
+      div.innerHTML = `
+        <div class="podium-avatar">${getInitials(d.name)}</div>
+        <div class="podium-pct">${pct}%</div>
+        <div class="podium-name">${d.name}</div>
+        <div class="podium-goal">${d.goal_label}</div>
+        <div class="podium-block">${medals[rank-1] || rank}</div>
+      `;
+      podium.appendChild(div);
+    });
+
+    // Cards
+    const grid = document.getElementById('dept-grid');
+    grid.innerHTML = '';
+    sorted.forEach((d, i) => {
+      const pct = getPct(d, reports, currentWeek);
+      const val = getVal(d, reports, currentWeek);
+      const weekTarget = currentWeek === 0 ? d.target : Math.round(d.target / 3 * currentWeek);
+      const color = getColor(pct);
+      const rank = i + 1;
+      const rankColors = [
+        {bg:'#FAC775',text:'#633806'},
+        {bg:'#D3D1C7',text:'#2C2C2A'},
+        {bg:'#F5C4B3',text:'#4A1B0C'},
+        {bg:'#E1F5EE',text:'#0F6E56'}
+      ];
+      const rc = rankColors[Math.min(rank-1,3)];
+
+      const weekDots = [1,2,3].map(w => {
+        const wVal = reports.filter(r => r.department_id === d.id && r.week === w).reduce((s,r)=>s+(r.value||0),0);
+        const wTarget = Math.round(d.target / 3);
+        const wPct = wTarget > 0 ? Math.round((wVal / wTarget) * 100) : 0;
+        return `<div class="week-dot" style="background:${wPct>0 ? getColor(wPct) : 'var(--border)'};" title="V${w}: ${wPct}%"></div>`;
+      }).join('');
+
+      const card = document.createElement('div');
+      card.className = 'dept-card';
+      card.style.animationDelay = (i * 0.04) + 's';
+      card.innerHTML = `
+        <div class="rank-badge" style="background:${rc.bg};color:${rc.text};">${rank}</div>
+        <div class="card-top">
+          <div class="card-name">${d.name}</div>
+          <div class="card-goal">${d.goal_label}</div>
+        </div>
+        <div class="prog-track">
+          <div class="prog-fill" style="width:${Math.min(pct,100)}%;background:${color};"></div>
+        </div>
+        <div class="card-bot">
+          <div class="card-pct" style="color:${color};">${pct}%</div>
+          <div class="card-detail">${val.toLocaleString('sv-SE')} / ${weekTarget.toLocaleString('sv-SE')}</div>
+        </div>
+        <div class="card-weeks">${weekDots}</div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  async function init() {
+    try {
+      allData = await fetchData();
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('main-content').style.display = '';
+      renderAll();
+    } catch (err) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('error-msg').style.display = '';
+      document.getElementById('error-msg').innerHTML = `
+        <div style="color:#E24B4A;font-weight:500;margin-bottom:8px;">Kunde inte ladda data</div>
+        <div style="font-size:13px;">${err.message}</div>
+        <div style="font-size:12px;margin-top:8px;color:#9C9C98;">Kontrollera att SUPABASE_URL och SUPABASE_ANON_KEY är korrekt inställda i index.html</div>
+      `;
+    }
+  }
+
+  document.getElementById('week-tabs').addEventListener('click', e => {
+    const btn = e.target.closest('.week-tab');
+    if (!btn) return;
+    document.querySelectorAll('.week-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentWeek = parseInt(btn.dataset.week);
+    if (allData) renderAll();
+  });
+
+  init();
+</script>
+</body>
+</html>
