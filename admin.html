@@ -319,7 +319,7 @@
     }
   }
 
-  async function doLogin() {
+async function doLogin() {
     const deptId = document.getElementById('dept-select').value;
     const password = document.getElementById('password-input').value;
     const errEl = document.getElementById('login-error');
@@ -332,11 +332,11 @@
     btn.textContent = 'Loggar in...'; btn.disabled = true;
 
     try {
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/departments?id=eq.${deptId}&password=eq.${encodeURIComponent(password)}&select=*`,
-        { headers }
-      );
+      const url = `${SUPABASE_URL}/rest/v1/departments?id=eq.${deptId}&password=eq.${encodeURIComponent(password)}&select=*`;
+      alert('Hämtar: ' + url);
+      const res = await fetch(url, { headers });
       const data = await res.json();
+      alert('Svar: ' + JSON.stringify(data));
       if (!data.length) {
         errEl.textContent = 'Fel lösenord. Försök igen.';
         errEl.style.display = '';
@@ -346,9 +346,8 @@
       currentDept = data[0];
       sessionStorage.setItem('winwin_dept', JSON.stringify(currentDept));
       showAdmin();
-    } catch {
-      errEl.textContent = 'Nätverksfel. Kontrollera anslutningen.';
-      errEl.style.display = '';
+    } catch(e) {
+      alert('FEL: ' + e.message);
       btn.textContent = 'Logga in'; btn.disabled = false;
     }
   }
