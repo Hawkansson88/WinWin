@@ -138,7 +138,18 @@
     .card-detail { font-size: 12px; color: var(--muted); }
     .expand-hint { font-size: 11px; color: var(--faint); margin-top: 6px; text-align: right; }
 
-    /* Expanded goals */
+    /* Unreported banner */
+    .unreported-banner {
+      background: #F1EFE8; border-bottom: 1px solid var(--border);
+      padding: 5px 1.25rem; font-size: 11px; font-weight: 500;
+      color: var(--muted); letter-spacing: 0.03em;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .unreported-banner::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--faint); flex-shrink: 0;
+    }
+    .dept-card.unreported { opacity: 0.75; }
     .card-goals { display: none; border-top: 1px solid var(--border); padding: 0.75rem 1.25rem; background: var(--bg); }
     .card-goals.open { display: block; }
     .goal-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
@@ -176,8 +187,7 @@
       <button class="week-tab" data-week="3">V3</button>
       <button class="week-tab" data-week="0">Totalt</button>
     </div>
-    <a href="admin.html" class="admin-link">Min avdelning →</a>
-    <a href="setup.html" class="gear-link" title="Kampanjadmin">
+    <a href="admin.html" class="gear-link" title="Min avdelning">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     </a>
   </div>
@@ -218,8 +228,8 @@
 <footer>DNB Kundcenter · WinWin-kampanj · Uppdateras varje fredag</footer>
 
 <script>
-  const SUPABASE_URL     = 'https://rszsekmefhimebpkxcyb.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenNla21lZmhpbWVicGt4Y3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MDQwMDMsImV4cCI6MjA4OTk4MDAwM30.eLMABGNPFfhQN8kqCYTX_q1c4LIZBCeVmktbk8wk3Is';
+  const SUPABASE_URL     = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
   const headers = { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY };
 
@@ -242,20 +252,46 @@
 
   function getGoalPct(goal, reports, week) {
     const gr = reports.filter(r => r.goal_id === goal.id);
-    const cum = week === 0
-      ? gr.reduce((s,r) => s + (r.value||0), 0)
-      : gr.filter(r => r.week <= week).reduce((s,r) => s + (r.value||0), 0);
-    const target = week === 0 ? goal.target : Math.round(goal.target / 3 * week);
-    return target > 0 ? Math.round((cum / target) * 100) : 0;
+    if (week === 0) {
+      const reportedWeeks = [...new Set(gr.map(r => r.week))];
+      if (!reportedWeeks.length) return 0;
+      const cum = gr.reduce((s,r) => s + (r.value||0), 0);
+      const target = Math.round(goal.target / 3 * reportedWeeks.length);
+      return target > 0 ? Math.round((cum / target) * 100) : 0;
+    } else {
+      // For a specific week view: check if THIS week has been reported
+      const hasThisWeek = gr.some(r => r.week === week);
+      if (!hasThisWeek) return null; // not reported
+      const cum = gr.filter(r => r.week <= week).reduce((s,r) => s + (r.value||0), 0);
+      const target = Math.round(goal.target / 3 * week);
+      return target > 0 ? Math.round((cum / target) * 100) : 0;
+    }
+  }
+
+  function deptHasReported(dept, goals, reports, week) {
+    if (week === 0) return true;
+    const dgoals = goals.filter(g => g.department_id === dept.id);
+    if (!dgoals.length) return false;
+    return dgoals.some(g => reports.some(r => r.goal_id === g.id && r.week === week));
   }
 
   function getDeptPct(dept, goals, reports, week) {
     const dgoals = goals.filter(g => g.department_id === dept.id);
     if (!dgoals.length) return 0;
-    const totalWeight = dgoals.reduce((s,g) => s + Number(g.weight), 0);
-    if (totalWeight === 0) return 0;
-    const weighted = dgoals.reduce((s,g) => s + getGoalPct(g, reports, week) * Number(g.weight), 0);
-    return Math.round(weighted / totalWeight);
+    if (week === 0) {
+      const totalWeight = dgoals.reduce((s,g) => s + Number(g.weight), 0);
+      if (totalWeight === 0) return 0;
+      const weighted = dgoals.reduce((s,g) => s + getGoalPct(g, reports, 0) * Number(g.weight), 0);
+      return Math.round(weighted / totalWeight);
+    } else {
+      // Only count goals that have been reported for this week
+      const reported = dgoals.filter(g => getGoalPct(g, reports, week) !== null);
+      if (!reported.length) return 0;
+      const totalWeight = reported.reduce((s,g) => s + Number(g.weight), 0);
+      if (totalWeight === 0) return 0;
+      const weighted = reported.reduce((s,g) => s + getGoalPct(g, reports, week) * Number(g.weight), 0);
+      return Math.round(weighted / totalWeight);
+    }
   }
 
   function getColor(pct) {
@@ -271,9 +307,11 @@
 
   function renderAll() {
     const { departments, goals, reports } = allData;
-    const sorted = [...departments].sort((a,b) =>
-      getDeptPct(b, goals, reports, currentWeek) - getDeptPct(a, goals, reports, currentWeek)
-    );
+    const reported = departments.filter(d => deptHasReported(d, goals, reports, currentWeek));
+    const unreported = departments.filter(d => !deptHasReported(d, goals, reports, currentWeek));
+    reported.sort((a,b) => getDeptPct(b, goals, reports, currentWeek) - getDeptPct(a, goals, reports, currentWeek));
+    unreported.sort((a,b) => a.name.localeCompare(b.name));
+    const sorted = [...reported, ...unreported];
 
     const pcts = sorted.map(d => getDeptPct(d, goals, reports, currentWeek));
     const avg = pcts.length ? Math.round(pcts.reduce((s,p)=>s+p,0)/pcts.length) : 0;
@@ -361,22 +399,24 @@
         `;
       }).join('');
 
+      const isReported = currentWeek === 0 || deptHasReported(d, goals, reports, currentWeek);
       const card = document.createElement('div');
-      card.className = 'dept-card';
+      card.className = 'dept-card' + (isReported ? '' : ' unreported');
       card.style.animationDelay = (i * 0.04) + 's';
       card.innerHTML = `
+        ${!isReported ? '<div class="unreported-banner">Ej rapporterat vecka ' + currentWeek + '</div>' : ''}
         <div class="card-main" onclick="toggleGoals(this)">
-          <div class="rank-badge" style="background:${rc.bg};color:${rc.text};">${rank}</div>
+          <div class="rank-badge" style="background:${rc.bg};color:${rc.text};">${isReported ? rank : '–'}</div>
           <div class="card-top">
             <div class="card-name">${d.name}</div>
-            <div class="card-goal-count">${dgoals.length} ${dgoals.length === 1 ? 'mål' : 'mål'} · viktat snitt</div>
+            <div class="card-goal-count">${dgoals.length} mål · viktat snitt</div>
           </div>
           <div class="prog-track">
-            <div class="prog-fill" style="width:${Math.min(pct,100)}%;background:${color};"></div>
+            <div class="prog-fill" style="width:${isReported ? Math.min(pct,100) : 0}%;background:${color};"></div>
           </div>
           <div class="card-bot">
-            <div class="card-pct" style="color:${color};">${pct}%</div>
-            <div class="card-detail">viktat totalresultat</div>
+            <div class="card-pct" style="color:${isReported ? color : 'var(--faint)'};">${isReported ? pct+'%' : '–'}</div>
+            <div class="card-detail">${isReported ? 'viktat totalresultat' : 'inväntar rapport'}</div>
           </div>
           ${dgoals.length ? '<div class="expand-hint">Tryck för att se undermål ↓</div>' : ''}
         </div>
