@@ -228,8 +228,8 @@
 <footer>DNB Kundcenter · WinWin-kampanj · Uppdateras varje fredag</footer>
 
 <script>
-  const SUPABASE_URL      = 'https://rszsekmefhimebpkxcyb.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenNla21lZmhpbWVicGt4Y3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MDQwMDMsImV4cCI6MjA4OTk4MDAwM30.eLMABGNPFfhQN8kqCYTX_q1c4LIZBCeVmktbk8wk3Is';
+  const SUPABASE_URL     = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
   const headers = { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY };
 
@@ -253,18 +253,18 @@
   function getGoalPct(goal, reports, week) {
     const gr = reports.filter(r => r.goal_id === goal.id);
     if (week === 0) {
+      // Total: average of all reported weeks
       const reportedWeeks = [...new Set(gr.map(r => r.week))];
       if (!reportedWeeks.length) return 0;
       const cum = gr.reduce((s,r) => s + (r.value||0), 0);
       const target = Math.round(goal.target / 3 * reportedWeeks.length);
       return target > 0 ? Math.round((cum / target) * 100) : 0;
     } else {
-      // For a specific week view: check if THIS week has been reported
-      const hasThisWeek = gr.some(r => r.week === week);
-      if (!hasThisWeek) return null; // not reported
-      const cum = gr.filter(r => r.week <= week).reduce((s,r) => s + (r.value||0), 0);
-      const target = Math.round(goal.target / 3 * week);
-      return target > 0 ? Math.round((cum / target) * 100) : 0;
+      // Specific week: only that week's value vs that week's target
+      const weekReport = gr.find(r => r.week === week);
+      if (!weekReport) return null; // not reported
+      const weekTarget = Math.round(goal.target / 3);
+      return weekTarget > 0 ? Math.round((weekReport.value / weekTarget) * 100) : 0;
     }
   }
 
@@ -326,9 +326,9 @@
 
     // Info box
     if (currentWeek === 0) {
-      document.getElementById('info-text').innerHTML = '<strong>Totalt</strong> visar viktat snitt för alla rapporterade veckor. Endast veckor med inrapporterade värden räknas med — ej rapporterade veckor påverkar inte resultatet.';
+      document.getElementById('info-text').innerHTML = '<strong>Totalt</strong> visar viktat snitt för alla rapporterade veckor. Endast veckor med inrapporterade värden räknas med.';
     } else {
-      document.getElementById('info-text').innerHTML = `<strong>Vecka ${currentWeek}</strong> visar kumulativt resultat (vecka 1–${currentWeek} sammanlagt mot delmålet för ${currentWeek} veckor). Håll muspekaren över ett undermål för att se beräkningen.`;
+      document.getElementById('info-text').innerHTML = `<strong>Vecka ${currentWeek}</strong> visar enbart den veckans utfall mot den veckans delmål. Håll muspekaren över ett undermål för att se beräkningen.`;
     }
 
     const latestWeek = reports.reduce((mx,r)=>Math.max(mx,r.week),0);
@@ -378,16 +378,19 @@
         const gpct = getGoalPct(g, reports, currentWeek);
         const gcolor = getColor(gpct);
         const gr = reports.filter(r => r.goal_id === g.id);
-        const cum = currentWeek === 0
-          ? gr.reduce((s,r) => s+r.value,0)
-          : gr.filter(r => r.week <= currentWeek).reduce((s,r) => s+r.value,0);
-        const reportedWeeks = currentWeek === 0 ? [...new Set(gr.map(r=>r.week))].length : currentWeek;
-        const target = currentWeek === 0
-          ? Math.round(g.target / 3 * (gr.length ? [...new Set(gr.map(r=>r.week))].length : 1))
-          : Math.round(g.target / 3 * currentWeek);
-        const tooltipText = gpct !== null
-          ? `${cum} / ${target} = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`
-          : 'Ej rapporterat';
+        let tooltipText;
+        if (gpct === null) {
+          tooltipText = 'Ej rapporterat';
+        } else if (currentWeek === 0) {
+          const reportedWeeks = [...new Set(gr.map(r => r.week))];
+          const cum = gr.reduce((s,r) => s + (r.value||0), 0);
+          const target = Math.round(g.target / 3 * reportedWeeks.length);
+          tooltipText = `${cum} / ${target} (${reportedWeeks.length} v) = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`;
+        } else {
+          const weekReport = gr.find(r => r.week === currentWeek);
+          const weekTarget = Math.round(g.target / 3);
+          tooltipText = `${weekReport.value} / ${weekTarget} = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`;
+        }
         return `
           <div class="goal-row">
             <div class="goal-tooltip">${tooltipText}</div>
