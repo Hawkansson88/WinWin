@@ -204,13 +204,23 @@
     };
   }
 
-  function getGoalPct(goal, reports, week) {
+function getGoalPct(goal, reports, week) {
     const gr = reports.filter(r => r.goal_id === goal.id);
-    const cum = week === 0
-      ? gr.reduce((s,r) => s + (r.value||0), 0)
-      : gr.filter(r => r.week <= week).reduce((s,r) => s + (r.value||0), 0);
-    const target = week === 0 ? goal.target : Math.round(goal.target / 3 * week);
-    return target > 0 ? Math.round((cum / target) * 100) : 0;
+    if (week === 0) {
+      // Totalt: räkna bara veckor som faktiskt rapporterats
+      const reportedWeeks = gr.map(r => r.week);
+      if (!reportedWeeks.length) return 0;
+      const cum = gr.reduce((s,r) => s + (r.value||0), 0);
+      const target = Math.round(goal.target / 3 * reportedWeeks.length);
+      return target > 0 ? Math.round((cum / target) * 100) : 0;
+    } else {
+      // Specifik vecka: om ingen rapport finns för denna vecka, returnera null
+      const weekReports = gr.filter(r => r.week === week);
+      if (!weekReports.length) return null;
+      const cum = gr.filter(r => r.week <= week).reduce((s,r) => s + (r.value||0), 0);
+      const target = Math.round(goal.target / 3 * week);
+      return target > 0 ? Math.round((cum / target) * 100) : 0;
+    }
   }
 
   function getDeptPct(dept, goals, reports, week) {
