@@ -88,6 +88,9 @@
     .hstat { text-align: right; }
     .hstat-val { font-size: 28px; font-weight: 600; font-family: 'DM Mono', monospace; letter-spacing: -0.02em; }
     .hstat-label { font-size: 12px; opacity: 0.75; margin-top: 1px; }
+    .hstat-leader { display: flex; align-items: center; gap: 10px; }
+    .hstat-avatar { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+    .hstat-leader-name { font-size: 13px; font-weight: 600; opacity: 1; margin-top: 2px; }
 
     .content { padding: 2rem; max-width: 1100px; margin: 0 auto; }
     .section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 1.25rem; }
@@ -187,8 +190,7 @@
       <button class="week-tab" data-week="3">V3</button>
       <button class="week-tab" data-week="0">Totalt</button>
     </div>
-    <a href="admin.html" class="admin-link">Min avdelning →</a>
-    <a href="setup.html" class="gear-link" title="Kampanjadmin">
+    <a href="admin.html" class="gear-link" title="Min avdelning">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     </a>
   </div>
@@ -200,9 +202,10 @@
     <div class="hero-sub" id="hero-sub">Laddar kampanjdata...</div>
   </div>
   <div class="hero-stats">
-    <div class="hstat"><div class="hstat-val" id="stat-depts">–</div><div class="hstat-label">Avdelningar</div></div>
     <div class="hstat"><div class="hstat-val" id="stat-avg">–</div><div class="hstat-label">Snitt framdrift</div></div>
-    <div class="hstat"><div class="hstat-val" id="stat-leaders">–</div><div class="hstat-label">Över 100%</div></div>
+    <div class="hstat"><div class="hstat-val" id="stat-reported">–</div><div class="hstat-label">Rapporterat</div></div>
+    <div class="hstat"><div class="hstat-val" id="stat-goals">–</div><div class="hstat-label">Aktiva mål</div></div>
+    <div class="hstat hstat-leader"><div class="hstat-avatar" id="stat-leader">–</div><div class="hstat-label">Ledare<div class="hstat-leader-name" id="stat-leader-name">–</div></div></div>
   </div>
 </div>
 
@@ -229,8 +232,8 @@
 <footer>DNB Kundcenter · WinWin-kampanj · Uppdateras varje fredag</footer>
 
 <script>
-  const SUPABASE_URL      = 'https://rszsekmefhimebpkxcyb.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenNla21lZmhpbWVicGt4Y3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MDQwMDMsImV4cCI6MjA4OTk4MDAwM30.eLMABGNPFfhQN8kqCYTX_q1c4LIZBCeVmktbk8wk3Is';
+  const SUPABASE_URL     = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
   const headers = { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY };
 
@@ -316,10 +319,17 @@
 
     const pcts = sorted.map(d => getDeptPct(d, goals, reports, currentWeek));
     const avg = pcts.length ? Math.round(pcts.reduce((s,p)=>s+p,0)/pcts.length) : 0;
-    const leaders = pcts.filter(p=>p>=100).length;
+    const reportedCount = currentWeek === 0
+      ? departments.filter(d => goals.filter(g => g.department_id === d.id).some(g => reports.some(r => r.goal_id === g.id))).length
+      : departments.filter(d => deptHasReported(d, goals, reports, currentWeek)).length;
+    const totalGoals = goals.length;
+    const leader = sorted.length ? sorted[0] : null;
     document.getElementById('stat-depts').textContent = sorted.length;
     document.getElementById('stat-avg').textContent = avg + '%';
-    document.getElementById('stat-leaders').textContent = leaders;
+    document.getElementById('stat-reported').textContent = reportedCount + ' / ' + sorted.length;
+    document.getElementById('stat-goals').textContent = totalGoals;
+    document.getElementById('stat-leader').textContent = leader ? getInitials(leader.name) : '–';
+    document.getElementById('stat-leader-name').textContent = leader ? leader.name.split(' ')[0] : '–';
 
     const weekLabel = currentWeek === 0 ? 'hela kampanjen' : `vecka ${currentWeek}`;
     document.getElementById('hero-sub').textContent = `Framdrift för ${weekLabel}`;
