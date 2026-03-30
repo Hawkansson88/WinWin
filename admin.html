@@ -419,7 +419,7 @@
     }
   }
 
-  async function saveAllReports() {
+async function saveAllReports() {
     const btn = document.getElementById('save-btn');
     const statusEl = document.getElementById('save-status');
     btn.textContent = 'Sparar...'; btn.disabled = true;
@@ -439,11 +439,22 @@
           if (!inp) continue;
           const val = parseInt(inp.value);
           if (isNaN(val)) continue;
-          await fetch(`${SUPABASE_URL}/rest/v1/weekly_reports`, {
-            method: 'POST',
-            headers: { ...h, 'Prefer': 'resolution=merge-duplicates,return=representation' },
-            body: JSON.stringify({ goal_id: g.id, week, value: val })
-          });
+
+          const existing = currentReports.find(r => r.goal_id === g.id && r.week === week);
+
+          if (existing) {
+            await fetch(`${SUPABASE_URL}/rest/v1/weekly_reports?id=eq.${existing.id}`, {
+              method: 'PATCH',
+              headers: h,
+              body: JSON.stringify({ value: val })
+            });
+          } else {
+            await fetch(`${SUPABASE_URL}/rest/v1/weekly_reports`, {
+              method: 'POST',
+              headers: h,
+              body: JSON.stringify({ goal_id: g.id, week, value: val })
+            });
+          }
         }
       }
       statusEl.style.color = '#1D9E75';
