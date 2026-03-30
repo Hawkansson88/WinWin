@@ -13,9 +13,12 @@
       --green-dark:  #0F6E56;
       --danger:      #E24B4A;
       --danger-light:#FCEBEB;
+      --amber:       #EF9F27;
+      --amber-light: #FAEEDA;
       --bg:          #F7F6F2;
       --surface:     #FFFFFF;
       --border:      rgba(0,0,0,0.08);
+      --border-med:  rgba(0,0,0,0.14);
       --text:        #1A1A18;
       --muted:       #6B6B67;
       --faint:       #9C9C98;
@@ -24,173 +27,101 @@
     body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
     header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-      position: sticky; top: 0; z-index: 100;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between;
+      height: 60px; position: sticky; top: 0; z-index: 100;
     }
     .logo { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
     .logo span { color: var(--green); }
-    .back-link {
-      font-size: 13px; color: var(--muted);
-      text-decoration: none;
-      padding: 6px 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      transition: all 0.15s;
-    }
+    .back-link { font-size: 13px; color: var(--muted); text-decoration: none; padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; transition: all 0.15s; }
     .back-link:hover { color: var(--text); }
 
-    .content { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem; }
-
+    .content { max-width: 680px; margin: 0 auto; padding: 2rem 1.5rem; }
     .page-title { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 4px; }
     .page-sub { font-size: 14px; color: var(--muted); margin-bottom: 2rem; }
 
-    /* Login */
-    #login-section .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-    }
-    .field { margin-bottom: 1.25rem; }
-    .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--muted); }
-    .field input, .field select {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 15px;
-      font-family: 'DM Sans', sans-serif;
-      background: var(--surface);
-      color: var(--text);
-      transition: border-color 0.15s;
-      outline: none;
-    }
-    .field input:focus, .field select:focus { border-color: var(--green); }
-    .field input[type="password"] { letter-spacing: 0.1em; }
-    .btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 500;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .btn-primary { background: var(--green); color: #fff; }
-    .btn-primary:hover { background: var(--green-dark); }
-    .btn-primary:disabled { background: var(--faint); cursor: default; }
-    .btn-secondary {
-      background: var(--bg); color: var(--text);
-      border: 1px solid var(--border);
-      font-size: 14px; padding: 10px;
-    }
-    .btn-secondary:hover { border-color: rgba(0,0,0,0.2); }
-
-    .alert {
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 13px;
-      margin-bottom: 1rem;
-    }
-    .alert-error { background: var(--danger-light); color: var(--danger); }
-    .alert-success { background: var(--green-light); color: var(--green-dark); }
-
-    /* Admin panel */
-#admin-section { display: block; }
-    .section-label {
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--faint);
-      margin-bottom: 12px;
-      margin-top: 2rem;
-    }
-    .section-label:first-child { margin-top: 0; }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-    }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem; }
     .card-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
     .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.25rem; }
 
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 5px; color: var(--muted); }
+    .field input, .field select {
+      width: 100%; padding: 10px 14px; border: 1px solid var(--border-med); border-radius: 10px;
+      font-size: 15px; font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--text);
+      transition: border-color 0.15s; outline: none;
+    }
+    .field input:focus, .field select:focus { border-color: var(--green); }
 
-    /* Weekly reporting */
-    .week-blocks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .week-block {
-      background: var(--bg);
-      border-radius: 12px;
-      padding: 1rem;
-      text-align: center;
-    }
-    .week-block-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
-    .week-block input {
-      width: 100%;
-      text-align: center;
-      padding: 8px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 18px;
-      font-family: 'DM Mono', monospace;
-      font-weight: 500;
-      background: var(--surface);
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.15s;
-    }
-    .week-block input:focus { border-color: var(--green); }
-    .week-block-pct { font-size: 12px; color: var(--faint); margin-top: 6px; font-family: 'DM Mono', monospace; }
+    .btn { padding: 10px 20px; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.15s; }
+    .btn-primary { background: var(--green); color: #fff; }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-primary:disabled { background: var(--faint); cursor: default; }
+    .btn-danger { background: var(--danger-light); color: var(--danger); }
+    .btn-danger:hover { background: #f7c1c1; }
+    .btn-sm { padding: 6px 14px; font-size: 13px; }
+    .btn-outline { background: var(--bg); border: 1px solid var(--border-med); color: var(--text); }
+    .btn-outline:hover { border-color: rgba(0,0,0,0.25); }
 
-    /* Progress preview */
-    .preview-bar {
-      height: 8px;
-      background: var(--bg);
-      border-radius: 4px;
-      overflow: hidden;
-      margin: 1rem 0 0.5rem;
-    }
-    .preview-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; background: var(--green); }
-    .preview-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
-    .preview-pct { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; color: var(--text); }
+    .alert { padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 1rem; }
+    .alert-error   { background: var(--danger-light); color: var(--danger); }
+    .alert-success { background: var(--green-light); color: var(--green-dark); }
+    .alert-warn    { background: var(--amber-light); color: #633806; }
 
-    .save-status { text-align: center; font-size: 14px; margin-top: 0.75rem; min-height: 20px; }
+    .section-label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; color: var(--faint); margin-bottom: 10px; margin-top: 1.75rem; }
 
-    .dept-info-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
-    .dept-badge {
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      background: var(--green-light);
-      color: var(--green-dark);
-      font-weight: 500;
+    /* Login */
+    #login-section .card { max-width: 420px; }
+
+    /* Goals list */
+    .goal-item {
+      background: var(--bg); border-radius: 12px; padding: 1rem 1.1rem;
+      margin-bottom: 8px; border: 1px solid var(--border);
     }
-    .logout-btn {
-      font-size: 12px;
-      color: var(--faint);
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-family: 'DM Sans', sans-serif;
-      padding: 4px;
+    .goal-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .goal-item-name { font-size: 14px; font-weight: 600; }
+    .goal-item-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .goal-item-actions { display: flex; gap: 6px; }
+    .weight-badge { font-size: 12px; font-family: 'DM Mono', monospace; background: var(--green-light); color: var(--green-dark); padding: 3px 8px; border-radius: 6px; }
+
+    /* Week inputs for a goal */
+    .week-inputs { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+    .week-inp-wrap { text-align: center; }
+    .week-inp-label { font-size: 11px; color: var(--faint); margin-bottom: 4px; font-weight: 500; }
+    .week-inp-label span { display: block; font-size: 10px; color: var(--faint); margin-top: 1px; }
+    .week-inp {
+      width: 100%; text-align: center; padding: 8px 4px;
+      border: 1px solid var(--border-med); border-radius: 8px;
+      font-size: 17px; font-family: 'DM Mono', monospace; font-weight: 500;
+      background: var(--surface); color: var(--text); outline: none;
     }
+    .week-inp:focus { border-color: var(--green); }
+    .week-pct { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--faint); margin-top: 3px; }
+
+    /* Add goal form */
+    .add-goal-form { background: var(--bg); border-radius: 12px; padding: 1rem; border: 1px dashed var(--border-med); margin-bottom: 8px; }
+    .three-col { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; }
+
+    /* Weight summary */
+    .weight-summary { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 1rem; }
+    .weight-ok   { background: var(--green-light); color: var(--green-dark); }
+    .weight-warn { background: var(--amber-light); color: #633806; }
+    .weight-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .weight-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+
+    .save-row { display: flex; justify-content: flex-end; margin-top: 1rem; }
+    .save-status { font-size: 13px; margin-top: 8px; text-align: right; min-height: 18px; }
+
+    .dept-info-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .dept-badge { font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 20px; background: var(--green-light); color: var(--green-dark); }
+    .logout-btn { font-size: 12px; color: var(--faint); cursor: pointer; background: none; border: none; font-family: 'DM Sans', sans-serif; }
     .logout-btn:hover { color: var(--danger); }
 
-    @media (max-width: 480px) {
+    .empty-goals { text-align: center; padding: 1.5rem; font-size: 14px; color: var(--faint); }
+
+    @media (max-width: 500px) {
+      .three-col { grid-template-columns: 1fr; }
       .content { padding: 1.25rem 1rem; }
-      .two-col { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -203,89 +134,74 @@
 
 <div class="content">
   <div class="page-title">Min avdelning</div>
-  <div class="page-sub">Sätt mål och rapportera framdrift varje vecka.</div>
+  <div class="page-sub">Hantera era mål och rapportera framdrift varje fredag.</div>
 
   <!-- LOGIN -->
   <div id="login-section">
     <div class="card">
+      <div class="card-title">Logga in</div>
+      <div class="card-sub" style="margin-bottom:1.25rem;">Välj din avdelning och ange lösenordet du fått.</div>
       <div id="login-error" class="alert alert-error" style="display:none;"></div>
       <div class="field">
-        <label>Välj din avdelning</label>
-        <select id="dept-select">
-          <option value="">Laddar avdelningar...</option>
-        </select>
+        <label>Avdelning</label>
+        <select id="dept-select"><option value="">Laddar...</option></select>
       </div>
-      <div class="field">
+      <div class="field" style="margin-bottom:1.25rem;">
         <label>Lösenord</label>
         <input type="password" id="password-input" placeholder="••••••••" autocomplete="current-password" />
       </div>
-      <button class="btn btn-primary" id="login-btn" onclick="doLogin()">Logga in</button>
-    </div>
-    <div style="font-size:12px;color:var(--faint);text-align:center;margin-top:1rem;">
-      Varje avdelning har ett eget lösenord. Kontakta kampanjansvarig om du saknar ditt.
+      <button class="btn btn-primary" id="login-btn" style="width:100%;padding:12px;" onclick="doLogin()">Logga in</button>
     </div>
   </div>
 
   <!-- ADMIN PANEL -->
-<div id="admin-section" style="display:none;">
+  <div id="admin-section" style="display:none;">
     <div class="dept-info-row">
       <div class="dept-badge" id="logged-in-dept">–</div>
       <button class="logout-btn" onclick="doLogout()">Logga ut</button>
     </div>
 
-    <div id="admin-alert" class="alert" style="display:none;"></div>
+    <div id="global-alert" class="alert" style="display:none;"></div>
 
-    <!-- Goal settings -->
-    <div class="section-label">Kampanjmål</div>
-    <div class="card">
-      <div class="card-title">Sätt ert mål</div>
-      <div class="card-sub">Vad ska er avdelning uppnå under 3 veckor?</div>
-      <div class="two-col">
-        <div class="field" style="margin-bottom:0;">
-          <label>Måltyp (t.ex. "Antal samtal")</label>
-          <input type="text" id="goal-label" placeholder="Beskriv ert mål" maxlength="60" />
-        </div>
-        <div class="field" style="margin-bottom:0;">
-          <label>Totalt mål (3 veckor)</label>
-          <input type="number" id="goal-target" placeholder="t.ex. 300" min="1" />
-        </div>
-      </div>
-      <div style="margin-top:1rem;">
-        <button class="btn btn-secondary" style="width:auto;padding:8px 20px;" onclick="saveGoal()">Spara mål</button>
-      </div>
+    <!-- Goals -->
+    <div class="section-label">Era mål</div>
+
+    <div id="weight-summary" class="weight-summary weight-warn" style="display:none;">
+      <span id="weight-text">Vikter summerar till 0%</span>
+      <div class="weight-bar"><div class="weight-fill" id="weight-fill" style="width:0%;background:var(--amber);"></div></div>
+      <strong id="weight-total">0%</strong>
     </div>
 
-    <!-- Weekly reporting -->
-    <div class="section-label">Rapportera framdrift</div>
+    <div id="goals-list"></div>
+
+    <!-- Add goal form -->
+    <div class="add-goal-form" id="add-goal-form">
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--muted);">Lägg till mål</div>
+      <div class="three-col" style="margin-bottom:10px;">
+        <div class="field" style="margin-bottom:0;">
+          <label>Målbeskrivning</label>
+          <input type="text" id="new-goal-label" placeholder='t.ex. "Antal samtal"' maxlength="60" />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Totalt mål (3v)</label>
+          <input type="number" id="new-goal-target" placeholder="t.ex. 300" min="1" />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Vikt (%)</label>
+          <input type="number" id="new-goal-weight" placeholder="t.ex. 50" min="1" max="100" />
+        </div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="addGoal()">Lägg till mål</button>
+    </div>
+
+    <!-- Report -->
+    <div class="section-label" style="margin-top:1.5rem;">Rapportera framdrift</div>
     <div class="card">
-      <div class="card-title">Utfall per vecka</div>
-      <div class="card-sub">Fyll i faktiskt utfall. Uppdatera varje fredag.</div>
-      <div class="week-blocks">
-        <div class="week-block">
-          <div class="week-block-label">Vecka 1</div>
-          <input type="number" id="w1" placeholder="0" min="0" oninput="updatePreview()" />
-          <div class="week-block-pct" id="pct1">–</div>
-        </div>
-        <div class="week-block">
-          <div class="week-block-label">Vecka 2</div>
-          <input type="number" id="w2" placeholder="0" min="0" oninput="updatePreview()" />
-          <div class="week-block-pct" id="pct2">–</div>
-        </div>
-        <div class="week-block">
-          <div class="week-block-label">Vecka 3</div>
-          <input type="number" id="w3" placeholder="0" min="0" oninput="updatePreview()" />
-          <div class="week-block-pct" id="pct3">–</div>
-        </div>
-      </div>
-
-      <div class="preview-bar"><div class="preview-fill" id="preview-fill" style="width:0%;"></div></div>
-      <div class="preview-row">
-        <span>Total framdrift</span>
-        <span class="preview-pct" id="preview-pct">0%</span>
-      </div>
-
-      <div style="margin-top:1.25rem;">
-        <button class="btn btn-primary" onclick="saveReports()">Spara & publicera på dashboard</button>
+      <div class="card-title">Utfall per mål och vecka</div>
+      <div class="card-sub">Fyll i faktiskt utfall för varje mål. Uppdatera varje fredag.</div>
+      <div id="report-goals-list"></div>
+      <div class="save-row">
+        <button class="btn btn-primary" id="save-btn" onclick="saveAllReports()">Spara & publicera på dashboard</button>
       </div>
       <div class="save-status" id="save-status"></div>
     </div>
@@ -293,12 +209,10 @@
 </div>
 
 <script>
-// ── CONFIG ──────────────────────────────────────────────────
-  const SUPABASE_URL = 'https://rszsekmefhimebpkxcyb.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenNla21lZmhpbWVicGt4Y3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MDQwMDMsImV4cCI6MjA4OTk4MDAwM30.eLMABGNPFfhQN8kqCYTX_q1c4LIZBCeVmktbk8wk3Is';
-  // ────────────────────────────────────────────────────────────
+  const SUPABASE_URL      = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
-  const headers = {
+  const h = {
     'apikey': SUPABASE_ANON_KEY,
     'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
     'Content-Type': 'application/json',
@@ -306,10 +220,12 @@
   };
 
   let currentDept = null;
+  let currentGoals = [];
+  let currentReports = [];
 
   async function loadDepartments() {
     try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/departments?select=id,name&order=name`, { headers });
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/departments?select=id,name&order=name`, { headers: h });
       const depts = await res.json();
       const sel = document.getElementById('dept-select');
       sel.innerHTML = '<option value="">Välj avdelning...</option>' +
@@ -320,135 +236,239 @@
   }
 
   async function doLogin() {
-    const deptId = document.getElementById('dept-select').value;
+    const deptId   = document.getElementById('dept-select').value;
     const password = document.getElementById('password-input').value;
-    const errEl = document.getElementById('login-error');
+    const errEl    = document.getElementById('login-error');
     errEl.style.display = 'none';
-
-    if (!deptId) { errEl.textContent = 'Välj en avdelning.'; errEl.style.display = ''; return; }
-    if (!password) { errEl.textContent = 'Ange lösenord.'; errEl.style.display = ''; return; }
+    if (!deptId)   { errEl.textContent = 'Välj en avdelning.'; errEl.style.display = ''; return; }
+    if (!password) { errEl.textContent = 'Ange lösenord.';     errEl.style.display = ''; return; }
 
     const btn = document.getElementById('login-btn');
     btn.textContent = 'Loggar in...'; btn.disabled = true;
 
     try {
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/departments?id=eq.${deptId}&password=eq.${encodeURIComponent(password)}&select=*`,
-        { headers }
-      );
+      const res  = await fetch(`${SUPABASE_URL}/rest/v1/departments?id=eq.${deptId}&password=eq.${encodeURIComponent(password)}&select=*`, { headers: h });
       const data = await res.json();
       if (!data.length) {
-        errEl.textContent = 'Fel lösenord. Försök igen.';
-        errEl.style.display = '';
+        errEl.textContent = 'Fel lösenord.'; errEl.style.display = '';
         btn.textContent = 'Logga in'; btn.disabled = false;
         return;
       }
       currentDept = data[0];
       await showAdmin();
     } catch(e) {
-      errEl.textContent = 'Nätverksfel: ' + e.message;
-      errEl.style.display = '';
+      errEl.textContent = 'Nätverksfel: ' + e.message; errEl.style.display = '';
       btn.textContent = 'Logga in'; btn.disabled = false;
     }
   }
 
   async function showAdmin() {
     document.getElementById('login-section').style.display = 'none';
-    document.getElementById('admin-section').style.display = '';
+    document.getElementById('admin-section').style.display = 'block';
     document.getElementById('logged-in-dept').textContent = currentDept.name;
-    document.getElementById('goal-label').value = currentDept.goal_label || '';
-    document.getElementById('goal-target').value = currentDept.target || '';
+    await loadGoalsAndReports();
+  }
 
+  async function loadGoalsAndReports() {
     try {
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/weekly_reports?department_id=eq.${currentDept.id}&select=week,value&order=week`,
-        { headers }
-      );
-      const reports = await res.json();
-      reports.forEach(r => {
-        const inp = document.getElementById('w' + r.week);
-        if (inp) inp.value = r.value;
-      });
-    } catch {}
-
-    updatePreview();
-  }
-
-  function doLogout() {
-    currentDept = null;
-    document.getElementById('login-section').style.display = '';
-    document.getElementById('admin-section').style.display = 'none';
-    document.getElementById('password-input').value = '';
-  }
-
-  function updatePreview() {
-    const target = parseInt(document.getElementById('goal-target').value) || 0;
-    [1,2,3].forEach(w => {
-      const val = parseInt(document.getElementById('w'+w).value) || 0;
-      const wTarget = target > 0 ? Math.round(target / 3) : 0;
-      const pct = wTarget > 0 ? Math.round((val / wTarget) * 100) : 0;
-      document.getElementById('pct'+w).textContent = wTarget > 0 ? pct + '%' : '–';
-    });
-    const total = [1,2,3].reduce((s,w) => s + (parseInt(document.getElementById('w'+w).value)||0), 0);
-    const totalPct = target > 0 ? Math.round((total / target) * 100) : 0;
-    document.getElementById('preview-fill').style.width = Math.min(totalPct,100) + '%';
-    document.getElementById('preview-fill').style.background = totalPct >= 100 ? '#1D9E75' : totalPct >= 70 ? '#378ADD' : '#EF9F27';
-    document.getElementById('preview-pct').textContent = totalPct + '%';
-  }
-
-  async function saveGoal() {
-    const label = document.getElementById('goal-label').value.trim();
-    const target = parseInt(document.getElementById('goal-target').value);
-    if (!label || !target) { showAlert('Fyll i både måltyp och totalt mål.', 'warn'); return; }
-    try {
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/departments?id=eq.${currentDept.id}`,
-        { method: 'PATCH', headers, body: JSON.stringify({ goal_label: label, target }) }
-      );
-      if (!res.ok) throw new Error();
-      currentDept.goal_label = label;
-      currentDept.target = target;
-      showAlert('Mål sparat!', 'success');
-      updatePreview();
-    } catch {
-      showAlert('Kunde inte spara. Försök igen.', 'error');
+      const [gr, rr] = await Promise.all([
+        fetch(`${SUPABASE_URL}/rest/v1/goals?department_id=eq.${currentDept.id}&select=*&order=label`, { headers: h }),
+        fetch(`${SUPABASE_URL}/rest/v1/weekly_reports?select=*`, { headers: h })
+      ]);
+      currentGoals   = await gr.json();
+      currentReports = await rr.json();
+      renderGoalsList();
+      renderReportsList();
+      updateWeightSummary();
+    } catch(e) {
+      showAlert('Kunde inte ladda mål: ' + e.message, 'error');
     }
   }
 
-  async function saveReports() {
-    const btn = document.querySelector('#admin-section .btn-primary');
-    const statusEl = document.getElementById('save-status');
-    statusEl.textContent = '';
-    btn.textContent = 'Sparar...'; btn.disabled = true;
+  function renderGoalsList() {
+    const list = document.getElementById('goals-list');
+    if (!currentGoals.length) {
+      list.innerHTML = '<div class="empty-goals">Inga mål tillagda ännu. Lägg till ditt första mål nedan.</div>';
+      return;
+    }
+    list.innerHTML = currentGoals.map(g => `
+      <div class="goal-item">
+        <div class="goal-item-header">
+          <div>
+            <div class="goal-item-name">${g.label}</div>
+            <div class="goal-item-meta">Mål: ${g.target.toLocaleString('sv-SE')} totalt</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="weight-badge">${g.weight}%</div>
+            <button class="btn btn-danger btn-sm" onclick="deleteGoal('${g.id}')">Ta bort</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderReportsList() {
+    const list = document.getElementById('report-goals-list');
+    if (!currentGoals.length) {
+      list.innerHTML = '<div class="empty-goals">Lägg till mål ovan för att kunna rapportera.</div>';
+      return;
+    }
+    list.innerHTML = currentGoals.map(g => {
+      const weeklyHtml = [1,2,3].map(w => {
+        const existing = currentReports.find(r => r.goal_id === g.id && r.week === w);
+        const val = existing ? existing.value : '';
+        const target = Math.round(g.target / 3);
+        const pct = (val !== '' && target > 0) ? Math.round((val / target) * 100) : null;
+        return `
+          <div class="week-inp-wrap">
+            <div class="week-inp-label">Vecka ${w}<span>mål: ${target.toLocaleString('sv-SE')}</span></div>
+            <input class="week-inp" type="number" min="0"
+              id="inp-${g.id}-${w}" value="${val}" placeholder="0"
+              oninput="updateWeekPct('${g.id}',${w},${g.target})" />
+            <div class="week-pct" id="pct-${g.id}-${w}">${pct !== null ? pct+'%' : '–'}</div>
+          </div>
+        `;
+      }).join('');
+      return `
+        <div class="goal-item" style="margin-bottom:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+            <div class="goal-item-name">${g.label}</div>
+            <div class="weight-badge">${g.weight}% vikt</div>
+          </div>
+          <div class="week-inputs">${weeklyHtml}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function updateWeekPct(goalId, week, target) {
+    const inp = document.getElementById(`inp-${goalId}-${week}`);
+    const pctEl = document.getElementById(`pct-${goalId}-${week}`);
+    const val = parseInt(inp.value);
+    const wTarget = Math.round(target / 3);
+    if (!isNaN(val) && wTarget > 0) {
+      const pct = Math.round((val / wTarget) * 100);
+      pctEl.textContent = pct + '%';
+      pctEl.style.color = pct >= 100 ? '#1D9E75' : pct >= 70 ? '#378ADD' : '#EF9F27';
+    } else {
+      pctEl.textContent = '–';
+      pctEl.style.color = '';
+    }
+  }
+
+  function updateWeightSummary() {
+    const total = currentGoals.reduce((s,g) => s + Number(g.weight), 0);
+    const sumEl = document.getElementById('weight-summary');
+    const textEl = document.getElementById('weight-text');
+    const fillEl = document.getElementById('weight-fill');
+    const totalEl = document.getElementById('weight-total');
+
+    if (!currentGoals.length) { sumEl.style.display = 'none'; return; }
+    sumEl.style.display = 'flex';
+    totalEl.textContent = total + '%';
+    fillEl.style.width = Math.min(total, 100) + '%';
+
+    if (total === 100) {
+      sumEl.className = 'weight-summary weight-ok';
+      textEl.textContent = 'Vikterna summerar till 100% ✓';
+      fillEl.style.background = '#1D9E75';
+    } else {
+      sumEl.className = 'weight-summary weight-warn';
+      textEl.textContent = total < 100 ? `${100 - total}% vikt saknas` : `${total - 100}% för mycket`;
+      fillEl.style.background = '#EF9F27';
+    }
+  }
+
+  async function addGoal() {
+    const label  = document.getElementById('new-goal-label').value.trim();
+    const target = parseInt(document.getElementById('new-goal-target').value);
+    const weight = parseInt(document.getElementById('new-goal-weight').value);
+
+    if (!label || !target || !weight) { showAlert('Fyll i alla tre fälten.', 'warn'); return; }
+    if (weight < 1 || weight > 100)   { showAlert('Vikten måste vara mellan 1 och 100.', 'warn'); return; }
+
+    const currentTotal = currentGoals.reduce((s,g) => s + Number(g.weight), 0);
+    if (currentTotal + weight > 100)  { showAlert(`Vikterna skulle bli ${currentTotal + weight}%. Justera vikten.`, 'warn'); return; }
+
     try {
-      for (const week of [1,2,3]) {
-        const val = parseInt(document.getElementById('w'+week).value);
-        if (isNaN(val)) continue;
-        const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/weekly_reports`,
-          {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/goals`, {
+        method: 'POST', headers: h,
+        body: JSON.stringify({ department_id: currentDept.id, label, target, weight })
+      });
+      if (!res.ok) throw new Error();
+      document.getElementById('new-goal-label').value = '';
+      document.getElementById('new-goal-target').value = '';
+      document.getElementById('new-goal-weight').value = '';
+      showAlert('Mål tillagt!', 'success');
+      await loadGoalsAndReports();
+    } catch {
+      showAlert('Kunde inte lägga till mål.', 'error');
+    }
+  }
+
+  async function deleteGoal(goalId) {
+    if (!confirm('Ta bort detta mål? Alla rapporter för målet tas också bort.')) return;
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/weekly_reports?goal_id=eq.${goalId}`, { method: 'DELETE', headers: h });
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/goals?id=eq.${goalId}`, { method: 'DELETE', headers: h });
+      if (!res.ok) throw new Error();
+      showAlert('Mål borttaget.', 'success');
+      await loadGoalsAndReports();
+    } catch {
+      showAlert('Kunde inte ta bort mål.', 'error');
+    }
+  }
+
+  async function saveAllReports() {
+    const btn = document.getElementById('save-btn');
+    const statusEl = document.getElementById('save-status');
+    btn.textContent = 'Sparar...'; btn.disabled = true;
+    statusEl.textContent = '';
+
+    const totalWeight = currentGoals.reduce((s,g) => s + Number(g.weight), 0);
+    if (totalWeight !== 100) {
+      showAlert(`Vikterna summerar till ${totalWeight}%, inte 100%. Justera innan du sparar.`, 'warn');
+      btn.textContent = 'Spara & publicera på dashboard'; btn.disabled = false;
+      return;
+    }
+
+    try {
+      for (const g of currentGoals) {
+        for (const week of [1,2,3]) {
+          const inp = document.getElementById(`inp-${g.id}-${week}`);
+          if (!inp) continue;
+          const val = parseInt(inp.value);
+          if (isNaN(val)) continue;
+          await fetch(`${SUPABASE_URL}/rest/v1/weekly_reports`, {
             method: 'POST',
-            headers: { ...headers, 'Prefer': 'resolution=merge-duplicates,return=representation' },
-            body: JSON.stringify({ department_id: currentDept.id, week, value: val })
-          }
-        );
-        if (!res.ok) throw new Error(`Vecka ${week} misslyckades`);
+            headers: { ...h, 'Prefer': 'resolution=merge-duplicates,return=representation' },
+            body: JSON.stringify({ goal_id: g.id, week, value: val })
+          });
+        }
       }
-      statusEl.style.color = 'var(--green)';
+      statusEl.style.color = '#1D9E75';
       statusEl.textContent = 'Sparat och publicerat på dashboard!';
-    } catch (err) {
-      statusEl.style.color = 'var(--danger)';
+      await loadGoalsAndReports();
+    } catch(err) {
+      statusEl.style.color = '#E24B4A';
       statusEl.textContent = 'Fel: ' + err.message;
     }
     btn.textContent = 'Spara & publicera på dashboard'; btn.disabled = false;
   }
 
+  function doLogout() {
+    currentDept = null; currentGoals = []; currentReports = [];
+    document.getElementById('login-section').style.display = '';
+    document.getElementById('admin-section').style.display = 'none';
+    document.getElementById('password-input').value = '';
+  }
+
   function showAlert(msg, type) {
-    const el = document.getElementById('admin-alert');
-    el.className = 'alert ' + (type === 'error' ? 'alert-error' : type === 'warn' ? 'alert-warn' : 'alert-success');
+    const el = document.getElementById('global-alert');
+    el.className = 'alert alert-' + (type === 'error' ? 'error' : type === 'warn' ? 'warn' : 'success');
     el.textContent = msg;
     el.style.display = '';
-    setTimeout(() => el.style.display = 'none', 4000);
+    setTimeout(() => el.style.display = 'none', 5000);
   }
 
   document.addEventListener('DOMContentLoaded', () => {
