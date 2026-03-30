@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WinWin Kampanj – DNB Finans - NKS</title>
+  <title>WinWin Kampanj – DNB Kundcenter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
@@ -47,6 +47,35 @@
       padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; transition: all 0.15s;
     }
     .admin-link:hover { color: var(--text); }
+    .gear-link {
+      width: 34px; height: 34px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; color: var(--muted); transition: all 0.15s; flex-shrink: 0;
+    }
+    .gear-link:hover { color: var(--text); border-color: var(--border-med); }
+    .gear-link svg { width: 16px; height: 16px; }
+
+    /* Info box */
+    .info-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem; font-size: 13px; color: var(--muted);
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .info-box strong { color: var(--text); }
+    .info-box code { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--bg); padding: 1px 5px; border-radius: 4px; }
+
+    /* Tooltip */
+    .goal-row { position: relative; }
+    .goal-tooltip {
+      display: none; position: absolute; bottom: calc(100% + 6px); left: 0;
+      background: var(--text); color: #fff; font-size: 11px; font-family: 'DM Mono', monospace;
+      padding: 5px 9px; border-radius: 6px; white-space: nowrap; z-index: 10;
+      pointer-events: none;
+    }
+    .goal-row:hover .goal-tooltip { display: block; }
 
     .hero {
       background: var(--green); color: #fff;
@@ -147,13 +176,15 @@
       <button class="week-tab" data-week="3">V3</button>
       <button class="week-tab" data-week="0">Totalt</button>
     </div>
-    <a href="admin.html" class="admin-link">Min avdelning →</a>
+    <a href="admin.html" class="gear-link" title="Min avdelning">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </a>
   </div>
 </header>
 
 <div class="hero">
   <div>
-    <div class="hero-title">DNB Finans - NKS</div>
+    <div class="hero-title">DNB Kundcenter</div>
     <div class="hero-sub" id="hero-sub">Laddar kampanjdata...</div>
   </div>
   <div class="hero-stats">
@@ -175,15 +206,19 @@
       <div class="section-title" id="all-label">Alla avdelningar</div>
       <div class="updated-label" id="updated-label"></div>
     </div>
+    <div class="info-box" id="info-box">
+      <div class="info-icon">ℹ</div>
+      <div id="info-text">Resultaten visas som viktat snitt av avdelningens mål. Klicka på ett kort för att se undermålen.</div>
+    </div>
     <div class="dept-grid" id="dept-grid"></div>
   </div>
 </div>
 
-<footer>DNB Finans - NKS · WinWin-kampanj · Uppdateras varje fredag</footer>
+<footer>DNB Kundcenter · WinWin-kampanj · Uppdateras varje fredag</footer>
 
 <script>
-  const SUPABASE_URL     = 'https://rszsekmefhimebpkxcyb.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenNla21lZmhpbWVicGt4Y3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MDQwMDMsImV4cCI6MjA4OTk4MDAwM30.eLMABGNPFfhQN8kqCYTX_q1c4LIZBCeVmktbk8wk3Is';
+  const SUPABASE_URL     = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
   const headers = { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY };
 
@@ -204,23 +239,13 @@
     };
   }
 
-function getGoalPct(goal, reports, week) {
+  function getGoalPct(goal, reports, week) {
     const gr = reports.filter(r => r.goal_id === goal.id);
-    if (week === 0) {
-      // Totalt: räkna bara veckor som faktiskt rapporterats
-      const reportedWeeks = gr.map(r => r.week);
-      if (!reportedWeeks.length) return 0;
-      const cum = gr.reduce((s,r) => s + (r.value||0), 0);
-      const target = Math.round(goal.target / 3 * reportedWeeks.length);
-      return target > 0 ? Math.round((cum / target) * 100) : 0;
-    } else {
-      // Specifik vecka: om ingen rapport finns för denna vecka, returnera null
-      const weekReports = gr.filter(r => r.week === week);
-      if (!weekReports.length) return null;
-      const cum = gr.filter(r => r.week <= week).reduce((s,r) => s + (r.value||0), 0);
-      const target = Math.round(goal.target / 3 * week);
-      return target > 0 ? Math.round((cum / target) * 100) : 0;
-    }
+    const cum = week === 0
+      ? gr.reduce((s,r) => s + (r.value||0), 0)
+      : gr.filter(r => r.week <= week).reduce((s,r) => s + (r.value||0), 0);
+    const target = week === 0 ? goal.target : Math.round(goal.target / 3 * week);
+    return target > 0 ? Math.round((cum / target) * 100) : 0;
   }
 
   function getDeptPct(dept, goals, reports, week) {
@@ -259,6 +284,13 @@ function getGoalPct(goal, reports, week) {
     const weekLabel = currentWeek === 0 ? 'hela kampanjen' : `vecka ${currentWeek}`;
     document.getElementById('hero-sub').textContent = `Framdrift för ${weekLabel}`;
     document.getElementById('all-label').textContent = `Alla avdelningar — ${weekLabel}`;
+
+    // Info box
+    if (currentWeek === 0) {
+      document.getElementById('info-text').innerHTML = '<strong>Totalt</strong> visar viktat snitt för alla rapporterade veckor. Endast veckor med inrapporterade värden räknas med — ej rapporterade veckor påverkar inte resultatet.';
+    } else {
+      document.getElementById('info-text').innerHTML = `<strong>Vecka ${currentWeek}</strong> visar kumulativt resultat (vecka 1–${currentWeek} sammanlagt mot delmålet för ${currentWeek} veckor). Håll muspekaren över ett undermål för att se beräkningen.`;
+    }
 
     const latestWeek = reports.reduce((mx,r)=>Math.max(mx,r.week),0);
     if (latestWeek > 0) document.getElementById('updated-label').textContent = `Senast rapporterat: vecka ${latestWeek}`;
@@ -306,11 +338,23 @@ function getGoalPct(goal, reports, week) {
       const goalRowsHtml = dgoals.map(g => {
         const gpct = getGoalPct(g, reports, currentWeek);
         const gcolor = getColor(gpct);
+        const gr = reports.filter(r => r.goal_id === g.id);
+        const cum = currentWeek === 0
+          ? gr.reduce((s,r) => s+r.value,0)
+          : gr.filter(r => r.week <= currentWeek).reduce((s,r) => s+r.value,0);
+        const reportedWeeks = currentWeek === 0 ? [...new Set(gr.map(r=>r.week))].length : currentWeek;
+        const target = currentWeek === 0
+          ? Math.round(g.target / 3 * (gr.length ? [...new Set(gr.map(r=>r.week))].length : 1))
+          : Math.round(g.target / 3 * currentWeek);
+        const tooltipText = gpct !== null
+          ? `${cum} / ${target} = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`
+          : 'Ej rapporterat';
         return `
           <div class="goal-row">
+            <div class="goal-tooltip">${tooltipText}</div>
             <div class="goal-label" title="${g.label}">${g.label}</div>
-            <div class="goal-track"><div class="goal-fill" style="width:${Math.min(gpct,100)}%;background:${gcolor};"></div></div>
-            <div class="goal-pct" style="color:${gcolor};">${gpct}%</div>
+            <div class="goal-track"><div class="goal-fill" style="width:${Math.min(gpct||0,100)}%;background:${gcolor};"></div></div>
+            <div class="goal-pct" style="color:${gcolor};">${gpct !== null ? gpct+'%' : '–'}</div>
             <div class="goal-weight">${g.weight}%</div>
           </div>
         `;
