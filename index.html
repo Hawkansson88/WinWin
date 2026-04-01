@@ -206,7 +206,6 @@
     <div class="hstat"><div class="hstat-val" id="stat-avg">–</div><div class="hstat-label">Snitt framdrift</div></div>
     <div class="hstat"><div class="hstat-val" id="stat-reported">–</div><div class="hstat-label">Rapporterat</div></div>
     <div class="hstat"><div class="hstat-val" id="stat-goals">–</div><div class="hstat-label">Aktiva mål</div></div>
-    <div class="hstat hstat-leader"><div class="hstat-avatar" id="stat-leader">–</div><div class="hstat-label">Ledare<div class="hstat-leader-name" id="stat-leader-name">–</div></div></div>
   </div>
 </div>
 
@@ -325,12 +324,10 @@
       ? departments.filter(d => goals.filter(g => g.department_id === d.id).some(g => reports.some(r => r.goal_id === g.id))).length
       : departments.filter(d => deptHasReported(d, goals, reports, currentWeek)).length;
     const totalGoals = goals.length;
-    const leader = sorted.length ? sorted[0] : null;
     document.getElementById('stat-avg').textContent = avg + '%';
     document.getElementById('stat-reported').textContent = reportedCount + ' / ' + sorted.length;
     document.getElementById('stat-goals').textContent = totalGoals;
-    document.getElementById('stat-leader').textContent = leader ? getInitials(leader.name) : '–';
-    document.getElementById('stat-leader-name').textContent = leader ? leader.name.split(' ')[0] : '–';
+    
 
     const weekLabel = currentWeek === 0 ? 'hela kampanjen' : `vecka ${currentWeek}`;
     document.getElementById('hero-sub').textContent = `Framdrift för ${weekLabel}`;
