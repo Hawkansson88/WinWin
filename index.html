@@ -332,7 +332,6 @@
       : departments.filter(d => deptHasReported(d, goals, reports, currentWeek)).length;
     const totalGoals = goals.length;
     const leader = sorted.length ? sorted[0] : null;
-    document.getElementById('stat-depts').textContent = sorted.length;
     document.getElementById('stat-avg').textContent = avg + '%';
     document.getElementById('stat-reported').textContent = reportedCount + ' / ' + sorted.length;
     document.getElementById('stat-goals').textContent = totalGoals;
