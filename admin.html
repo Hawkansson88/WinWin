@@ -97,6 +97,14 @@
     }
     .week-inp:focus { border-color: var(--green); }
     .week-pct { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--faint); margin-top: 3px; }
+    .week-comment-wrap { margin-top: 10px; }
+    .week-comment-wrap label { display: block; font-size: 11px; color: var(--faint); font-weight: 500; margin-bottom: 4px; }
+    .week-comment {
+      width: 100%; padding: 7px 10px; border: 1px solid var(--border-med); border-radius: 8px;
+      font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--text);
+      resize: none; outline: none; transition: border-color 0.15s; line-height: 1.5;
+    }
+    .week-comment:focus { border-color: var(--green); }
 
     /* Add goal form */
     .add-goal-form { background: var(--bg); border-radius: 12px; padding: 1rem; border: 1px dashed var(--border-med); margin-bottom: 8px; }
@@ -209,8 +217,8 @@
 </div>
 
 <script>
-  const SUPABASE_URL      = 'https://rszsekmefhimebpkxcyb.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenNla21lZmhpbWVicGt4Y3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MDQwMDMsImV4cCI6MjA4OTk4MDAwM30.eLMABGNPFfhQN8kqCYTX_q1c4LIZBCeVmktbk8wk3Is';
+  const SUPABASE_URL      = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
   const h = {
     'apikey': SUPABASE_ANON_KEY,
@@ -317,6 +325,7 @@
       const weeklyHtml = [1,2,3].map(w => {
         const existing = currentReports.find(r => r.goal_id === g.id && r.week === w);
         const val = existing ? existing.value : '';
+        const comment = existing ? (existing.comment || '') : '';
         const target = Math.round(g.target / 3);
         const pct = (val !== '' && target > 0) ? Math.round((val / target) * 100) : null;
         return `
@@ -326,6 +335,10 @@
               id="inp-${g.id}-${w}" value="${val}" placeholder="0"
               oninput="updateWeekPct('${g.id}',${w},${g.target})" />
             <div class="week-pct" id="pct-${g.id}-${w}">${pct !== null ? pct+'%' : '–'}</div>
+            <div class="week-comment-wrap">
+              <label>Kommentar vecka ${w}</label>
+              <textarea class="week-comment" id="cmt-${g.id}-${w}" rows="2" placeholder="Hur gick veckan? (valfritt)">${comment}</textarea>
+            </div>
           </div>
         `;
       }).join('');
@@ -419,7 +432,7 @@
     }
   }
 
-async function saveAllReports() {
+  async function saveAllReports() {
     const btn = document.getElementById('save-btn');
     const statusEl = document.getElementById('save-status');
     btn.textContent = 'Sparar...'; btn.disabled = true;
@@ -439,20 +452,18 @@ async function saveAllReports() {
           if (!inp) continue;
           const val = parseInt(inp.value);
           if (isNaN(val)) continue;
-
+          const cmtEl = document.getElementById(`cmt-${g.id}-${week}`);
+          const comment = cmtEl ? cmtEl.value.trim() : '';
           const existing = currentReports.find(r => r.goal_id === g.id && r.week === week);
-
           if (existing) {
             await fetch(`${SUPABASE_URL}/rest/v1/weekly_reports?id=eq.${existing.id}`, {
-              method: 'PATCH',
-              headers: h,
-              body: JSON.stringify({ value: val })
+              method: 'PATCH', headers: h,
+              body: JSON.stringify({ value: val, comment })
             });
           } else {
             await fetch(`${SUPABASE_URL}/rest/v1/weekly_reports`, {
-              method: 'POST',
-              headers: h,
-              body: JSON.stringify({ goal_id: g.id, week, value: val })
+              method: 'POST', headers: h,
+              body: JSON.stringify({ goal_id: g.id, week, value: val, comment })
             });
           }
         }
