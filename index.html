@@ -153,22 +153,17 @@
       background: var(--faint); flex-shrink: 0;
     }
     .dept-card.unreported { opacity: 0.75; }
-    .card-goals { display: none; border-top: 1px solid var(--border); padding: 0.75rem 1.25rem; background: var(--bg); }
-    .card-goals.open { display: block; }
-    .goal-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .goal-row:last-child { margin-bottom: 0; }
-    .goal-label { font-size: 12px; color: var(--muted); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .goal-weight { font-size: 11px; color: var(--faint); font-family: 'DM Mono', monospace; min-width: 28px; text-align: right; }
-    .week-comment-display {
-      font-size: 12px; color: var(--muted); font-style: italic;
-      margin-top: 6px; padding: 6px 10px;
-      background: var(--surface); border-radius: 6px;
-      border-left: 2px solid var(--border-med);
-      line-height: 1.4;
-    }
-    .goal-track { flex: 2; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-    .goal-fill { height: 100%; border-radius: 3px; }
-    .goal-pct { font-size: 12px; font-family: 'DM Mono', monospace; font-weight: 500; min-width: 36px; text-align: right; }
+    .card-goals { display: none; border-top: 1px solid var(--border); padding: 0.75rem 1.25rem; background: var(--bg); gap: 8px; flex-direction: column; }
+    .card-goals.open { display: flex; }
+    .goal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+    .goal-card-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; gap: 8px; }
+    .goal-label { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
+    .goal-card-meta { display: flex; align-items: baseline; gap: 6px; flex-shrink: 0; }
+    .goal-pct { font-size: 14px; font-family: 'DM Mono', monospace; font-weight: 600; }
+    .goal-weight { font-size: 11px; color: var(--faint); font-family: 'DM Mono', monospace; }
+    .goal-track { height: 5px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+    .goal-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+    .week-comment-display { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 7px; padding: 5px 8px; background: var(--bg); border-radius: 5px; border-left: 2px solid var(--border-med); line-height: 1.4; }
 
     /* Loading */
     #loading { text-align: center; padding: 4rem 2rem; color: var(--muted); font-size: 15px; }
@@ -415,14 +410,17 @@
         const comment = weekReport && weekReport.comment ? weekReport.comment : null;
 
         return `
-          <div class="goal-row">
-            <div class="goal-tooltip">${tooltipText}</div>
-            <div class="goal-label" title="${g.label}">${g.label}</div>
+          <div class="goal-card">
+            <div class="goal-card-top">
+              <div class="goal-label">${g.label}</div>
+              <div class="goal-card-meta">
+                <div class="goal-pct" style="color:${gcolor};">${gpct !== null ? gpct+'%' : '–'}</div>
+                <div class="goal-weight">vikt ${g.weight}%</div>
+              </div>
+            </div>
             <div class="goal-track"><div class="goal-fill" style="width:${Math.min(gpct||0,100)}%;background:${gcolor};"></div></div>
-            <div class="goal-pct" style="color:${gcolor};">${gpct !== null ? gpct+'%' : '–'}</div>
-            <div class="goal-weight">${g.weight}%</div>
+            ${comment ? `<div class="week-comment-display">${comment}</div>` : ''}
           </div>
-          ${comment ? `<div class="week-comment-display">${comment}</div>` : ''}
         `;
       }).join('');
 
