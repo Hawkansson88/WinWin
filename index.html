@@ -155,7 +155,16 @@
     .dept-card.unreported { opacity: 0.75; }
     .card-goals { display: none; border-top: 1px solid var(--border); padding: 0.75rem 1.25rem; background: var(--bg); gap: 8px; flex-direction: column; }
     .card-goals.open { display: flex; }
-    .goal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+    .goal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; position: relative; }
+    .goal-tooltip-wrap { position: relative; display: inline-flex; align-items: center; cursor: default; }
+    .goal-tooltip-icon { font-size: 11px; color: var(--faint); margin-left: 4px; line-height: 1; }
+    .goal-tooltip-box {
+      display: none; position: absolute; top: calc(100% + 6px); right: 0; z-index: 50;
+      background: var(--text); color: #fff; font-size: 11px; font-family: 'DM Mono', monospace;
+      padding: 6px 10px; border-radius: 7px; white-space: nowrap; line-height: 1.6;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .goal-tooltip-wrap:hover .goal-tooltip-box { display: block; }
     .goal-card-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; gap: 8px; }
     .goal-label { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
     .goal-card-meta { display: flex; align-items: baseline; gap: 6px; flex-shrink: 0; }
@@ -414,7 +423,10 @@
             <div class="goal-card-top">
               <div class="goal-label">${g.label}</div>
               <div class="goal-card-meta">
-                <div class="goal-pct" style="color:${gcolor};">${gpct !== null ? gpct+'%' : '–'}</div>
+                <div class="goal-tooltip-wrap">
+                  <div class="goal-pct" style="color:${gcolor};">${gpct !== null ? gpct+'%' : '–'}</div>
+                  ${gpct !== null ? `<span class="goal-tooltip-icon">ⓘ</span><div class="goal-tooltip-box">${tooltipText}</div>` : ''}
+                </div>
                 <div class="goal-weight">vikt ${g.weight}%</div>
               </div>
             </div>
