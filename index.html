@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WinWin Kampanj – DNB Finans - NKS</title>
+  <title>WinWin Kampanj – DNB Kundcenter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
@@ -153,26 +153,22 @@
       background: var(--faint); flex-shrink: 0;
     }
     .dept-card.unreported { opacity: 0.75; }
-    .card-goals { display: none; border-top: 1px solid var(--border); padding: 0.75rem 1.25rem; background: var(--bg); gap: 8px; flex-direction: column; }
-    .card-goals.open { display: flex; }
-    .goal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; position: relative; }
-    .goal-tooltip-wrap { display: inline-flex; align-items: center; cursor: default; }
-    .goal-tooltip-icon { font-size: 11px; color: var(--faint); margin-left: 4px; line-height: 1; }
-    #tooltip-global {
-      display: none; position: fixed; z-index: 9999;
-      background: var(--text); color: #fff; font-size: 11px; font-family: 'DM Mono', monospace;
-      padding: 6px 10px; border-radius: 7px; white-space: nowrap; line-height: 1.6;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      pointer-events: none;
+    .card-goals { display: none; border-top: 1px solid var(--border); padding: 0.75rem 1.25rem; background: var(--bg); }
+    .card-goals.open { display: block; }
+    .goal-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .goal-row:last-child { margin-bottom: 0; }
+    .goal-label { font-size: 12px; color: var(--muted); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .goal-weight { font-size: 11px; color: var(--faint); font-family: 'DM Mono', monospace; min-width: 28px; text-align: right; }
+    .week-comment-display {
+      font-size: 12px; color: var(--muted); font-style: italic;
+      margin-top: 6px; padding: 6px 10px;
+      background: var(--surface); border-radius: 6px;
+      border-left: 2px solid var(--border-med);
+      line-height: 1.4;
     }
-    .goal-card-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; gap: 8px; }
-    .goal-label { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
-    .goal-card-meta { display: flex; align-items: baseline; gap: 6px; flex-shrink: 0; }
-    .goal-pct { font-size: 14px; font-family: 'DM Mono', monospace; font-weight: 600; }
-    .goal-weight { font-size: 11px; color: var(--faint); font-family: 'DM Mono', monospace; }
-    .goal-track { height: 5px; background: var(--bg); border-radius: 3px; overflow: hidden; }
-    .goal-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
-    .week-comment-display { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 7px; padding: 5px 8px; background: var(--bg); border-radius: 5px; border-left: 2px solid var(--border-med); line-height: 1.4; }
+    .goal-track { flex: 2; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .goal-fill { height: 100%; border-radius: 3px; }
+    .goal-pct { font-size: 12px; font-family: 'DM Mono', monospace; font-weight: 500; min-width: 36px; text-align: right; }
 
     /* Loading */
     #loading { text-align: center; padding: 4rem 2rem; color: var(--muted); font-size: 15px; }
@@ -201,8 +197,7 @@
       <button class="week-tab" data-week="3">V3</button>
       <button class="week-tab" data-week="0">Totalt</button>
     </div>
-    <a href="admin.html" class="admin-link" title="Rapportera resultat">Min avdelning</a>
-    <a href="setup.html" class="gear-link" title="Inställningar">
+    <a href="admin.html" class="gear-link" title="Min avdelning">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     </a>
   </div>
@@ -210,14 +205,14 @@
 
 <div class="hero">
   <div>
-    <div class="hero-title">DNB Finans - NKS</div>
+    <div class="hero-title">DNB Kundcenter</div>
     <div class="hero-sub" id="hero-sub">Laddar kampanjdata...</div>
   </div>
   <div class="hero-stats">
     <div class="hstat"><div class="hstat-val" id="stat-avg">–</div><div class="hstat-label">Snitt framdrift</div></div>
     <div class="hstat"><div class="hstat-val" id="stat-reported">–</div><div class="hstat-label">Rapporterat</div></div>
     <div class="hstat"><div class="hstat-val" id="stat-goals">–</div><div class="hstat-label">Aktiva mål</div></div>
-
+    <div class="hstat hstat-leader"><div class="hstat-avatar" id="stat-leader">–</div><div class="hstat-label">Ledare<div class="hstat-leader-name" id="stat-leader-name">–</div></div></div>
   </div>
 </div>
 
@@ -241,7 +236,7 @@
   </div>
 </div>
 
-<footer>DNB Finans - NKS · WinWin-kampanj · Uppdateras varje fredag</footer>
+<footer>DNB Kundcenter · WinWin-kampanj · Uppdateras varje fredag</footer>
 
 <script>
   
@@ -337,10 +332,12 @@
       : departments.filter(d => deptHasReported(d, goals, reports, currentWeek)).length;
     const totalGoals = goals.length;
     const leader = sorted.length ? sorted[0] : null;
+    document.getElementById('stat-depts').textContent = sorted.length;
     document.getElementById('stat-avg').textContent = avg + '%';
     document.getElementById('stat-reported').textContent = reportedCount + ' / ' + sorted.length;
     document.getElementById('stat-goals').textContent = totalGoals;
-
+    document.getElementById('stat-leader').textContent = leader ? getInitials(leader.name) : '–';
+    document.getElementById('stat-leader-name').textContent = leader ? leader.name.split(' ')[0] : '–';
 
     const weekLabel = currentWeek === 0 ? 'hela kampanjen' : `vecka ${currentWeek}`;
     document.getElementById('hero-sub').textContent = `Framdrift för ${weekLabel}`;
@@ -407,11 +404,13 @@
           const reportedWeeks = [...new Set(gr.map(r => r.week))];
           const cum = gr.reduce((s,r) => s + (r.value||0), 0);
           const target = Math.round(g.target / 3 * reportedWeeks.length);
-          tooltipText = `${cum} / ${target} (${reportedWeeks.length} v) = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`;
+          const unit = g.unit === 'procent' ? '%' : '';
+          tooltipText = `${cum}${unit} / ${target}${unit} (${reportedWeeks.length} v) = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`;
         } else {
           const weekReport = gr.find(r => r.week === currentWeek);
           const weekTarget = Math.round(g.target / 3);
-          tooltipText = `${weekReport.value} / ${weekTarget} = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`;
+          const unit = g.unit === 'procent' ? '%' : '';
+          tooltipText = `${weekReport.value}${unit} / ${weekTarget}${unit} = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`;
         }
 
         // Comment for current week (not shown on Total view)
@@ -419,20 +418,14 @@
         const comment = weekReport && weekReport.comment ? weekReport.comment : null;
 
         return `
-          <div class="goal-card">
-            <div class="goal-card-top">
-              <div class="goal-label">${g.label}</div>
-              <div class="goal-card-meta">
-                <div class="goal-tooltip-wrap">
-                  <div class="goal-pct" style="color:${gcolor};">${gpct !== null ? gpct+'%' : '–'}</div>
-                  ${gpct !== null ? `<span class="goal-tooltip-icon" data-tip="${tooltipText.replace(/"/g,'&quot;')}">ⓘ</span>` : ''}
-                </div>
-                <div class="goal-weight">vikt ${g.weight}%</div>
-              </div>
-            </div>
+          <div class="goal-row">
+            <div class="goal-tooltip">${tooltipText}</div>
+            <div class="goal-label" title="${g.label}">${g.label}</div>
             <div class="goal-track"><div class="goal-fill" style="width:${Math.min(gpct||0,100)}%;background:${gcolor};"></div></div>
-            ${comment ? `<div class="week-comment-display">${comment}</div>` : ''}
+            <div class="goal-pct" style="color:${gcolor};">${gpct !== null ? gpct+'%' : '–'}</div>
+            <div class="goal-weight">${g.weight}%</div>
           </div>
+          ${comment ? `<div class="week-comment-display">${comment}</div>` : ''}
         `;
       }).join('');
 
@@ -501,29 +494,6 @@
   });
 
   init();
-
-  // Global tooltip
-  const tip = document.createElement('div');
-  tip.id = 'tooltip-global';
-  document.body.appendChild(tip);
-
-  document.addEventListener('mouseover', e => {
-    const el = e.target.closest('[data-tip]');
-    if (!el) return;
-    tip.textContent = el.dataset.tip;
-    tip.style.display = 'block';
-  });
-  document.addEventListener('mousemove', e => {
-    if (tip.style.display === 'none') return;
-    const x = e.clientX;
-    const y = e.clientY;
-    tip.style.left = Math.min(x - tip.offsetWidth / 2, window.innerWidth - tip.offsetWidth - 8) + 'px';
-    tip.style.top = (y - tip.offsetHeight - 12) + 'px';
-  });
-  document.addEventListener('mouseout', e => {
-    if (!e.target.closest('[data-tip]')) return;
-    tip.style.display = 'none';
-  });
 </script>
 </body>
 </html>
