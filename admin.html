@@ -185,10 +185,17 @@
     <!-- Add goal form -->
     <div class="add-goal-form" id="add-goal-form">
       <div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--muted);">Lägg till mål</div>
-      <div class="three-col" style="margin-bottom:10px;">
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
         <div class="field" style="margin-bottom:0;">
           <label>Målbeskrivning</label>
           <input type="text" id="new-goal-label" placeholder='t.ex. "Antal samtal"' maxlength="60" />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Typ</label>
+          <select id="new-goal-unit">
+            <option value="antal">Antal</option>
+            <option value="procent">Procent (%)</option>
+          </select>
         </div>
         <div class="field" style="margin-bottom:0;">
           <label>Totalt mål (3v)</label>
@@ -304,7 +311,7 @@
         <div class="goal-item-header">
           <div>
             <div class="goal-item-name">${g.label}</div>
-            <div class="goal-item-meta">Mål: ${g.target.toLocaleString('sv-SE')} totalt</div>
+            <div class="goal-item-meta">Mål: ${g.target.toLocaleString('sv-SE')} ${g.unit === 'procent' ? '%' : 'st'} totalt</div>
           </div>
           <div style="display:flex;align-items:center;gap:8px;">
             <div class="weight-badge">${g.weight}%</div>
@@ -322,6 +329,7 @@
       return;
     }
     list.innerHTML = currentGoals.map(g => {
+      const isPct = g.unit === 'procent';
       const weeklyHtml = [1,2,3].map(w => {
         const existing = currentReports.find(r => r.goal_id === g.id && r.week === w);
         const val = existing ? existing.value : '';
@@ -330,8 +338,8 @@
         const pct = (val !== '' && target > 0) ? Math.round((val / target) * 100) : null;
         return `
           <div class="week-inp-wrap">
-            <div class="week-inp-label">Vecka ${w}<span>mål: ${target.toLocaleString('sv-SE')}</span></div>
-            <input class="week-inp" type="number" min="0"
+            <div class="week-inp-label">Vecka ${w}<span>mål: ${target.toLocaleString('sv-SE')}${isPct ? '%' : ''}</span></div>
+            <input class="week-inp" type="number" min="0" ${isPct ? 'max="100"' : ''}
               id="inp-${g.id}-${w}" value="${val}" placeholder="0"
               oninput="updateWeekPct('${g.id}',${w},${g.target})" />
             <div class="week-pct" id="pct-${g.id}-${w}">${pct !== null ? pct+'%' : '–'}</div>
@@ -345,7 +353,10 @@
       return `
         <div class="goal-item" style="margin-bottom:12px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-            <div class="goal-item-name">${g.label}</div>
+            <div>
+              <div class="goal-item-name">${g.label}</div>
+              <div class="goal-item-meta" style="font-size:11px;color:var(--faint);">${isPct ? 'Procentmål' : 'Antal'}</div>
+            </div>
             <div class="weight-badge">${g.weight}% vikt</div>
           </div>
           <div class="week-inputs">${weeklyHtml}</div>
@@ -394,11 +405,13 @@
 
   async function addGoal() {
     const label  = document.getElementById('new-goal-label').value.trim();
+    const unit   = document.getElementById('new-goal-unit').value;
     const target = parseInt(document.getElementById('new-goal-target').value);
     const weight = parseInt(document.getElementById('new-goal-weight').value);
 
-    if (!label || !target || !weight) { showAlert('Fyll i alla tre fälten.', 'warn'); return; }
+    if (!label || !target || !weight) { showAlert('Fyll i alla fält.', 'warn'); return; }
     if (weight < 1 || weight > 100)   { showAlert('Vikten måste vara mellan 1 och 100.', 'warn'); return; }
+    if (unit === 'procent' && target > 100) { showAlert('Procentmål kan max vara 100.', 'warn'); return; }
 
     const currentTotal = currentGoals.reduce((s,g) => s + Number(g.weight), 0);
     if (currentTotal + weight > 100)  { showAlert(`Vikterna skulle bli ${currentTotal + weight}%. Justera vikten.`, 'warn'); return; }
@@ -406,12 +419,13 @@
     try {
       const res = await fetch(`${SUPABASE_URL}/rest/v1/goals`, {
         method: 'POST', headers: h,
-        body: JSON.stringify({ department_id: currentDept.id, label, target, weight })
+        body: JSON.stringify({ department_id: currentDept.id, label, target, weight, unit })
       });
       if (!res.ok) throw new Error();
       document.getElementById('new-goal-label').value = '';
       document.getElementById('new-goal-target').value = '';
       document.getElementById('new-goal-weight').value = '';
+      document.getElementById('new-goal-unit').value = 'antal';
       showAlert('Mål tillagt!', 'success');
       await loadGoalsAndReports();
     } catch {
