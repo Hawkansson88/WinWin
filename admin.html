@@ -192,7 +192,11 @@
         </div>
         <div class="field" style="margin-bottom:0;">
           <label>Typ</label>
-          <select id="new-goal-unit" onchange="updateTargetLabel()">
+          <select id="new-goal-unit" onchange="
+            var p=this.value==='procent';
+            document.getElementById('target-label').textContent=p?'Mål per vecka (%)':'Totalt mål (3v)';
+            document.getElementById('new-goal-target').placeholder=p?'t.ex. 80':'t.ex. 300';
+          ">
             <option value="antal">Antal</option>
             <option value="procent">Procent (%)</option>
           </select>
