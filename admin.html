@@ -517,9 +517,11 @@
     document.getElementById('password-input').addEventListener('keydown', e => {
       if (e.key === 'Enter') doLogin();
     });
-    updateTargetLabel();
     loadDepartments();
   });
+
+  // Kör direkt (ej beroende av DOMContentLoaded-timing)
+  window.addEventListener('load', updateTargetLabel);
 </script>
 </body>
 </html>
