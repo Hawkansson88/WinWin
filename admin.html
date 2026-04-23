@@ -192,14 +192,14 @@
         </div>
         <div class="field" style="margin-bottom:0;">
           <label>Typ</label>
-          <select id="new-goal-unit">
+          <select id="new-goal-unit" onchange="updateTargetLabel()">
             <option value="antal">Antal</option>
             <option value="procent">Procent (%)</option>
           </select>
         </div>
         <div class="field" style="margin-bottom:0;">
-          <label>Mål per vecka</label>
-          <input type="number" id="new-goal-target" placeholder="t.ex. 100" min="1" />
+          <label id="target-label">Totalt mål (3v)</label>
+          <input type="number" id="new-goal-target" placeholder="t.ex. 300" min="1" />
         </div>
         <div class="field" style="margin-bottom:0;">
           <label>Vikt (%)</label>
@@ -401,6 +401,12 @@
       textEl.textContent = total < 100 ? `${100 - total}% vikt saknas` : `${total - 100}% för mycket`;
       fillEl.style.background = '#EF9F27';
     }
+  }
+
+  function updateTargetLabel() {
+    const isPct = document.getElementById('new-goal-unit').value === 'procent';
+    document.getElementById('target-label').textContent = isPct ? 'Mål per vecka (%)' : 'Totalt mål (3v)';
+    document.getElementById('new-goal-target').placeholder = isPct ? 't.ex. 80' : 't.ex. 300';
   }
 
   async function addGoal() {
