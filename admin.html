@@ -334,7 +334,7 @@
         const existing = currentReports.find(r => r.goal_id === g.id && r.week === w);
         const val = existing ? existing.value : '';
         const comment = existing ? (existing.comment || '') : '';
-        const target = isPct ? g.target : Math.round(g.target / 3);
+        const target = g.target;
         const pct = (val !== '' && target > 0) ? Math.round((val / target) * 100) : null;
         return `
           <div class="week-inp-wrap">
@@ -369,7 +369,7 @@
     const inp = document.getElementById(`inp-${goalId}-${week}`);
     const pctEl = document.getElementById(`pct-${goalId}-${week}`);
     const val = parseInt(inp.value);
-    const wTarget = isPct ? target : Math.round(target / 3);
+    const wTarget = target;
     if (!isNaN(val) && wTarget > 0) {
       const pct = Math.round((val / wTarget) * 100);
       pctEl.textContent = pct + '%';
