@@ -275,13 +275,13 @@
         return goal.target > 0 ? Math.round((sum / reportedWeeks.length) / goal.target * 100) : 0;
       } else {
         const cum = gr.reduce((s,r) => s + (r.value||0), 0);
-        const target = Math.round(goal.target / 3 * reportedWeeks.length);
+        const target = goal.target * reportedWeeks.length;
         return target > 0 ? Math.round((cum / target) * 100) : 0;
       }
     } else {
       const weekReport = gr.find(r => r.week === week);
       if (!weekReport) return null;
-      const weekTarget = isPct ? goal.target : Math.round(goal.target / 3);
+      const weekTarget = goal.target;
       return weekTarget > 0 ? Math.round((weekReport.value / weekTarget) * 100) : 0;
     }
   }
@@ -413,12 +413,12 @@
             tipTarget = g.target + '%';
           } else {
             tipVal = gr.reduce((s,r) => s + (r.value||0), 0);
-            tipTarget = Math.round(g.target / 3 * reportedWeeks.length);
+            tipTarget = g.target * reportedWeeks.length;
           }
           tooltipText = `snitt ${tipVal} / mål ${tipTarget} (${reportedWeeks.length} v) = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`;
         } else {
           const weekReport = gr.find(r => r.week === currentWeek);
-          const weekTarget = g.unit === 'procent' ? g.target : Math.round(g.target / 3);
+          const weekTarget = g.target;
           const unitSuffix = g.unit === 'procent' ? '%' : '';
           tooltipText = `${weekReport.value}${unitSuffix} / ${weekTarget}${unitSuffix} = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`;
         }
