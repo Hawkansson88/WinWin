@@ -526,7 +526,9 @@
 
   // Kör direkt (ej beroende av DOMContentLoaded-timing)
   window.addEventListener('load', function() {
-    document.getElementById('new-goal-unit').dispatchEvent(new Event('change'));
+    var sel = document.getElementById('new-goal-unit');
+    sel.value = 'antal';
+    sel.dispatchEvent(new Event('change'));
   });
 </script>
 </body>
