@@ -3,505 +3,269 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WinWin Kampanj – DNB Finans - NKS</title>
+  <title>WinWin – DNB Finans NKS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --green:       #1D9E75;
-      --green-light: #E1F5EE;
-      --green-dark:  #0F6E56;
-      --gold:        #EF9F27;
-      --gold-light:  #FAEEDA;
-      --danger:      #E24B4A;
-      --bg:          #F7F6F2;
-      --surface:     #FFFFFF;
-      --border:      rgba(0,0,0,0.08);
-      --border-med:  rgba(0,0,0,0.14);
-      --text:        #1A1A18;
-      --muted:       #6B6B67;
-      --faint:       #9C9C98;
+      --green:#1D9E75;--green-light:#E1F5EE;--green-dark:#0F6E56;
+      --danger:#E24B4A;--danger-light:#FCEBEB;
+      --amber:#EF9F27;--amber-light:#FAEEDA;
+      --bg:#F7F6F2;--surface:#FFFFFF;
+      --border:rgba(0,0,0,0.08);--border-med:rgba(0,0,0,0.14);
+      --text:#1A1A18;--muted:#6B6B67;--faint:#9C9C98;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-    header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 60px; position: sticky; top: 0; z-index: 100;
-    }
-    .logo { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
-    .logo-dot { width: 10px; height: 10px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.4);opacity:0.7;} }
-    .header-right { display: flex; align-items: center; gap: 12px; }
-    .week-tabs { display: flex; background: var(--bg); border-radius: 8px; padding: 3px; gap: 2px; }
-    .week-tab {
-      padding: 5px 14px; border-radius: 6px; font-size: 13px; font-weight: 500;
-      cursor: pointer; color: var(--muted); transition: all 0.15s; border: none; background: none;
-    }
-    .week-tab.active { background: var(--surface); color: var(--green); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-    .admin-link {
-      font-size: 13px; color: var(--muted); text-decoration: none;
-      padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; transition: all 0.15s;
-    }
-    .admin-link:hover { color: var(--text); }
-    .gear-link {
-      width: 34px; height: 34px; border-radius: 8px;
-      border: 1px solid var(--border); background: var(--surface);
-      display: flex; align-items: center; justify-content: center;
-      text-decoration: none; color: var(--muted); transition: all 0.15s; flex-shrink: 0;
-    }
-    .gear-link:hover { color: var(--text); border-color: var(--border-med); }
-    .gear-link svg { width: 16px; height: 16px; }
+    header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;}
+    .logo{font-size:17px;font-weight:600;letter-spacing:-0.02em;display:flex;align-items:center;gap:10px;}
+    .logo-dot{width:9px;height:9px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:0.7;}}
+    .header-right{display:flex;align-items:center;gap:10px;}
+    .admin-btn{font-size:13px;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:8px;transition:all 0.15s;}
+    .admin-btn:hover{color:var(--text);border-color:var(--border-med);}
 
-    /* Info box */
-    .info-box {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1rem 1.25rem;
-      margin-bottom: 1.5rem; font-size: 13px; color: var(--muted);
-      display: flex; gap: 12px; align-items: flex-start;
-    }
-    .info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-    .info-box strong { color: var(--text); }
-    .info-box code { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--bg); padding: 1px 5px; border-radius: 4px; }
+    .hero{background:var(--green);color:#fff;padding:1.75rem 2rem;}
+    .hero-title{font-size:26px;font-weight:600;letter-spacing:-0.02em;}
+    .hero-sub{font-size:14px;opacity:0.8;margin-top:4px;}
+    .hero-stats{display:flex;gap:2rem;margin-top:1.25rem;flex-wrap:wrap;}
+    .hstat{background:rgba(255,255,255,0.15);border-radius:12px;padding:12px 18px;min-width:120px;}
+    .hstat-val{font-size:28px;font-weight:600;font-family:'DM Mono',monospace;line-height:1;}
+    .hstat-label{font-size:12px;opacity:0.8;margin-top:4px;}
 
-    /* Tooltip */
-    .goal-row { position: relative; }
-    .goal-tooltip {
-      display: none; position: absolute; bottom: calc(100% + 6px); left: 0;
-      background: var(--text); color: #fff; font-size: 11px; font-family: 'DM Mono', monospace;
-      padding: 5px 9px; border-radius: 6px; white-space: nowrap; z-index: 10;
-      pointer-events: none;
-    }
-    .goal-row:hover .goal-tooltip { display: block; }
+    .week-tabs-wrap{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;gap:4px;height:50px;}
+    .week-tab{padding:6px 18px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;color:var(--muted);transition:all 0.15s;border:none;background:none;}
+    .week-tab.active{background:var(--green-light);color:var(--green-dark);}
+    .week-tab:hover:not(.active){color:var(--text);}
 
-    .hero {
-      background: var(--green); color: #fff;
-      padding: 1.5rem 2rem;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-    }
-    .hero-title { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
-    .hero-sub { font-size: 14px; opacity: 0.8; margin-top: 2px; }
-    .hero-stats { display: flex; gap: 2rem; }
-    .hstat { text-align: right; }
-    .hstat-val { font-size: 28px; font-weight: 600; font-family: 'DM Mono', monospace; letter-spacing: -0.02em; }
-    .hstat-label { font-size: 12px; opacity: 0.75; margin-top: 1px; }
-    .hstat-leader { display: flex; align-items: center; gap: 10px; }
-    .hstat-avatar { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; }
-    .hstat-leader-name { font-size: 13px; font-weight: 600; opacity: 1; margin-top: 2px; }
+    .content{padding:2rem;max-width:1100px;margin:0 auto;}
 
-    .content { padding: 2rem; max-width: 1100px; margin: 0 auto; }
-    .section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 1.25rem; }
-    .section-title { font-size: 13px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
-    .updated-label { font-size: 12px; color: var(--faint); margin-left: auto; }
+    .dept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;}
+    .dept-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;animation:fadeUp 0.3s ease both;transition:box-shadow 0.15s;}
+    .dept-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.07);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-    /* Podium */
-    .podium-wrap { display: flex; align-items: flex-end; justify-content: center; gap: 16px; margin-bottom: 2.5rem; padding: 2rem 1rem 0; }
-    .podium-item { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; max-width: 200px; }
-    .podium-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600; }
-    .podium-name { font-size: 13px; font-weight: 500; text-align: center; line-height: 1.3; }
-    .podium-pct { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; }
-    .podium-block { width: 100%; border-radius: 10px 10px 0 0; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-    .p1 .podium-avatar { background: #FAC775; color: #633806; }
-    .p1 .podium-block  { background: #FAC775; height: 80px; }
-    .p1 .podium-pct    { color: #633806; }
-    .p2 .podium-avatar { background: #D3D1C7; color: #2C2C2A; }
-    .p2 .podium-block  { background: #D3D1C7; height: 55px; }
-    .p2 .podium-pct    { color: #444441; }
-    .p3 .podium-avatar { background: #F5C4B3; color: #4A1B0C; }
-    .p3 .podium-block  { background: #F5C4B3; height: 40px; }
-    .p3 .podium-pct    { color: #993C1D; }
+    .card-header{padding:1.1rem 1.25rem;border-bottom:1px solid var(--border);}
+    .card-name{font-size:16px;font-weight:600;margin-bottom:2px;}
+    .card-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+    .badge{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;}
+    .badge-goal{background:var(--green-light);color:var(--green-dark);}
+    .badge-result{background:var(--green-light);color:var(--green-dark);}
+    .badge-no-goal{background:#F1EFE8;color:var(--faint);}
+    .badge-no-result{background:var(--amber-light);color:#633806;}
+    .badge-met{background:var(--green-light);color:var(--green-dark);}
+    .badge-not-met{background:var(--danger-light);color:var(--danger);}
 
-    /* Cards */
-    .dept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
-    .dept-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-      overflow: hidden; transition: transform 0.15s, box-shadow 0.15s;
-      animation: fadeUp 0.3s ease both;
-    }
-    .dept-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+    .weeks-wrap{padding:1rem 1.25rem;}
+    .week-row{margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+    .week-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+    .week-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:6px;}
+    .week-goal-text{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px;line-height:1.4;}
+    .week-goal-desc{font-size:12px;color:var(--muted);margin-bottom:6px;line-height:1.4;}
+    .week-result-row{display:flex;align-items:center;gap:8px;margin-top:4px;}
+    .result-pill{font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;}
+    .result-pill.yes{background:var(--green-light);color:var(--green-dark);}
+    .result-pill.no{background:var(--danger-light);color:var(--danger);}
+    .result-comment{font-size:12px;color:var(--muted);line-height:1.4;flex:1;}
+    .week-empty{font-size:12px;color:var(--faint);font-style:italic;}
 
-    .card-main { padding: 1.1rem 1.25rem; cursor: pointer; position: relative; }
-    .rank-badge {
-      position: absolute; top: 14px; right: 14px;
-      width: 26px; height: 26px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 600; font-family: 'DM Mono', monospace;
-    }
-    .card-top { padding-right: 38px; margin-bottom: 10px; }
-    .card-name { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
-    .card-goal-count { font-size: 12px; color: var(--muted); }
-    .prog-track { height: 7px; background: var(--bg); border-radius: 4px; margin-bottom: 8px; overflow: hidden; }
-    .prog-fill { height: 100%; border-radius: 4px; transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1); }
-    .card-bot { display: flex; align-items: baseline; justify-content: space-between; }
-    .card-pct { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; }
-    .card-detail { font-size: 12px; color: var(--muted); }
-    .expand-hint { font-size: 11px; color: var(--faint); margin-top: 6px; text-align: right; }
+    .spinner{width:32px;height:32px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 0.7s linear infinite;margin:3rem auto;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .loading-wrap{text-align:center;padding:4rem 2rem;}
 
-    /* Unreported banner */
-    .unreported-banner {
-      background: #F1EFE8; border-bottom: 1px solid var(--border);
-      padding: 5px 1.25rem; font-size: 11px; font-weight: 500;
-      color: var(--muted); letter-spacing: 0.03em;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .unreported-banner::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--faint); flex-shrink: 0;
-    }
-    .dept-card.unreported { opacity: 0.75; }
-    .card-goals { display: none; border-top: 1px solid var(--border); padding: 0.75rem 1.25rem; background: var(--bg); }
-    .card-goals.open { display: block; }
-    .goal-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .goal-row:last-child { margin-bottom: 0; }
-    .goal-label { font-size: 12px; color: var(--muted); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .goal-weight { font-size: 11px; color: var(--faint); font-family: 'DM Mono', monospace; min-width: 28px; text-align: right; }
-    .week-comment-display {
-      font-size: 12px; color: var(--muted); font-style: italic;
-      margin-top: 6px; padding: 6px 10px;
-      background: var(--surface); border-radius: 6px;
-      border-left: 2px solid var(--border-med);
-      line-height: 1.4;
-    }
-    .goal-track { flex: 2; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-    .goal-fill { height: 100%; border-radius: 3px; }
-    .goal-pct { font-size: 12px; font-family: 'DM Mono', monospace; font-weight: 500; min-width: 36px; text-align: right; }
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+    .section-title{font-size:13px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;}
+    .legend{display:flex;gap:14px;align-items:center;}
+    .legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);}
+    .legend-dot{width:8px;height:8px;border-radius:50%;}
 
-    /* Loading */
-    #loading { text-align: center; padding: 4rem 2rem; color: var(--muted); font-size: 15px; }
-    .spinner { width: 30px; height: 30px; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem; }
-    @keyframes spin { to{transform:rotate(360deg);} }
-    #error-msg { text-align: center; padding: 4rem 2rem; color: var(--muted); font-size: 15px; display: none; }
-
-    footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--faint); }
-
-    @media (max-width: 600px) {
-      header { padding: 0 1rem; }
-      .hero { padding: 1.25rem 1rem; }
-      .hero-stats { gap: 1.2rem; }
-      .content { padding: 1.25rem 1rem; }
-    }
+    @media(max-width:600px){.content{padding:1.25rem 1rem;}.hero{padding:1.25rem 1rem;}.week-tabs-wrap{padding:0 1rem;}.hero-stats{gap:1rem;}.hstat{padding:10px 14px;}}
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo"><div class="logo-dot"></div>WinWin Kampanj</div>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    WinWin – DNB Finans NKS
+  </div>
   <div class="header-right">
-    <div class="week-tabs" id="week-tabs">
-      <button class="week-tab active" data-week="1">V1</button>
-      <button class="week-tab" data-week="2">V2</button>
-      <button class="week-tab" data-week="3">V3</button>
-      <button class="week-tab" data-week="0">Totalt</button>
-    </div>
-    <a href="admin.html" class="admin-link" title="Rapportera resultat">Min avdelning</a>
-    <a href="setup.html" class="gear-link" title="Inställningar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    </a>
+    <a href="admin.html" class="admin-btn">Min avdelning →</a>
   </div>
 </header>
 
 <div class="hero">
-  <div>
-    <div class="hero-title">DNB Finans - NKS</div>
-    <div class="hero-sub" id="hero-sub">Laddar kampanjdata...</div>
+  <div class="hero-title">Veckans framdrift</div>
+  <div class="hero-sub">Kampanj – 3 veckor · Uppdateras löpande av avdelningscheferna</div>
+  <div class="hero-stats" id="hero-stats">
+    <div class="hstat"><div class="hstat-val" id="stat-depts">–</div><div class="hstat-label">avdelningar</div></div>
+    <div class="hstat"><div class="hstat-val" id="stat-goals">–</div><div class="hstat-label">har satt mål v.<span id="stat-week-label">?</span></div></div>
+    <div class="hstat"><div class="hstat-val" id="stat-results">–</div><div class="hstat-label">har rapporterat v.<span id="stat-week-label2">?</span></div></div>
+    <div class="hstat"><div class="hstat-val" id="stat-met">–</div><div class="hstat-label">klarade målet</div></div>
   </div>
-  <div class="hero-stats">
-    <div class="hstat"><div class="hstat-val" id="stat-avg">–</div><div class="hstat-label">Snitt framdrift</div></div>
-    <div class="hstat"><div class="hstat-val" id="stat-reported">–</div><div class="hstat-label">Rapporterat</div></div>
-    <div class="hstat"><div class="hstat-val" id="stat-goals">–</div><div class="hstat-label">Aktiva mål</div></div>
-    <div class="hstat hstat-leader"><div class="hstat-avatar" id="stat-leader">–</div><div class="hstat-label">Ledare<div class="hstat-leader-name" id="stat-leader-name">–</div></div></div>
-  </div>
+</div>
+
+<div class="week-tabs-wrap">
+  <button class="week-tab active" data-week="1" onclick="setWeek(this,1)">Vecka 1</button>
+  <button class="week-tab" data-week="2" onclick="setWeek(this,2)">Vecka 2</button>
+  <button class="week-tab" data-week="3" onclick="setWeek(this,3)">Vecka 3</button>
+  <button class="week-tab" data-week="0" onclick="setWeek(this,0)">Alla veckor</button>
 </div>
 
 <div class="content">
-  <div id="loading"><div class="spinner"></div>Hämtar data...</div>
-  <div id="error-msg"></div>
-
-  <div id="main-content" style="display:none;">
-    <div class="section-head"><div class="section-title">Topp 3</div></div>
-    <div class="podium-wrap" id="podium"></div>
-
-    <div class="section-head">
-      <div class="section-title" id="all-label">Alla avdelningar</div>
-      <div class="updated-label" id="updated-label"></div>
-    </div>
-    <div class="info-box" id="info-box">
-      <div class="info-icon">ℹ</div>
-      <div id="info-text">Resultaten visas som viktat snitt av avdelningens mål. Klicka på ett kort för att se undermålen.</div>
-    </div>
-    <div class="dept-grid" id="dept-grid"></div>
+  <div class="section-head">
+    <div class="section-title" id="view-label">Visar vecka 1</div>
   </div>
+
+  <div id="loading-wrap" class="loading-wrap">
+    <div class="spinner"></div>
+    <div style="font-size:14px;color:var(--faint);margin-top:12px;">Laddar avdelningar…</div>
+  </div>
+
+  <div class="dept-grid" id="dept-grid" style="display:none;"></div>
 </div>
 
-<footer>DNB Finans - NKS · WinWin-kampanj · Uppdateras varje fredag</footer>
-
 <script>
-  
-  const SUPABASE_URL      = 'https://rszsekmefhimebpkxcyb.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenNla21lZmhpbWVicGt4Y3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MDQwMDMsImV4cCI6MjA4OTk4MDAwM30.eLMABGNPFfhQN8kqCYTX_q1c4LIZBCeVmktbk8wk3Is';
+  const SUPABASE_URL     = 'https://yzwzgxbkxkzjxqjzqjzq.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl6d3pneGJreGt6anhxanpxanpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDAwMDAwMDAsImV4cCI6MjAxNTU2MDAwMH0.placeholder';
 
-  const headers = { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY };
+  const h = { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY };
 
   let currentWeek = 1;
-  let allData = null;
+  let allDepts = [], allGoals = [], allResults = [];
 
-  async function fetchData() {
-    const [deptRes, goalRes, reportRes] = await Promise.all([
-      fetch(`${SUPABASE_URL}/rest/v1/departments?select=*&order=name`, { headers }),
-      fetch(`${SUPABASE_URL}/rest/v1/goals?select=*`, { headers }),
-      fetch(`${SUPABASE_URL}/rest/v1/weekly_reports?select=*`, { headers })
+  async function fetchAll() {
+    const [dRes, gRes, rRes] = await Promise.all([
+      fetch(`${SUPABASE_URL}/rest/v1/departments?select=id,name&order=name`, { headers: h }),
+      fetch(`${SUPABASE_URL}/rest/v1/weekly_goals?select=*`, { headers: h }),
+      fetch(`${SUPABASE_URL}/rest/v1/weekly_results?select=*`, { headers: h })
     ]);
-    if (!deptRes.ok || !goalRes.ok || !reportRes.ok) throw new Error('Kunde inte hämta data.');
-    return {
-      departments: await deptRes.json(),
-      goals: await goalRes.json(),
-      reports: await reportRes.json()
-    };
+    allDepts   = await dRes.json();
+    allGoals   = await gRes.json();
+    allResults = await rRes.json();
   }
 
-  function getGoalPct(goal, reports, week) {
-    const gr = reports.filter(r => r.goal_id === goal.id);
-    const isPct = goal.unit === 'procent';
-    if (week === 0) {
-      const reportedWeeks = [...new Set(gr.map(r => r.week))];
-      if (!reportedWeeks.length) return 0;
-      if (isPct) {
-        // Procentmål: snitt av veckorna mot target
-        const sum = gr.reduce((s,r) => s + (r.value||0), 0);
-        return goal.target > 0 ? Math.round((sum / reportedWeeks.length) / goal.target * 100) : 0;
-      } else {
-        const cum = gr.reduce((s,r) => s + (r.value||0), 0);
-        const target = goal.target * reportedWeeks.length;
-        return target > 0 ? Math.round((cum / target) * 100) : 0;
-      }
-    } else {
-      const weekReport = gr.find(r => r.week === week);
-      if (!weekReport) return null;
-      const weekTarget = goal.target;
-      return weekTarget > 0 ? Math.round((weekReport.value / weekTarget) * 100) : 0;
-    }
-  }
+  function updateStats() {
+    const deptCount = allDepts.length;
+    document.getElementById('stat-depts').textContent = deptCount;
 
-  function deptHasReported(dept, goals, reports, week) {
-    if (week === 0) return true;
-    const dgoals = goals.filter(g => g.department_id === dept.id);
-    if (!dgoals.length) return false;
-    return dgoals.some(g => reports.some(r => r.goal_id === g.id && r.week === week));
-  }
-
-  function getDeptPct(dept, goals, reports, week) {
-    const dgoals = goals.filter(g => g.department_id === dept.id);
-    if (!dgoals.length) return 0;
-    if (week === 0) {
-      const totalWeight = dgoals.reduce((s,g) => s + Number(g.weight), 0);
-      if (totalWeight === 0) return 0;
-      const weighted = dgoals.reduce((s,g) => s + getGoalPct(g, reports, 0) * Number(g.weight), 0);
-      return Math.round(weighted / totalWeight);
-    } else {
-      // Only count goals that have been reported for this week
-      const reported = dgoals.filter(g => getGoalPct(g, reports, week) !== null);
-      if (!reported.length) return 0;
-      const totalWeight = reported.reduce((s,g) => s + Number(g.weight), 0);
-      if (totalWeight === 0) return 0;
-      const weighted = reported.reduce((s,g) => s + getGoalPct(g, reports, week) * Number(g.weight), 0);
-      return Math.round(weighted / totalWeight);
-    }
-  }
-
-  function getColor(pct) {
-    if (pct >= 100) return '#1D9E75';
-    if (pct >= 70)  return '#378ADD';
-    if (pct >= 40)  return '#EF9F27';
-    return '#E24B4A';
-  }
-
-  function getInitials(name) {
-    return name.split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
-  }
-
-  function renderAll() {
-    const { departments, goals, reports } = allData;
-    const reported = departments.filter(d => deptHasReported(d, goals, reports, currentWeek));
-    const unreported = departments.filter(d => !deptHasReported(d, goals, reports, currentWeek));
-    reported.sort((a,b) => getDeptPct(b, goals, reports, currentWeek) - getDeptPct(a, goals, reports, currentWeek));
-    unreported.sort((a,b) => a.name.localeCompare(b.name));
-    const sorted = [...reported, ...unreported];
-
-    const pcts = sorted.map(d => getDeptPct(d, goals, reports, currentWeek));
-    const avg = pcts.length ? Math.round(pcts.reduce((s,p)=>s+p,0)/pcts.length) : 0;
-    const reportedCount = currentWeek === 0
-      ? departments.filter(d => goals.filter(g => g.department_id === d.id).some(g => reports.some(r => r.goal_id === g.id))).length
-      : departments.filter(d => deptHasReported(d, goals, reports, currentWeek)).length;
-    const totalGoals = goals.length;
-    const leader = sorted.length ? sorted[0] : null;
-    document.getElementById('stat-avg').textContent = avg + '%';
-    document.getElementById('stat-reported').textContent = reportedCount + ' / ' + sorted.length;
-    document.getElementById('stat-goals').textContent = totalGoals;
-
-    const weekLabel = currentWeek === 0 ? 'hela kampanjen' : `vecka ${currentWeek}`;
-    document.getElementById('hero-sub').textContent = `Framdrift för ${weekLabel}`;
-    document.getElementById('all-label').textContent = `Alla avdelningar — ${weekLabel}`;
-
-    // Info box
     if (currentWeek === 0) {
-      document.getElementById('info-text').innerHTML = '<strong>Totalt</strong> visar viktat snitt för alla rapporterade veckor. Endast veckor med inrapporterade värden räknas med.';
+      document.getElementById('stat-week-label').textContent  = '';
+      document.getElementById('stat-week-label2').textContent = '';
+      const withGoals   = allDepts.filter(d => allGoals.some(g => g.department_id === d.id)).length;
+      const withResults = allDepts.filter(d => allResults.some(r => r.department_id === d.id)).length;
+      const metCount    = allResults.filter(r => r.goal_met === true).length;
+      document.getElementById('stat-goals').textContent   = withGoals;
+      document.getElementById('stat-results').textContent = withResults;
+      document.getElementById('stat-met').textContent     = metCount;
     } else {
-      document.getElementById('info-text').innerHTML = `<strong>Vecka ${currentWeek}</strong> visar enbart den veckans utfall mot den veckans delmål. Håll muspekaren över ett undermål för att se beräkningen.`;
+      document.getElementById('stat-week-label').textContent  = currentWeek;
+      document.getElementById('stat-week-label2').textContent = currentWeek;
+      const withGoals   = allDepts.filter(d => allGoals.some(g => g.department_id === d.id && g.week === currentWeek)).length;
+      const withResults = allDepts.filter(d => allResults.some(r => r.department_id === d.id && r.week === currentWeek)).length;
+      const metCount    = allResults.filter(r => r.week === currentWeek && r.goal_met === true).length;
+      document.getElementById('stat-goals').textContent   = withGoals;
+      document.getElementById('stat-results').textContent = withResults;
+      document.getElementById('stat-met').textContent     = metCount;
     }
+  }
 
-    const latestWeek = reports.reduce((mx,r)=>Math.max(mx,r.week),0);
-    if (latestWeek > 0) document.getElementById('updated-label').textContent = `Senast rapporterat: vecka ${latestWeek}`;
-
-    // Podium
-    const podium = document.getElementById('podium');
-    podium.innerHTML = '';
-    if (sorted.length >= 2) {
-      const podiumOrder = sorted.length >= 3 ? [sorted[1], sorted[0], sorted[2]] : [sorted[0], sorted[1]];
-      const podiumClass = sorted.length >= 3 ? ['p2','p1','p3'] : ['p1','p2'];
-      const medals = ['🥇','🥈','🥉'];
-      podiumOrder.forEach((d, i) => {
-        const pct = getDeptPct(d, goals, reports, currentWeek);
-        const rank = sorted.indexOf(d);
-        const cls = podiumClass[i];
-        const div = document.createElement('div');
-        div.className = `podium-item ${cls}`;
-        div.innerHTML = `
-          <div class="podium-avatar">${getInitials(d.name)}</div>
-          <div class="podium-pct">${pct}%</div>
-          <div class="podium-name">${d.name}</div>
-          <div class="podium-block">${medals[rank]||rank+1}</div>
-        `;
-        podium.appendChild(div);
-      });
-    }
-
-    // Cards
+  function renderCards() {
+    updateStats();
     const grid = document.getElementById('dept-grid');
     grid.innerHTML = '';
-    sorted.forEach((d, i) => {
-      const pct = getDeptPct(d, goals, reports, currentWeek);
-      const color = getColor(pct);
-      const rank = i + 1;
-      const dgoals = goals.filter(g => g.department_id === d.id);
-      const rankColors = [
-        {bg:'#FAC775',text:'#633806'},
-        {bg:'#D3D1C7',text:'#2C2C2A'},
-        {bg:'#F5C4B3',text:'#4A1B0C'},
-        {bg:'#E1F5EE',text:'#0F6E56'}
-      ];
-      const rc = rankColors[Math.min(rank-1,3)];
 
-      // Goal rows HTML
-      const goalRowsHtml = dgoals.map(g => {
-        const gpct = getGoalPct(g, reports, currentWeek);
-        const gcolor = getColor(gpct);
-        const gr = reports.filter(r => r.goal_id === g.id);
-        let tooltipText;
-        if (gpct === null) {
-          tooltipText = 'Ej rapporterat';
-        } else if (currentWeek === 0) {
-          const reportedWeeks = [...new Set(gr.map(r => r.week))];
-          const isPctG = g.unit === 'procent';
-          let tipVal, tipTarget;
-          if (isPctG) {
-            const sum = gr.reduce((s,r) => s + (r.value||0), 0);
-            tipVal = Math.round(sum / reportedWeeks.length) + '%';
-            tipTarget = g.target + '%';
-          } else {
-            tipVal = gr.reduce((s,r) => s + (r.value||0), 0);
-            tipTarget = g.target * reportedWeeks.length;
-          }
-          tooltipText = `snitt ${tipVal} / mål ${tipTarget} (${reportedWeeks.length} v) = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`;
-        } else {
-          const weekReport = gr.find(r => r.week === currentWeek);
-          const weekTarget = g.target;
-          const unitSuffix = g.unit === 'procent' ? '%' : '';
-          tooltipText = `${weekReport.value}${unitSuffix} / ${weekTarget}${unitSuffix} = ${gpct}%  ·  vikt ${g.weight}%  →  bidrag ${Math.round(gpct * g.weight / 100)}%`;
+    const weeks = currentWeek === 0 ? [1,2,3] : [currentWeek];
+
+    allDepts.forEach((dept, i) => {
+      const card = document.createElement('div');
+      card.className = 'dept-card';
+      card.style.animationDelay = (i * 0.04) + 's';
+
+      // Badges for current view
+      const badgesHtml = weeks.map(w => {
+        const goal   = allGoals.find(g => g.department_id === dept.id && g.week === w);
+        const result = allResults.find(r => r.department_id === dept.id && r.week === w);
+        const wLabel = currentWeek === 0 ? `V${w} ` : '';
+        let html = '';
+        html += goal
+          ? `<span class="badge badge-goal">${wLabel}Mål satt</span>`
+          : `<span class="badge badge-no-goal">${wLabel}Inget mål</span>`;
+        if (goal) {
+          html += result
+            ? (result.goal_met
+                ? `<span class="badge badge-met">${wLabel}Klarade ✓</span>`
+                : `<span class="badge badge-not-met">${wLabel}Klarade ej</span>`)
+            : `<span class="badge badge-no-result">${wLabel}Ej rapporterat</span>`;
         }
-
-        // Comment for current week (not shown on Total view)
-        const weekReport = currentWeek !== 0 ? gr.find(r => r.week === currentWeek) : null;
-        const comment = weekReport && weekReport.comment ? weekReport.comment : null;
-
-        return `
-          <div class="goal-row">
-            <div class="goal-tooltip">${tooltipText}</div>
-            <div class="goal-label" title="${g.label}">${g.label}</div>
-            <div class="goal-track"><div class="goal-fill" style="width:${Math.min(gpct||0,100)}%;background:${gcolor};"></div></div>
-            <div class="goal-pct" style="color:${gcolor};">${gpct !== null ? gpct+'%' : '–'}</div>
-            <div class="goal-weight">${g.weight}%</div>
-          </div>
-          ${comment ? `<div class="week-comment-display">${comment}</div>` : ''}
-        `;
+        return html;
       }).join('');
 
-      const isReported = currentWeek === 0 || deptHasReported(d, goals, reports, currentWeek);
-      const card = document.createElement('div');
-      card.className = 'dept-card' + (isReported ? '' : ' unreported');
-      card.style.animationDelay = (i * 0.04) + 's';
+      // Week rows
+      const weeksHtml = weeks.map(w => {
+        const goal   = allGoals.find(g => g.department_id === dept.id && g.week === w);
+        const result = allResults.find(r => r.department_id === dept.id && r.week === w);
+        const wTitle = currentWeek === 0 ? `Vecka ${w}` : `Vecka ${w}`;
+
+        if (!goal) {
+          return `<div class="week-row">
+            <div class="week-label">${wTitle}</div>
+            <div class="week-empty">Inget mål har lagts in ännu.</div>
+          </div>`;
+        }
+
+        let resultHtml = '';
+        if (result) {
+          const pillClass = result.goal_met ? 'yes' : 'no';
+          const pillText  = result.goal_met ? '✓ Klarades' : '✗ Klarades ej';
+          resultHtml = `<div class="week-result-row">
+            <span class="result-pill ${pillClass}">${pillText}</span>
+            ${result.comment ? `<span class="result-comment">${esc(result.comment)}</span>` : ''}
+          </div>`;
+        } else {
+          resultHtml = `<div class="week-empty" style="margin-top:4px;">Resultat ej rapporterat.</div>`;
+        }
+
+        return `<div class="week-row">
+          <div class="week-label">${wTitle}</div>
+          <div class="week-goal-text">${esc(goal.goal_text)}</div>
+          ${goal.description ? `<div class="week-goal-desc">${esc(goal.description)}</div>` : ''}
+          ${resultHtml}
+        </div>`;
+      }).join('');
+
       card.innerHTML = `
-        ${!isReported ? '<div class="unreported-banner">Ej rapporterat vecka ' + currentWeek + '</div>' : ''}
-        <div class="card-main" onclick="toggleGoals(this)">
-          <div class="rank-badge" style="background:${rc.bg};color:${rc.text};">${isReported ? rank : '–'}</div>
-          <div class="card-top">
-            <div class="card-name">${d.name}</div>
-            <div class="card-goal-count">${dgoals.length} mål · viktat snitt</div>
-          </div>
-          <div class="prog-track">
-            <div class="prog-fill" style="width:${isReported ? Math.min(pct,100) : 0}%;background:${color};"></div>
-          </div>
-          <div class="card-bot">
-            <div class="card-pct" style="color:${isReported ? color : 'var(--faint)'};">${isReported ? pct+'%' : '–'}</div>
-            <div class="card-detail">${isReported ? 'viktat totalresultat' : 'inväntar rapport'}</div>
-          </div>
-          ${dgoals.length ? '<div class="expand-hint">Tryck för att se undermål ↓</div>' : ''}
+        <div class="card-header">
+          <div class="card-name">${esc(dept.name)}</div>
+          <div class="card-badges">${badgesHtml}</div>
         </div>
-        <div class="card-goals">
-          ${goalRowsHtml || '<div style="font-size:12px;color:var(--faint);padding:4px 0;">Inga mål inlagda ännu.</div>'}
-        </div>
+        <div class="weeks-wrap">${weeksHtml}</div>
       `;
       grid.appendChild(card);
     });
-  }
-
-  function toggleGoals(el) {
-    const goalsEl = el.nextElementSibling;
-    const hint = el.querySelector('.expand-hint');
-    const isOpen = goalsEl.classList.toggle('open');
-    if (hint) hint.textContent = isOpen ? 'Tryck för att dölja ↑' : 'Tryck för att se undermål ↓';
   }
 
   function setWeek(btn, w) {
     currentWeek = w;
     document.querySelectorAll('.week-tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    if (allData) renderAll();
+    document.getElementById('view-label').textContent = w === 0 ? 'Visar alla veckor' : `Visar vecka ${w}`;
+    renderCards();
   }
 
   async function init() {
     try {
-      allData = await fetchData();
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('main-content').style.display = '';
-      renderAll();
-    } catch (err) {
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('error-msg').style.display = '';
-      document.getElementById('error-msg').innerHTML = `
-        <div style="color:#E24B4A;font-weight:500;margin-bottom:8px;">Kunde inte ladda data</div>
-        <div style="font-size:13px;">${err.message}</div>
-      `;
+      await fetchAll();
+      document.getElementById('loading-wrap').style.display = 'none';
+      document.getElementById('dept-grid').style.display = '';
+      renderCards();
+    } catch(err) {
+      document.getElementById('loading-wrap').innerHTML = `<div style="color:var(--danger);font-size:14px;">Kunde inte ladda data: ${err.message}</div>`;
     }
   }
 
-  document.getElementById('week-tabs').addEventListener('click', e => {
-    const btn = e.target.closest('.week-tab');
-    if (btn) setWeek(btn, parseInt(btn.dataset.week));
-  });
+  function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
   init();
 </script>
