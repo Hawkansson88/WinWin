@@ -285,11 +285,8 @@
   async function confirmDelete() {
     const id = document.getElementById('delete-id').value;
     try {
-      const goals = await (await fetch(`${SUPABASE_URL}/rest/v1/goals?department_id=eq.${id}&select=id`, { headers: h })).json();
-      for (const g of goals) {
-        await fetch(`${SUPABASE_URL}/rest/v1/weekly_reports?goal_id=eq.${g.id}`, { method: 'DELETE', headers: h });
-      }
-      await fetch(`${SUPABASE_URL}/rest/v1/goals?department_id=eq.${id}`, { method: 'DELETE', headers: h });
+      await fetch(`${SUPABASE_URL}/rest/v1/weekly_goals?department_id=eq.${id}`, { method: 'DELETE', headers: h });
+      await fetch(`${SUPABASE_URL}/rest/v1/weekly_results?department_id=eq.${id}`, { method: 'DELETE', headers: h });
       await fetch(`${SUPABASE_URL}/rest/v1/departments?id=eq.${id}`, { method: 'DELETE', headers: h });
       closeDelete(); showAlert('Avdelning borttagen.','success'); loadDepartments();
     } catch { showAlert('Kunde inte ta bort.','error'); }
@@ -299,8 +296,8 @@
   async function doReset() {
     document.getElementById('reset-overlay').style.display = 'none';
     try {
-      await fetch(`${SUPABASE_URL}/rest/v1/weekly_reports?id=neq.00000000-0000-0000-0000-000000000000`, { method: 'DELETE', headers: h });
-      await fetch(`${SUPABASE_URL}/rest/v1/goals?id=neq.00000000-0000-0000-0000-000000000000`, { method: 'DELETE', headers: h });
+      await fetch(`${SUPABASE_URL}/rest/v1/weekly_goals?id=neq.00000000-0000-0000-0000-000000000000`, { method: 'DELETE', headers: h });
+      await fetch(`${SUPABASE_URL}/rest/v1/weekly_results?id=neq.00000000-0000-0000-0000-000000000000`, { method: 'DELETE', headers: h });
       showAlert('Nollställt! Avdelningar är kvar.','success');
     } catch { showAlert('Kunde inte nollställa.','error'); }
   }
