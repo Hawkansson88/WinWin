@@ -22,16 +22,15 @@
     .logo{font-size:17px;font-weight:600;letter-spacing:-0.02em;display:flex;align-items:center;gap:10px;}
     .logo-dot{width:9px;height:9px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
     @keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:0.7;}}
-    .header-right{display:flex;align-items:center;gap:10px;}
     .admin-btn{font-size:13px;color:var(--muted);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:8px;transition:all 0.15s;}
     .admin-btn:hover{color:var(--text);border-color:var(--border-med);}
 
     .hero{background:var(--green);color:#fff;padding:1.75rem 2rem;}
     .hero-title{font-size:26px;font-weight:600;letter-spacing:-0.02em;}
     .hero-sub{font-size:14px;opacity:0.8;margin-top:4px;}
-    .hero-stats{display:flex;gap:2rem;margin-top:1.25rem;flex-wrap:wrap;}
-    .hstat{background:rgba(255,255,255,0.15);border-radius:12px;padding:12px 18px;min-width:120px;}
-    .hstat-val{font-size:28px;font-weight:600;font-family:'DM Mono',monospace;line-height:1;}
+    .hero-stats{display:flex;gap:1rem;margin-top:1.25rem;flex-wrap:wrap;}
+    .hstat{background:rgba(255,255,255,0.15);border-radius:12px;padding:12px 18px;min-width:110px;}
+    .hstat-val{font-size:26px;font-weight:600;font-family:'DM Mono',monospace;line-height:1;}
     .hstat-label{font-size:12px;opacity:0.8;margin-top:4px;}
 
     .week-tabs-wrap{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;gap:4px;height:50px;}
@@ -40,6 +39,8 @@
     .week-tab:hover:not(.active){color:var(--text);}
 
     .content{padding:2rem;max-width:1100px;margin:0 auto;}
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+    .section-title{font-size:13px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;}
 
     .dept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;}
     .dept-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;animation:fadeUp 0.3s ease both;transition:box-shadow 0.15s;}
@@ -47,40 +48,39 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
     .card-header{padding:1.1rem 1.25rem;border-bottom:1px solid var(--border);}
-    .card-name{font-size:16px;font-weight:600;margin-bottom:2px;}
-    .card-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+    .card-name{font-size:16px;font-weight:600;margin-bottom:6px;}
+    .card-badges{display:flex;gap:6px;flex-wrap:wrap;}
     .badge{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;}
     .badge-goal{background:var(--green-light);color:var(--green-dark);}
-    .badge-result{background:var(--green-light);color:var(--green-dark);}
     .badge-no-goal{background:#F1EFE8;color:var(--faint);}
-    .badge-no-result{background:var(--amber-light);color:#633806;}
     .badge-met{background:var(--green-light);color:var(--green-dark);}
     .badge-not-met{background:var(--danger-light);color:var(--danger);}
+    .badge-partial{background:var(--amber-light);color:#633806;}
+    .badge-pending{background:#F1EFE8;color:var(--faint);}
 
     .weeks-wrap{padding:1rem 1.25rem;}
     .week-row{margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
     .week-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
-    .week-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:6px;}
-    .week-goal-text{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px;line-height:1.4;}
-    .week-goal-desc{font-size:12px;color:var(--muted);margin-bottom:6px;line-height:1.4;}
-    .week-result-row{display:flex;align-items:center;gap:8px;margin-top:4px;}
-    .result-pill{font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;}
+    .week-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:8px;}
+
+    .goal-entry{margin-bottom:8px;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border);}
+    .goal-entry:last-child{margin-bottom:0;}
+    .goal-entry-index{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--faint);margin-bottom:3px;}
+    .goal-entry-text{font-size:13px;font-weight:500;color:var(--text);line-height:1.4;}
+    .goal-entry-desc{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4;}
+    .goal-entry-result{display:flex;align-items:center;gap:6px;margin-top:6px;padding-top:6px;border-top:1px solid var(--border);}
+    .result-pill{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap;}
     .result-pill.yes{background:var(--green-light);color:var(--green-dark);}
     .result-pill.no{background:var(--danger-light);color:var(--danger);}
     .result-comment{font-size:12px;color:var(--muted);line-height:1.4;flex:1;}
     .week-empty{font-size:12px;color:var(--faint);font-style:italic;}
+    .no-result-label{font-size:11px;color:var(--faint);font-style:italic;margin-top:4px;}
 
     .spinner{width:32px;height:32px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 0.7s linear infinite;margin:3rem auto;}
     @keyframes spin{to{transform:rotate(360deg);}}
     .loading-wrap{text-align:center;padding:4rem 2rem;}
 
-    .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
-    .section-title{font-size:13px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;}
-    .legend{display:flex;gap:14px;align-items:center;}
-    .legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);}
-    .legend-dot{width:8px;height:8px;border-radius:50%;}
-
-    @media(max-width:600px){.content{padding:1.25rem 1rem;}.hero{padding:1.25rem 1rem;}.week-tabs-wrap{padding:0 1rem;}.hero-stats{gap:1rem;}.hstat{padding:10px 14px;}}
+    @media(max-width:600px){.content{padding:1.25rem 1rem;}.hero{padding:1.25rem 1rem;}.week-tabs-wrap{padding:0 1rem;}.hstat{padding:10px 14px;min-width:90px;}}
   </style>
 </head>
 <body>
@@ -90,27 +90,25 @@
     <div class="logo-dot"></div>
     WinWin – DNB Finans NKS
   </div>
-  <div class="header-right">
-    <a href="admin.html" class="admin-btn">Min avdelning →</a>
-  </div>
+  <a href="admin.html" class="admin-btn">Min avdelning →</a>
 </header>
 
 <div class="hero">
   <div class="hero-title">Veckans framdrift</div>
   <div class="hero-sub">Kampanj – 3 veckor · Uppdateras löpande av avdelningscheferna</div>
-  <div class="hero-stats" id="hero-stats">
+  <div class="hero-stats">
     <div class="hstat"><div class="hstat-val" id="stat-depts">–</div><div class="hstat-label">avdelningar</div></div>
-    <div class="hstat"><div class="hstat-val" id="stat-goals">–</div><div class="hstat-label">har satt mål v.<span id="stat-week-label">?</span></div></div>
-    <div class="hstat"><div class="hstat-val" id="stat-results">–</div><div class="hstat-label">har rapporterat v.<span id="stat-week-label2">?</span></div></div>
-    <div class="hstat"><div class="hstat-val" id="stat-met">–</div><div class="hstat-label">klarade målet</div></div>
+    <div class="hstat"><div class="hstat-val" id="stat-goals">–</div><div class="hstat-label">har satt mål</div></div>
+    <div class="hstat"><div class="hstat-val" id="stat-reported">–</div><div class="hstat-label">har rapporterat</div></div>
+    <div class="hstat"><div class="hstat-val" id="stat-met">–</div><div class="hstat-label">mål klarade</div></div>
   </div>
 </div>
 
 <div class="week-tabs-wrap">
-  <button class="week-tab active" data-week="1" onclick="setWeek(this,1)">Vecka 1</button>
-  <button class="week-tab" data-week="2" onclick="setWeek(this,2)">Vecka 2</button>
-  <button class="week-tab" data-week="3" onclick="setWeek(this,3)">Vecka 3</button>
-  <button class="week-tab" data-week="0" onclick="setWeek(this,0)">Alla veckor</button>
+  <button class="week-tab active" onclick="setWeek(this,1)">Vecka 1</button>
+  <button class="week-tab" onclick="setWeek(this,2)">Vecka 2</button>
+  <button class="week-tab" onclick="setWeek(this,3)">Vecka 3</button>
+  <button class="week-tab" onclick="setWeek(this,0)">Alla veckor</button>
 </div>
 
 <div class="content">
@@ -120,7 +118,7 @@
 
   <div id="loading-wrap" class="loading-wrap">
     <div class="spinner"></div>
-    <div style="font-size:14px;color:var(--faint);margin-top:12px;">Laddar avdelningar…</div>
+    <div style="font-size:14px;color:var(--faint);margin-top:12px;">Laddar…</div>
   </div>
 
   <div class="dept-grid" id="dept-grid" style="display:none;"></div>
@@ -138,7 +136,7 @@
   async function fetchAll() {
     const [dRes, gRes, rRes] = await Promise.all([
       fetch(`${SUPABASE_URL}/rest/v1/departments?select=id,name&order=name`, { headers: h }),
-      fetch(`${SUPABASE_URL}/rest/v1/weekly_goals?select=*`, { headers: h }),
+      fetch(`${SUPABASE_URL}/rest/v1/weekly_goals?select=*&order=sort_order,created_at`, { headers: h }),
       fetch(`${SUPABASE_URL}/rest/v1/weekly_results?select=*`, { headers: h })
     ]);
     allDepts   = await dRes.json();
@@ -147,98 +145,94 @@
   }
 
   function updateStats() {
-    const deptCount = allDepts.length;
-    document.getElementById('stat-depts').textContent = deptCount;
+    const weeks = currentWeek === 0 ? [1,2,3] : [currentWeek];
+    document.getElementById('stat-depts').textContent = allDepts.length;
 
-    if (currentWeek === 0) {
-      document.getElementById('stat-week-label').textContent  = '';
-      document.getElementById('stat-week-label2').textContent = '';
-      const withGoals   = allDepts.filter(d => allGoals.some(g => g.department_id === d.id)).length;
-      const withResults = allDepts.filter(d => allResults.some(r => r.department_id === d.id)).length;
-      const metCount    = allResults.filter(r => r.goal_met === true).length;
-      document.getElementById('stat-goals').textContent   = withGoals;
-      document.getElementById('stat-results').textContent = withResults;
-      document.getElementById('stat-met').textContent     = metCount;
-    } else {
-      document.getElementById('stat-week-label').textContent  = currentWeek;
-      document.getElementById('stat-week-label2').textContent = currentWeek;
-      const withGoals   = allDepts.filter(d => allGoals.some(g => g.department_id === d.id && g.week === currentWeek)).length;
-      const withResults = allDepts.filter(d => allResults.some(r => r.department_id === d.id && r.week === currentWeek)).length;
-      const metCount    = allResults.filter(r => r.week === currentWeek && r.goal_met === true).length;
-      document.getElementById('stat-goals').textContent   = withGoals;
-      document.getElementById('stat-results').textContent = withResults;
-      document.getElementById('stat-met').textContent     = metCount;
-    }
+    const deptsWithGoals    = allDepts.filter(d => weeks.some(w => allGoals.some(g => g.department_id === d.id && g.week === w))).length;
+    const deptsWithReported = allDepts.filter(d => weeks.some(w => allResults.some(r => r.department_id === d.id && r.week === w))).length;
+    const metCount          = allResults.filter(r => weeks.includes(r.week) && r.goal_met === true).length;
+
+    document.getElementById('stat-goals').textContent    = deptsWithGoals;
+    document.getElementById('stat-reported').textContent = deptsWithReported;
+    document.getElementById('stat-met').textContent      = metCount;
   }
 
   function renderCards() {
     updateStats();
-    const grid = document.getElementById('dept-grid');
+    const grid  = document.getElementById('dept-grid');
     grid.innerHTML = '';
-
     const weeks = currentWeek === 0 ? [1,2,3] : [currentWeek];
 
     allDepts.forEach((dept, i) => {
-      const card = document.createElement('div');
-      card.className = 'dept-card';
-      card.style.animationDelay = (i * 0.04) + 's';
-
-      // Badges for current view
-      const badgesHtml = weeks.map(w => {
-        const goal   = allGoals.find(g => g.department_id === dept.id && g.week === w);
-        const result = allResults.find(r => r.department_id === dept.id && r.week === w);
-        const wLabel = currentWeek === 0 ? `V${w} ` : '';
-        let html = '';
-        html += goal
-          ? `<span class="badge badge-goal">${wLabel}Mål satt</span>`
-          : `<span class="badge badge-no-goal">${wLabel}Inget mål</span>`;
-        if (goal) {
-          html += result
-            ? (result.goal_met
-                ? `<span class="badge badge-met">${wLabel}Klarade ✓</span>`
-                : `<span class="badge badge-not-met">${wLabel}Klarade ej</span>`)
-            : `<span class="badge badge-no-result">${wLabel}Ej rapporterat</span>`;
+      // Summary badges
+      let badgeHtml = '';
+      weeks.forEach(w => {
+        const goals   = allGoals.filter(g => g.department_id === dept.id && g.week === w);
+        const results = allResults.filter(r => r.department_id === dept.id && r.week === w);
+        const wl      = currentWeek === 0 ? `V${w} ` : '';
+        if (!goals.length) {
+          badgeHtml += `<span class="badge badge-no-goal">${wl}Inget mål</span>`;
+        } else {
+          const metCount = results.filter(r => r.goal_met).length;
+          const total    = goals.length;
+          const reported = results.length;
+          if (reported === 0) {
+            badgeHtml += `<span class="badge badge-pending">${wl}${total} mål – ej rapporterat</span>`;
+          } else if (reported < total) {
+            badgeHtml += `<span class="badge badge-partial">${wl}${reported}/${total} rapporterade</span>`;
+          } else {
+            badgeHtml += `<span class="badge badge-met">${wl}${metCount}/${total} klarade</span>`;
+          }
         }
-        return html;
-      }).join('');
+      });
 
-      // Week rows
+      // Week sections
       const weeksHtml = weeks.map(w => {
-        const goal   = allGoals.find(g => g.department_id === dept.id && g.week === w);
-        const result = allResults.find(r => r.department_id === dept.id && r.week === w);
-        const wTitle = currentWeek === 0 ? `Vecka ${w}` : `Vecka ${w}`;
+        const goals   = allGoals.filter(g => g.department_id === dept.id && g.week === w);
+        const results = allResults.filter(r => r.department_id === dept.id && r.week === w);
+        const wTitle  = `Vecka ${w}`;
 
-        if (!goal) {
+        if (!goals.length) {
           return `<div class="week-row">
             <div class="week-label">${wTitle}</div>
             <div class="week-empty">Inget mål har lagts in ännu.</div>
           </div>`;
         }
 
-        let resultHtml = '';
-        if (result) {
-          const pillClass = result.goal_met ? 'yes' : 'no';
-          const pillText  = result.goal_met ? '✓ Klarades' : '✗ Klarades ej';
-          resultHtml = `<div class="week-result-row">
-            <span class="result-pill ${pillClass}">${pillText}</span>
-            ${result.comment ? `<span class="result-comment">${esc(result.comment)}</span>` : ''}
+        const goalsHtml = goals.map((g, idx) => {
+          const result = results.find(r => r.goal_id === g.id);
+          let resultHtml = '';
+          if (result) {
+            const pillClass = result.goal_met ? 'yes' : 'no';
+            const pillText  = result.goal_met ? '✓ Klarades' : '✗ Klarades ej';
+            resultHtml = `<div class="goal-entry-result">
+              <span class="result-pill ${pillClass}">${pillText}</span>
+              ${result.comment ? `<span class="result-comment">${esc(result.comment)}</span>` : ''}
+            </div>`;
+          } else {
+            resultHtml = `<div class="no-result-label">Resultat ej rapporterat</div>`;
+          }
+          return `<div class="goal-entry">
+            <div class="goal-entry-index">Mål ${idx+1}</div>
+            <div class="goal-entry-text">${esc(g.goal_text)}</div>
+            ${g.description ? `<div class="goal-entry-desc">${esc(g.description)}</div>` : ''}
+            ${resultHtml}
           </div>`;
-        } else {
-          resultHtml = `<div class="week-empty" style="margin-top:4px;">Resultat ej rapporterat.</div>`;
-        }
+        }).join('');
 
         return `<div class="week-row">
           <div class="week-label">${wTitle}</div>
-          <div class="week-goal-text">${esc(goal.goal_text)}</div>
-          ${goal.description ? `<div class="week-goal-desc">${esc(goal.description)}</div>` : ''}
-          ${resultHtml}
+          ${goalsHtml}
         </div>`;
       }).join('');
 
+      const card = document.createElement('div');
+      card.className = 'dept-card';
+      card.style.animationDelay = (i * 0.04) + 's';
       card.innerHTML = `
         <div class="card-header">
           <div class="card-name">${esc(dept.name)}</div>
-          <div class="card-badges">${badgesHtml}</div>
+          <div class="card-badges">${badgeHtml}</div>
         </div>
         <div class="weeks-wrap">${weeksHtml}</div>
       `;
@@ -258,7 +252,7 @@
     try {
       await fetchAll();
       document.getElementById('loading-wrap').style.display = 'none';
-      document.getElementById('dept-grid').style.display = '';
+      document.getElementById('dept-grid').style.display    = '';
       renderCards();
     } catch(err) {
       document.getElementById('loading-wrap').innerHTML = `<div style="color:var(--danger);font-size:14px;">Kunde inte ladda data: ${err.message}</div>`;

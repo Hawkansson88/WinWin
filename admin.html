@@ -29,8 +29,6 @@
     .page-sub{font-size:14px;color:var(--muted);margin-bottom:2rem;}
 
     .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1rem;}
-    .card-title{font-size:16px;font-weight:600;margin-bottom:4px;}
-    .card-sub{font-size:13px;color:var(--muted);margin-bottom:1.25rem;}
 
     .field{margin-bottom:1rem;}
     .field label{display:block;font-size:13px;font-weight:500;margin-bottom:5px;color:var(--muted);}
@@ -39,13 +37,12 @@
       font-size:15px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);
       transition:border-color 0.15s;outline:none;
     }
-    .field textarea{resize:vertical;min-height:80px;line-height:1.5;}
+    .field textarea{resize:vertical;min-height:72px;line-height:1.5;}
     .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green);}
 
     .btn{padding:10px 20px;border:none;border-radius:10px;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;}
     .btn-primary{background:var(--green);color:#fff;}
     .btn-primary:hover{background:var(--green-dark);}
-    .btn-primary:disabled{background:var(--faint);cursor:default;}
     .btn-sm{padding:7px 16px;font-size:13px;}
     .btn-outline{background:var(--bg);border:1px solid var(--border-med);color:var(--text);}
     .btn-outline:hover{border-color:rgba(0,0,0,0.25);}
@@ -55,58 +52,65 @@
     .alert-success{background:var(--green-light);color:var(--green-dark);}
     .alert-warn{background:var(--amber-light);color:#633806;}
 
-    .section-label{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin-bottom:10px;margin-top:1.75rem;}
-
-    /* Dept info bar */
     .dept-info-bar{display:flex;align-items:center;justify-content:space-between;background:var(--green-light);border:1px solid rgba(29,158,117,0.2);border-radius:12px;padding:12px 16px;margin-bottom:1.5rem;}
     .dept-info-name{font-size:15px;font-weight:600;color:var(--green-dark);}
     .logout-btn{font-size:12px;color:var(--faint);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;padding:4px 8px;border-radius:6px;}
     .logout-btn:hover{color:var(--danger);background:var(--danger-light);}
 
-    /* Week cards */
     .week-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:1rem;overflow:hidden;}
     .week-card-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;}
     .week-card-header:hover{background:#FAFAF8;}
     .week-number{font-size:15px;font-weight:600;}
-    .week-status-badges{display:flex;gap:6px;align-items:center;}
+    .week-status-badges{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
     .badge{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;}
     .badge-done{background:var(--green-light);color:var(--green-dark);}
     .badge-partial{background:var(--amber-light);color:#633806;}
     .badge-empty{background:#F1EFE8;color:var(--faint);}
-    .chevron{font-size:12px;color:var(--faint);transition:transform 0.2s;margin-left:8px;}
+    .chevron{font-size:12px;color:var(--faint);transition:transform 0.2s;margin-left:10px;flex-shrink:0;}
     .chevron.open{transform:rotate(180deg);}
     .week-card-body{padding:1.25rem;display:none;}
     .week-card-body.open{display:block;}
 
-    /* Goal section */
-    .subsection-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:10px;}
-    .goal-saved-display{background:var(--green-light);border-radius:10px;padding:12px 14px;margin-bottom:12px;}
-    .goal-saved-text{font-size:14px;font-weight:500;color:var(--green-dark);margin-bottom:2px;}
-    .goal-saved-desc{font-size:12px;color:var(--green-dark);opacity:0.8;margin-top:3px;}
-    .goal-edit-btn{font-size:12px;color:var(--green);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:6px;padding:0;text-decoration:underline;}
+    .goals-list{margin-bottom:1rem;}
+    .goal-item{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem;margin-bottom:8px;animation:fadeUp 0.2s ease both;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+    .goal-item-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+    .goal-item-index{font-size:11px;font-weight:600;color:var(--faint);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;}
+    .goal-item-text{font-size:14px;font-weight:500;color:var(--text);line-height:1.4;}
+    .goal-item-desc{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4;}
+    .goal-item-actions{display:flex;gap:4px;flex-shrink:0;}
+    .icon-btn{background:none;border:none;cursor:pointer;font-size:13px;color:var(--faint);padding:4px 6px;border-radius:6px;transition:all 0.15s;}
+    .icon-btn:hover{background:rgba(0,0,0,0.06);color:var(--text);}
+    .icon-btn.delete:hover{background:var(--danger-light);color:var(--danger);}
 
-    /* Result section */
-    .result-wrap{margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);}
-    .yn-buttons{display:flex;gap:8px;margin-bottom:1rem;}
-    .yn-btn{flex:1;padding:12px;border:2px solid var(--border-med);border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;background:var(--bg);color:var(--muted);transition:all 0.15s;font-family:'DM Sans',sans-serif;text-align:center;}
+    .goal-edit-form{background:var(--surface);border:1px solid var(--green);border-radius:12px;padding:1rem;margin-bottom:8px;}
+
+    .goal-result{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+    .result-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--faint);margin-bottom:8px;}
+    .yn-buttons{display:flex;gap:8px;margin-bottom:10px;}
+    .yn-btn{flex:1;padding:10px;border:2px solid var(--border-med);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:var(--bg);color:var(--muted);transition:all 0.15s;font-family:'DM Sans',sans-serif;text-align:center;}
     .yn-btn:hover{border-color:rgba(0,0,0,0.25);}
     .yn-btn.selected-yes{background:var(--green-light);border-color:var(--green);color:var(--green-dark);}
     .yn-btn.selected-no{background:var(--danger-light);border-color:var(--danger);color:var(--danger);}
-
-    .result-saved-display{background:#F1EFE8;border-radius:10px;padding:12px 14px;margin-bottom:12px;}
-    .result-saved-yn{font-size:14px;font-weight:600;}
+    .result-saved{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:4px;}
+    .result-saved-yn{font-size:13px;font-weight:600;white-space:nowrap;}
     .result-saved-yn.yes{color:var(--green-dark);}
     .result-saved-yn.no{color:var(--danger);}
-    .result-saved-comment{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4;}
-    .result-edit-btn{font-size:12px;color:var(--muted);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:6px;padding:0;text-decoration:underline;}
+    .result-saved-comment{font-size:12px;color:var(--muted);flex:1;line-height:1.4;}
+    .result-edit-link{font-size:12px;color:var(--muted);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:underline;white-space:nowrap;padding:0;}
 
-    .save-row{display:flex;align-items:center;gap:10px;margin-top:1rem;}
-    .save-status{font-size:13px;color:var(--green-dark);}
+    .save-row{display:flex;align-items:center;gap:10px;margin-top:8px;}
+    .save-status{font-size:12px;}
+
+    .add-goal-form{background:var(--bg);border:1px dashed var(--border-med);border-radius:12px;padding:1rem;}
+    .subsection-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:10px;}
+    .add-goal-btn{display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:500;color:var(--green);background:none;border:1px dashed rgba(29,158,117,0.4);border-radius:10px;padding:9px 14px;cursor:pointer;width:100%;transition:all 0.15s;font-family:'DM Sans',sans-serif;}
+    .add-goal-btn:hover{background:var(--green-light);border-color:var(--green);}
 
     .spinner{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 0.7s linear infinite;margin:2rem auto;}
     @keyframes spin{to{transform:rotate(360deg);}}
 
-    @media(max-width:500px){.content{padding:1.25rem 1rem;}.yn-btn{padding:10px 6px;font-size:14px;}}
+    @media(max-width:500px){.content{padding:1.25rem 1rem;}.yn-btn{font-size:13px;padding:8px 4px;}}
   </style>
 </head>
 <body>
@@ -118,13 +122,12 @@
 
 <div class="content">
   <div class="page-title">Min avdelning</div>
-  <div class="page-sub">Lägg in era veckомål och rapportera framdriften.</div>
+  <div class="page-sub">Lägg in era veckомål och rapportera framdriften varje fredag.</div>
 
-  <!-- LOGIN -->
   <div id="login-section">
     <div class="card" style="max-width:420px;">
-      <div class="card-title">Logga in</div>
-      <div class="card-sub" style="margin-bottom:1.25rem;">Välj din avdelning och ange ditt lösenord.</div>
+      <div style="font-size:16px;font-weight:600;margin-bottom:4px;">Logga in</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:1.25rem;">Välj din avdelning och ange ditt lösenord.</div>
       <div id="login-error" class="alert alert-error" style="display:none;"></div>
       <div class="field">
         <label>Avdelning</label>
@@ -134,19 +137,16 @@
         <label>Lösenord</label>
         <input type="password" id="password-input" placeholder="••••••••" autocomplete="current-password" />
       </div>
-      <button class="btn btn-primary" id="login-btn" style="width:100%;padding:12px;" onclick="doLogin()">Logga in</button>
+      <button class="btn btn-primary" style="width:100%;padding:12px;" onclick="doLogin()">Logga in</button>
     </div>
   </div>
 
-  <!-- MAIN PANEL -->
   <div id="main-section" style="display:none;">
     <div id="global-alert" class="alert" style="display:none;"></div>
-
     <div class="dept-info-bar">
       <div class="dept-info-name" id="logged-in-name">–</div>
       <button class="logout-btn" onclick="doLogout()">Logga ut</button>
     </div>
-
     <div id="panel-loading"><div class="spinner"></div></div>
     <div id="weeks-container" style="display:none;"></div>
   </div>
@@ -155,7 +155,7 @@
 <script>
   const SUPABASE_URL      = 'https://rszsekmefhimebpkxcyb.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenNla21lZmhpbWVicGt4Y3liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0MDQwMDMsImV4cCI6MjA4OTk4MDAwM30.eLMABGNPFfhQN8kqCYTX_q1c4LIZBCeVmktbk8wk3Is';
-  const CACHE_KEY         = 'winwin_dept_session';
+  const CACHE_KEY         = 'winwin_dept_v2';
 
   const h = {
     'apikey': SUPABASE_ANON_KEY,
@@ -164,10 +164,15 @@
     'Prefer': 'return=representation'
   };
 
-  let currentDept = null;
-  let weekData    = { 1: { goal: null, result: null }, 2: { goal: null, result: null }, 3: { goal: null, result: null } };
+  let currentDept    = null;
+  let weekData       = { 1:{goals:[],results:[]}, 2:{goals:[],results:[]}, 3:{goals:[],results:[]} };
+  let addFormOpen    = { 1:false, 2:false, 3:false };
+  let editFormOpen   = {};   // goalId -> bool
+  let resultFormOpen = {};   // goalId -> bool
+  let ynSelections   = {};   // goalId -> true/false/null
+  let openWeeks      = [];   // which week cards are expanded
 
-  // ─── LOGIN / LOGOUT ──────────────────────────────────────────────────────────
+  // ── LOGIN ────────────────────────────────────────────────────────────────────
 
   async function loadDepartments() {
     const res   = await fetch(`${SUPABASE_URL}/rest/v1/departments?select=id,name,password&order=name`, { headers: h });
@@ -175,29 +180,11 @@
     const sel   = document.getElementById('dept-select');
     sel.innerHTML = '<option value="">Välj avdelning…</option>';
     depts.forEach(d => {
-      const opt = document.createElement('option');
+      const opt       = document.createElement('option');
       opt.value       = JSON.stringify({ id: d.id, name: d.name, password: d.password });
       opt.textContent = d.name;
       sel.appendChild(opt);
     });
-
-    // Auto-select from cache
-    const cached = sessionStorage.getItem(CACHE_KEY);
-    if (cached) {
-      try {
-        const saved = JSON.parse(cached);
-        // Find matching option
-        for (const opt of sel.options) {
-          if (opt.value) {
-            const d = JSON.parse(opt.value);
-            if (d.id === saved.id) {
-              sel.value = opt.value;
-              break;
-            }
-          }
-        }
-      } catch(e) {}
-    }
   }
 
   async function doLogin() {
@@ -205,25 +192,31 @@
     const pw     = document.getElementById('password-input').value;
     const errEl  = document.getElementById('login-error');
     errEl.style.display = 'none';
-
     if (!selVal) { errEl.textContent = 'Välj din avdelning.'; errEl.style.display = ''; return; }
     if (!pw)     { errEl.textContent = 'Ange ditt lösenord.'; errEl.style.display = ''; return; }
-
     const dept = JSON.parse(selVal);
-    if (pw !== dept.password) {
-      errEl.textContent = 'Fel lösenord. Försök igen.';
-      errEl.style.display = '';
-      return;
-    }
-
+    if (pw !== dept.password) { errEl.textContent = 'Fel lösenord.'; errEl.style.display = ''; return; }
     currentDept = dept;
     sessionStorage.setItem(CACHE_KEY, JSON.stringify({ id: dept.id }));
+    showMainPanel();
+  }
 
+  async function tryAutoLogin() {
+    const cached = sessionStorage.getItem(CACHE_KEY);
+    if (!cached) return;
+    try {
+      const saved = JSON.parse(cached);
+      const res   = await fetch(`${SUPABASE_URL}/rest/v1/departments?id=eq.${saved.id}&select=id,name,password`, { headers: h });
+      const depts = await res.json();
+      if (depts.length) { currentDept = depts[0]; showMainPanel(); }
+    } catch(e) {}
+  }
+
+  function showMainPanel() {
     document.getElementById('login-section').style.display = 'none';
     document.getElementById('main-section').style.display  = '';
-    document.getElementById('logged-in-name').textContent  = dept.name;
-
-    await loadWeekData();
+    document.getElementById('logged-in-name').textContent  = currentDept.name;
+    loadWeekData();
   }
 
   function doLogout() {
@@ -234,312 +227,334 @@
     document.getElementById('password-input').value = '';
   }
 
-  // Auto-login from cache if password still matches
-  async function tryAutoLogin() {
-    const cached = sessionStorage.getItem(CACHE_KEY);
-    if (!cached) return;
-    try {
-      const saved = JSON.parse(cached);
-      const res   = await fetch(`${SUPABASE_URL}/rest/v1/departments?id=eq.${saved.id}&select=id,name,password`, { headers: h });
-      const depts = await res.json();
-      if (depts.length) {
-        currentDept = depts[0];
-        document.getElementById('login-section').style.display = 'none';
-        document.getElementById('main-section').style.display  = '';
-        document.getElementById('logged-in-name').textContent  = currentDept.name;
-        await loadWeekData();
-      }
-    } catch(e) {}
-  }
-
-  // ─── DATA ────────────────────────────────────────────────────────────────────
+  // ── DATA ─────────────────────────────────────────────────────────────────────
 
   async function loadWeekData() {
-    document.getElementById('panel-loading').style.display    = '';
-    document.getElementById('weeks-container').style.display  = 'none';
+    document.getElementById('panel-loading').style.display   = '';
+    document.getElementById('weeks-container').style.display = 'none';
 
     const [gRes, rRes] = await Promise.all([
-      fetch(`${SUPABASE_URL}/rest/v1/weekly_goals?department_id=eq.${currentDept.id}&select=*`, { headers: h }),
+      fetch(`${SUPABASE_URL}/rest/v1/weekly_goals?department_id=eq.${currentDept.id}&select=*&order=sort_order,created_at`, { headers: h }),
       fetch(`${SUPABASE_URL}/rest/v1/weekly_results?department_id=eq.${currentDept.id}&select=*`, { headers: h })
     ]);
     const goals   = await gRes.json();
     const results = await rRes.json();
 
-    weekData = { 1: { goal: null, result: null }, 2: { goal: null, result: null }, 3: { goal: null, result: null } };
-    goals.forEach(g   => { if (weekData[g.week])   weekData[g.week].goal   = g; });
-    results.forEach(r => { if (weekData[r.week])    weekData[r.week].result = r; });
+    weekData = { 1:{goals:[],results:[]}, 2:{goals:[],results:[]}, 3:{goals:[],results:[]} };
+    goals.forEach(g   => { if (weekData[g.week]) weekData[g.week].goals.push(g); });
+    results.forEach(r => { if (weekData[r.week]) weekData[r.week].results.push(r); });
+
+    ynSelections = {};
+    results.forEach(r => { ynSelections[r.goal_id] = r.goal_met; });
 
     document.getElementById('panel-loading').style.display   = 'none';
     document.getElementById('weeks-container').style.display = '';
     renderWeeks();
   }
 
-  // ─── RENDER ──────────────────────────────────────────────────────────────────
+  // ── RENDER ───────────────────────────────────────────────────────────────────
 
   function renderWeeks() {
+    // Capture currently open weeks before re-render
+    [1,2,3].forEach(w => {
+      const body = document.getElementById(`week-body-${w}`);
+      if (body && body.classList.contains('open') && !openWeeks.includes(w)) openWeeks.push(w);
+    });
+
     const container = document.getElementById('weeks-container');
     container.innerHTML = '';
-    [1, 2, 3].forEach(w => {
-      container.appendChild(buildWeekCard(w));
+    [1,2,3].forEach(w => container.appendChild(buildWeekCard(w)));
+
+    // Restore open state
+    openWeeks.forEach(w => {
+      const body    = document.getElementById(`week-body-${w}`);
+      const chevron = document.getElementById(`chevron-${w}`);
+      if (body)    body.classList.add('open');
+      if (chevron) chevron.classList.add('open');
     });
   }
 
   function buildWeekCard(week) {
-    const { goal, result } = weekData[week];
-    const hasGoal   = !!goal;
-    const hasResult = !!result;
+    const { goals, results } = weekData[week];
 
-    // Status badge
     let badgeHtml = '';
-    if (!hasGoal) {
-      badgeHtml = '<span class="badge badge-empty">Inget mål</span>';
-    } else if (!hasResult) {
-      badgeHtml = '<span class="badge badge-done">Mål satt</span><span class="badge badge-partial">Ej rapporterat</span>';
+    if (!goals.length) {
+      badgeHtml = '<span class="badge badge-empty">Inga mål</span>';
     } else {
-      const yn = result.goal_met ? '✓ Klarades' : '✗ Klarades ej';
-      const cls = result.goal_met ? 'badge-done' : 'badge-empty';
-      badgeHtml = `<span class="badge badge-done">Mål satt</span><span class="badge ${cls}">${yn}</span>`;
+      badgeHtml += `<span class="badge badge-done">${goals.length} mål</span>`;
+      const reportedCount = results.length;
+      if (reportedCount === 0) {
+        badgeHtml += '<span class="badge badge-partial">Ej rapporterat</span>';
+      } else if (reportedCount < goals.length) {
+        badgeHtml += `<span class="badge badge-partial">${reportedCount}/${goals.length} rapporterade</span>`;
+      } else {
+        const metCount = results.filter(r => r.goal_met).length;
+        badgeHtml += `<span class="badge badge-done">${metCount}/${goals.length} klarade</span>`;
+      }
     }
 
     const card = document.createElement('div');
     card.className = 'week-card';
-    card.id = `week-card-${week}`;
-
-    // Build body content
-    const bodyId = `week-body-${week}`;
-
     card.innerHTML = `
       <div class="week-card-header" onclick="toggleWeekCard(${week})">
         <div class="week-number">Vecka ${week}</div>
         <div style="display:flex;align-items:center;">
-          <div class="week-status-badges" id="badges-${week}">${badgeHtml}</div>
+          <div class="week-status-badges">${badgeHtml}</div>
           <span class="chevron" id="chevron-${week}">▼</span>
         </div>
       </div>
-      <div class="week-card-body" id="${bodyId}">
-        ${buildGoalSection(week, goal)}
-        ${buildResultSection(week, goal, result)}
+      <div class="week-card-body" id="week-body-${week}">
+        <div class="subsection-label">Mål vecka ${week}</div>
+        <div class="goals-list" id="goals-list-${week}">
+          ${goals.length
+            ? goals.map((g,i) => buildGoalItem(g, i, week)).join('')
+            : '<div style="font-size:13px;color:var(--faint);margin-bottom:10px;">Inga mål tillagda ännu.</div>'}
+        </div>
+        <div id="add-form-wrap-${week}">
+          ${addFormOpen[week] ? buildAddFormHtml(week) : `<button class="add-goal-btn" onclick="openAddForm(${week})">＋ Lägg till mål</button>`}
+        </div>
       </div>
     `;
-
     return card;
   }
 
-  function buildGoalSection(week, goal) {
-    if (goal) {
-      return `
-        <div>
-          <div class="subsection-label">Mål</div>
-          <div class="goal-saved-display" id="goal-display-${week}">
-            <div class="goal-saved-text">${esc(goal.goal_text)}</div>
-            ${goal.description ? `<div class="goal-saved-desc">${esc(goal.description)}</div>` : ''}
-            <button class="goal-edit-btn" onclick="showGoalForm(${week})">Redigera mål</button>
-          </div>
-          <div id="goal-form-${week}" style="display:none;">
-            ${goalFormHtml(week, goal)}
-          </div>
+  function buildGoalItem(goal, index, week) {
+    const result       = weekData[week].results.find(r => r.goal_id === goal.id);
+    const isEditing    = !!editFormOpen[goal.id];
+    const isResultOpen = !!resultFormOpen[goal.id];
+
+    if (isEditing) {
+      return `<div class="goal-edit-form" id="goal-item-${goal.id}">
+        <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px;">Redigera mål ${index+1}</div>
+        <div class="field">
+          <label>Mål</label>
+          <input type="text" id="edit-text-${goal.id}" value="${esc(goal.goal_text)}" maxlength="200" />
         </div>
-      `;
-    } else {
-      return `
-        <div>
-          <div class="subsection-label">Mål för vecka ${week}</div>
-          <div id="goal-display-${week}" style="display:none;"></div>
-          <div id="goal-form-${week}">
-            ${goalFormHtml(week, null)}
-          </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Beskrivning (valfritt)</label>
+          <textarea id="edit-desc-${goal.id}" rows="2">${esc(goal.description||'')}</textarea>
         </div>
-      `;
+        <div class="save-row" style="margin-top:10px;">
+          <button class="btn btn-primary btn-sm" onclick="saveEditGoal('${goal.id}', ${week})">Spara</button>
+          <button class="btn btn-outline btn-sm" onclick="cancelEditGoal('${goal.id}', ${week})">Avbryt</button>
+          <span class="save-status" id="edit-status-${goal.id}"></span>
+        </div>
+      </div>`;
     }
+
+    // Result section
+    let resultHtml = '';
+    if (result && !isResultOpen) {
+      const ynText  = result.goal_met ? '✓ Klarades' : '✗ Klarades ej';
+      const ynClass = result.goal_met ? 'yes' : 'no';
+      resultHtml = `<div class="result-saved">
+        <span class="result-saved-yn ${ynClass}">${ynText}</span>
+        ${result.comment ? `<span class="result-saved-comment">– ${esc(result.comment)}</span>` : ''}
+        <button class="result-edit-link" onclick="openResultForm('${goal.id}', ${week})">Redigera</button>
+      </div>`;
+    } else {
+      const yn       = ynSelections[goal.id];
+      const yesClass = yn === true  ? 'selected-yes' : '';
+      const noClass  = yn === false ? 'selected-no'  : '';
+      resultHtml = `
+        <div class="result-label">Klarades målet?</div>
+        <div class="yn-buttons">
+          <button class="yn-btn ${yesClass}" id="yn-yes-${goal.id}" onclick="selectYN('${goal.id}', true, ${week})">✓ Ja</button>
+          <button class="yn-btn ${noClass}"  id="yn-no-${goal.id}"  onclick="selectYN('${goal.id}', false, ${week})">✗ Nej</button>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Kommentar (valfritt)</label>
+          <textarea id="result-comment-${goal.id}" rows="2" placeholder="Vad hände? Höjdpunkter, utmaningar…">${esc(result ? (result.comment||'') : '')}</textarea>
+        </div>
+        <div class="save-row">
+          <button class="btn btn-primary btn-sm" onclick="saveResult('${goal.id}', ${week})">Spara resultat</button>
+          ${result ? `<button class="btn btn-outline btn-sm" onclick="cancelResultForm('${goal.id}', ${week})">Avbryt</button>` : ''}
+          <span class="save-status" id="result-status-${goal.id}"></span>
+        </div>`;
+    }
+
+    return `<div class="goal-item" id="goal-item-${goal.id}">
+      <div class="goal-item-header">
+        <div style="flex:1;min-width:0;">
+          <div class="goal-item-index">Mål ${index+1}</div>
+          <div class="goal-item-text">${esc(goal.goal_text)}</div>
+          ${goal.description ? `<div class="goal-item-desc">${esc(goal.description)}</div>` : ''}
+        </div>
+        <div class="goal-item-actions">
+          <button class="icon-btn" title="Redigera" onclick="openEditGoal('${goal.id}', ${week})">✏️</button>
+          <button class="icon-btn delete" title="Ta bort" onclick="deleteGoal('${goal.id}', ${week})">🗑</button>
+        </div>
+      </div>
+      <div class="goal-result">${resultHtml}</div>
+    </div>`;
   }
 
-  function goalFormHtml(week, existing) {
-    return `
+  function buildAddFormHtml(week) {
+    return `<div class="add-goal-form" id="add-form-${week}">
+      <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px;">Nytt mål – vecka ${week}</div>
       <div class="field">
-        <label>Vad är målet den här veckan?</label>
-        <input type="text" id="goal-text-${week}" value="${esc(existing ? existing.goal_text : '')}" placeholder="t.ex. Ringa 50 prospekt eller Genomföra 3 kundmöten" maxlength="200" />
+        <label>Vad är målet?</label>
+        <input type="text" id="new-goal-text-${week}" placeholder="t.ex. Genomföra 5 kundmöten" maxlength="200" />
       </div>
       <div class="field" style="margin-bottom:0;">
-        <label>Beskrivning / förklaring (valfritt)</label>
-        <textarea id="goal-desc-${week}" rows="2" placeholder="Lite mer kontext om målet…">${esc(existing ? (existing.description||'') : '')}</textarea>
+        <label>Beskrivning (valfritt)</label>
+        <textarea id="new-goal-desc-${week}" rows="2" placeholder="Lite mer kontext…"></textarea>
       </div>
-      <div class="save-row">
-        <button class="btn btn-primary btn-sm" onclick="saveGoal(${week})">Spara mål</button>
-        ${existing ? `<button class="btn btn-outline btn-sm" onclick="hideGoalForm(${week})">Avbryt</button>` : ''}
-        <span class="save-status" id="goal-status-${week}"></span>
+      <div class="save-row" style="margin-top:10px;">
+        <button class="btn btn-primary btn-sm" onclick="saveNewGoal(${week})">Spara mål</button>
+        <button class="btn btn-outline btn-sm" onclick="closeAddForm(${week})">Avbryt</button>
+        <span class="save-status" id="add-status-${week}"></span>
       </div>
-    `;
+    </div>`;
   }
 
-  function buildResultSection(week, goal, result) {
-    if (!goal) return ''; // No point in reporting without a goal
+  // ── ADD GOAL ─────────────────────────────────────────────────────────────────
 
-    if (result) {
-      const yn      = result.goal_met;
-      const ynText  = yn ? '✓ Ja – målet klarades' : '✗ Nej – målet klarades inte';
-      const ynClass = yn ? 'yes' : 'no';
-      return `
-        <div class="result-wrap">
-          <div class="subsection-label">Resultat</div>
-          <div class="result-saved-display" id="result-display-${week}">
-            <div class="result-saved-yn ${ynClass}">${ynText}</div>
-            ${result.comment ? `<div class="result-saved-comment">${esc(result.comment)}</div>` : ''}
-            <button class="result-edit-btn" onclick="showResultForm(${week})">Redigera resultat</button>
-          </div>
-          <div id="result-form-${week}" style="display:none;">
-            ${resultFormHtml(week, result)}
-          </div>
-        </div>
-      `;
-    } else {
-      return `
-        <div class="result-wrap">
-          <div class="subsection-label">Resultat för vecka ${week}</div>
-          <div id="result-display-${week}" style="display:none;"></div>
-          <div id="result-form-${week}">
-            ${resultFormHtml(week, null)}
-          </div>
-        </div>
-      `;
-    }
+  function openAddForm(week) {
+    addFormOpen[week] = true;
+    const wrap = document.getElementById(`add-form-wrap-${week}`);
+    if (wrap) { wrap.innerHTML = buildAddFormHtml(week); document.getElementById(`new-goal-text-${week}`).focus(); }
   }
 
-  function resultFormHtml(week, existing) {
-    const yesSelected = existing && existing.goal_met === true  ? 'selected-yes' : '';
-    const noSelected  = existing && existing.goal_met === false ? 'selected-no'  : '';
-    return `
-      <div class="yn-buttons">
-        <button class="yn-btn ${yesSelected}" id="yn-yes-${week}" onclick="selectYN(${week}, true)">✓ Ja, klarades</button>
-        <button class="yn-btn ${noSelected}"  id="yn-no-${week}"  onclick="selectYN(${week}, false)">✗ Nej, klarades ej</button>
-      </div>
-      <div class="field" style="margin-bottom:0;">
-        <label>Kommentar – vad hände den här veckan?</label>
-        <textarea id="result-comment-${week}" rows="3" placeholder="Berätta kort om veckans arbete, utmaningar eller höjdpunkter…">${esc(existing ? (existing.comment||'') : '')}</textarea>
-      </div>
-      <div class="save-row">
-        <button class="btn btn-primary btn-sm" onclick="saveResult(${week})">Spara resultat</button>
-        ${existing ? `<button class="btn btn-outline btn-sm" onclick="hideResultForm(${week})">Avbryt</button>` : ''}
-        <span class="save-status" id="result-status-${week}"></span>
-      </div>
-    `;
+  function closeAddForm(week) {
+    addFormOpen[week] = false;
+    const wrap = document.getElementById(`add-form-wrap-${week}`);
+    if (wrap) wrap.innerHTML = `<button class="add-goal-btn" onclick="openAddForm(${week})">＋ Lägg till mål</button>`;
   }
 
-  // ─── STATE: Y/N selection ─────────────────────────────────────────────────────
-
-  const ynSelections = { 1: null, 2: null, 3: null };
-
-  function selectYN(week, val) {
-    ynSelections[week] = val;
-    const yBtn = document.getElementById(`yn-yes-${week}`);
-    const nBtn = document.getElementById(`yn-no-${week}`);
-    if (yBtn) { yBtn.className = 'yn-btn' + (val === true  ? ' selected-yes' : ''); }
-    if (nBtn) { nBtn.className = 'yn-btn' + (val === false ? ' selected-no'  : ''); }
-  }
-
-  // Initialize selections from existing results
-  function initYNSelections() {
-    [1,2,3].forEach(w => {
-      if (weekData[w].result) {
-        ynSelections[w] = weekData[w].result.goal_met;
-      } else {
-        ynSelections[w] = null;
-      }
-    });
-  }
-
-  // ─── SAVE ────────────────────────────────────────────────────────────────────
-
-  async function saveGoal(week) {
-    const text = document.getElementById(`goal-text-${week}`).value.trim();
-    const desc = document.getElementById(`goal-desc-${week}`).value.trim();
-    const statusEl = document.getElementById(`goal-status-${week}`);
-
+  async function saveNewGoal(week) {
+    const text     = document.getElementById(`new-goal-text-${week}`).value.trim();
+    const desc     = document.getElementById(`new-goal-desc-${week}`).value.trim();
+    const statusEl = document.getElementById(`add-status-${week}`);
     if (!text) { statusEl.textContent = 'Ange ett mål.'; statusEl.style.color = 'var(--danger)'; return; }
-
     statusEl.textContent = 'Sparar…'; statusEl.style.color = 'var(--muted)';
-
     try {
-      const existing = weekData[week].goal;
-      let res;
-      if (existing) {
-        res = await fetch(`${SUPABASE_URL}/rest/v1/weekly_goals?id=eq.${existing.id}`, {
-          method: 'PATCH', headers: h,
-          body: JSON.stringify({ goal_text: text, description: desc || null })
-        });
-      } else {
-        res = await fetch(`${SUPABASE_URL}/rest/v1/weekly_goals`, {
-          method: 'POST', headers: h,
-          body: JSON.stringify({ department_id: currentDept.id, week, goal_text: text, description: desc || null })
-        });
-      }
-      if (!res.ok) throw new Error(res.status);
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/weekly_goals`, {
+        method: 'POST', headers: h,
+        body: JSON.stringify({ department_id: currentDept.id, week, goal_text: text, description: desc||null, sort_order: weekData[week].goals.length })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      addFormOpen[week] = false;
+      ensureWeekOpen(week);
       await loadWeekData();
       showAlert('Mål sparat!', 'success');
-    } catch(err) {
-      statusEl.textContent = 'Fel – kunde inte spara.'; statusEl.style.color = 'var(--danger)';
-    }
+    } catch(e) { statusEl.textContent = 'Kunde inte spara.'; statusEl.style.color = 'var(--danger)'; console.error(e); }
   }
 
-  async function saveResult(week) {
-    const yn        = ynSelections[week];
-    const comment   = document.getElementById(`result-comment-${week}`).value.trim();
-    const statusEl  = document.getElementById(`result-status-${week}`);
+  // ── EDIT GOAL ────────────────────────────────────────────────────────────────
 
-    if (yn === null) { statusEl.textContent = 'Välj Ja eller Nej.'; statusEl.style.color = 'var(--danger)'; return; }
+  function openEditGoal(goalId, week) {
+    editFormOpen[goalId] = true;
+    refreshGoalsList(week);
+  }
 
+  function cancelEditGoal(goalId, week) {
+    delete editFormOpen[goalId];
+    refreshGoalsList(week);
+  }
+
+  async function saveEditGoal(goalId, week) {
+    const text     = document.getElementById(`edit-text-${goalId}`).value.trim();
+    const desc     = document.getElementById(`edit-desc-${goalId}`).value.trim();
+    const statusEl = document.getElementById(`edit-status-${goalId}`);
+    if (!text) { statusEl.textContent = 'Ange ett mål.'; statusEl.style.color = 'var(--danger)'; return; }
     statusEl.textContent = 'Sparar…'; statusEl.style.color = 'var(--muted)';
-
     try {
-      const existing = weekData[week].result;
-      let res;
-      if (existing) {
-        res = await fetch(`${SUPABASE_URL}/rest/v1/weekly_results?id=eq.${existing.id}`, {
-          method: 'PATCH', headers: h,
-          body: JSON.stringify({ goal_met: yn, comment: comment || null })
-        });
-      } else {
-        res = await fetch(`${SUPABASE_URL}/rest/v1/weekly_results`, {
-          method: 'POST', headers: h,
-          body: JSON.stringify({ department_id: currentDept.id, week, goal_met: yn, comment: comment || null })
-        });
-      }
-      if (!res.ok) throw new Error(res.status);
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/weekly_goals?id=eq.${goalId}`, {
+        method: 'PATCH', headers: h,
+        body: JSON.stringify({ goal_text: text, description: desc||null })
+      });
+      if (!res.ok) throw new Error();
+      delete editFormOpen[goalId];
+      ensureWeekOpen(week);
       await loadWeekData();
-      showAlert('Resultat sparat och publicerat på dashboard!', 'success');
-    } catch(err) {
-      statusEl.textContent = 'Fel – kunde inte spara.'; statusEl.style.color = 'var(--danger)';
-    }
+      showAlert('Mål uppdaterat!', 'success');
+    } catch { statusEl.textContent = 'Kunde inte spara.'; statusEl.style.color = 'var(--danger)'; }
   }
 
-  // ─── UI HELPERS ──────────────────────────────────────────────────────────────
+  async function deleteGoal(goalId, week) {
+    if (!confirm('Ta bort detta mål? Eventuellt resultat tas också bort.')) return;
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/weekly_results?goal_id=eq.${goalId}`, { method: 'DELETE', headers: h });
+      await fetch(`${SUPABASE_URL}/rest/v1/weekly_goals?id=eq.${goalId}`, { method: 'DELETE', headers: h });
+      ensureWeekOpen(week);
+      await loadWeekData();
+      showAlert('Mål borttaget.', 'success');
+    } catch { showAlert('Kunde inte ta bort.', 'error'); }
+  }
+
+  // ── RESULT ───────────────────────────────────────────────────────────────────
+
+  function selectYN(goalId, val, week) {
+    ynSelections[goalId] = val;
+    const yBtn = document.getElementById(`yn-yes-${goalId}`);
+    const nBtn = document.getElementById(`yn-no-${goalId}`);
+    if (yBtn) yBtn.className = 'yn-btn' + (val === true  ? ' selected-yes' : '');
+    if (nBtn) nBtn.className = 'yn-btn' + (val === false ? ' selected-no'  : '');
+  }
+
+  function openResultForm(goalId, week) {
+    resultFormOpen[goalId] = true;
+    refreshGoalsList(week);
+  }
+
+  function cancelResultForm(goalId, week) {
+    delete resultFormOpen[goalId];
+    refreshGoalsList(week);
+  }
+
+  async function saveResult(goalId, week) {
+    const yn       = ynSelections[goalId];
+    const comment  = (document.getElementById(`result-comment-${goalId}`)?.value || '').trim();
+    const statusEl = document.getElementById(`result-status-${goalId}`);
+    if (yn === null || yn === undefined) { statusEl.textContent = 'Välj Ja eller Nej.'; statusEl.style.color = 'var(--danger)'; return; }
+    statusEl.textContent = 'Sparar…'; statusEl.style.color = 'var(--muted)';
+    try {
+      const existing = weekData[week].results.find(r => r.goal_id === goalId);
+      const res = existing
+        ? await fetch(`${SUPABASE_URL}/rest/v1/weekly_results?id=eq.${existing.id}`, {
+            method: 'PATCH', headers: h,
+            body: JSON.stringify({ goal_met: yn, comment: comment||null })
+          })
+        : await fetch(`${SUPABASE_URL}/rest/v1/weekly_results`, {
+            method: 'POST', headers: h,
+            body: JSON.stringify({ goal_id: goalId, department_id: currentDept.id, week, goal_met: yn, comment: comment||null })
+          });
+      if (!res.ok) throw new Error();
+      delete resultFormOpen[goalId];
+      ensureWeekOpen(week);
+      await loadWeekData();
+      showAlert('Resultat sparat!', 'success');
+    } catch { statusEl.textContent = 'Kunde inte spara.'; statusEl.style.color = 'var(--danger)'; }
+  }
+
+  // ── UI HELPERS ───────────────────────────────────────────────────────────────
+
+  function refreshGoalsList(week) {
+    const list  = document.getElementById(`goals-list-${week}`);
+    const goals = weekData[week].goals;
+    if (!list) return;
+    list.innerHTML = goals.length
+      ? goals.map((g,i) => buildGoalItem(g, i, week)).join('')
+      : '<div style="font-size:13px;color:var(--faint);margin-bottom:10px;">Inga mål tillagda ännu.</div>';
+  }
 
   function toggleWeekCard(week) {
     const body    = document.getElementById(`week-body-${week}`);
     const chevron = document.getElementById(`chevron-${week}`);
     const open    = body.classList.toggle('open');
-    if (chevron) chevron.classList.toggle('open', open);
+    chevron.classList.toggle('open', open);
+    if (open && !openWeeks.includes(week)) openWeeks.push(week);
+    if (!open) openWeeks = openWeeks.filter(w => w !== week);
   }
 
-  function showGoalForm(week) {
-    document.getElementById(`goal-display-${week}`).style.display = 'none';
-    document.getElementById(`goal-form-${week}`).style.display    = '';
-  }
-  function hideGoalForm(week) {
-    document.getElementById(`goal-display-${week}`).style.display = '';
-    document.getElementById(`goal-form-${week}`).style.display    = 'none';
-  }
-  function showResultForm(week) {
-    document.getElementById(`result-display-${week}`).style.display = 'none';
-    document.getElementById(`result-form-${week}`).style.display    = '';
-  }
-  function hideResultForm(week) {
-    document.getElementById(`result-display-${week}`).style.display = '';
-    document.getElementById(`result-form-${week}`).style.display    = 'none';
+  function ensureWeekOpen(week) {
+    if (!openWeeks.includes(week)) openWeeks.push(week);
   }
 
   function showAlert(msg, type) {
     const el = document.getElementById('global-alert');
-    el.className = 'alert alert-' + (type === 'error' ? 'error' : type === 'warn' ? 'warn' : 'success');
+    el.className   = 'alert alert-' + (type === 'error' ? 'error' : type === 'warn' ? 'warn' : 'success');
     el.textContent = msg;
     el.style.display = '';
     setTimeout(() => el.style.display = 'none', 4000);
@@ -547,7 +562,7 @@
 
   function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  // ─── INIT ────────────────────────────────────────────────────────────────────
+  // ── INIT ─────────────────────────────────────────────────────────────────────
 
   document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('password-input').addEventListener('keydown', e => {
